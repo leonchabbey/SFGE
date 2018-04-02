@@ -32,24 +32,29 @@ struct p2Vec3;
 */
 struct p2Vec2
 {
-	p2Vec2();
+	float x = 0.0f;
+	float y = 0.0f;
 
+	p2Vec2();
 	p2Vec2(float x, float y);
 
-	p2Vec2 operator+(p2Vec2 v);
-	p2Vec2 operator+=(p2Vec2 v);
-	p2Vec2 operator-(p2Vec2 v);
-	p2Vec2 operator-=(p2Vec2 v);
+	/*
+	* Should use const ref as arguments
+	* but would need to duplicate each function
+	* for a const and non-const version (const-cast
+	* to avoid code duplication), and that's annoying to do.
+	*/
+	p2Vec2& operator=(p2Vec2& v);
+	p2Vec2& operator+=(p2Vec2& v);
+	p2Vec2& operator-=(p2Vec2& v);
+	p2Vec2& operator*=(float f);
+	p2Vec2& operator/=(float f);
+
+	p2Vec2 operator+(p2Vec2& v);
+	p2Vec2 operator-(p2Vec2& v);
 	p2Vec2 operator /(float f);
 	p2Vec2 operator *(float f);
-	/**
-	* \brief Dot product of two vectors
-	*/
-	static float Dot(p2Vec2 v1, p2Vec2 v2);
-	/**
-	* \brief Cross product of two vectors
-	*/
-	static p2Vec3 Cross(p2Vec2 v1, p2Vec2 v2);
+
 	/**
 	* \brief Calculate the magnitude of the p2Vec2
 	*/
@@ -62,32 +67,86 @@ struct p2Vec2
 	* \brief Normalize the p2Vec2
 	*/
 	void Normalize();
-
 	/**
-	* \brief 
+	* \brief Make it a vector3
 	*/
 	p2Vec3 to3();
+	/*
+	* \brief Console log it
+	*/
+	void Show();
 
-	float x = 0.0f;
-	float y = 0.0f;
-
+	/**
+	* \brief Dot product of two vectors
+	*/
+	static float Dot(p2Vec2 v1, p2Vec2 v2);
+	/**
+	* \brief Cross product of two vectors
+	*/
+	static p2Vec3 Cross(p2Vec2 v1, p2Vec2 v2);
 };
 
 struct p2Vec3
 {
-	p2Vec3();
-	p2Vec3(float x, float y, float z);
-	/**
-	* \brief Dot product of two vectors
-	*/
-	static float Dot(p2Vec3 v1, p2Vec3 v2);
-	/**
-	* \brief Cross product of two vectors
-	*/
-	static p2Vec3 Cross(p2Vec3 v1, p2Vec3 v2);
 	float x = 0.0f;
 	float y = 0.0f;
 	float z = 0.0f;
+
+	p2Vec3();
+	p2Vec3(float x, float y, float z);
+
+	p2Vec3& operator=(p2Vec3& v);
+	p2Vec3& operator+=(p2Vec3& v);
+	p2Vec3& operator-=(p2Vec3& v);
+	p2Vec3& operator*=(float f);
+	p2Vec3& operator/=(float f);
+
+	p2Vec3 operator+(p2Vec3& v);
+	p2Vec3 operator-(p2Vec3& v);
+	p2Vec3 operator /(float f);
+	p2Vec3 operator *(float f);
+
+	/**
+	* \brief Calculate the magnitude of the p2Vec2
+	*/
+	float GetMagnitude();
+	/**
+	* \brief Calculate a normalized version of the p2Vec2
+	*/
+	p2Vec3 Normalized();
+	/**
+	* \brief Normalize the p2Vec2
+	*/
+	void Normalize();
+	/*
+	* \brief Console log it
+	*/
+	void Show();
+
+	/**
+	* \brief Dot product of two vectors
+	*/
+	static float Dot(p2Vec3& v1, p2Vec3& v2);
+	/**
+	* \brief Cross product of two vectors
+	*/
+	static p2Vec3 Cross(p2Vec3 & v1, p2Vec3 & v2);
+	/**
+	* \brief Lerp of two vectors
+	*/
+	static p2Vec3 Lerp(p2Vec3 & v1, p2Vec3 & v2, float ratio);
+	/**
+	* \brief Projection of two vectors
+	*/
+	static p2Vec3 Proj(p2Vec3 & v1, p2Vec3 & v2);
+	/**
+	* \brief Vector's reflection on a normal
+	*/
+	static p2Vec3 Refl(p2Vec3 & inDir, p2Vec3 & normal);
+	/**
+	* \brief Angle between vectors
+	*/
+	static float AnglesBetween(p2Vec3 & v1, p2Vec3 & v2);
 };
 
 #endif
