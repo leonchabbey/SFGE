@@ -44,16 +44,16 @@ struct p2Vec2
 	* for a const and non-const version (const-cast
 	* to avoid code duplication), and that's annoying to do.
 	*/
-	p2Vec2& operator=(p2Vec2& v);
-	p2Vec2& operator+=(p2Vec2& v);
-	p2Vec2& operator-=(p2Vec2& v);
-	p2Vec2& operator*=(float f);
-	p2Vec2& operator/=(float f);
+	p2Vec2& operator=(const p2Vec2& v);
+	p2Vec2& operator+=(const p2Vec2& v);
+	p2Vec2& operator-=(const p2Vec2& v);
+	p2Vec2& operator*=(const float& f);
+	p2Vec2& operator/=(const float& f);
 
-	p2Vec2 operator+(p2Vec2& v);
-	p2Vec2 operator-(p2Vec2& v);
-	p2Vec2 operator /(float f);
-	p2Vec2 operator *(float f);
+	p2Vec2 operator+(const p2Vec2& v);
+	p2Vec2 operator-(const p2Vec2& v);
+	p2Vec2 operator /(const float& f);
+	p2Vec2 operator *(const float& f);
 
 	/**
 	* \brief Calculate the magnitude of the p2Vec2
@@ -95,16 +95,16 @@ struct p2Vec3
 	p2Vec3();
 	p2Vec3(float x, float y, float z);
 
-	p2Vec3& operator=(p2Vec3& v);
-	p2Vec3& operator+=(p2Vec3& v);
-	p2Vec3& operator-=(p2Vec3& v);
-	p2Vec3& operator*=(float f);
-	p2Vec3& operator/=(float f);
+	p2Vec3& operator=(const p2Vec3& v);
+	p2Vec3& operator+=(const p2Vec3& v);
+	p2Vec3& operator-=(const p2Vec3& v);
+	p2Vec3& operator*=(const float& f);
+	p2Vec3& operator/=(const float& f);
 
-	p2Vec3 operator+(p2Vec3& v);
-	p2Vec3 operator-(p2Vec3& v);
-	p2Vec3 operator /(float f);
-	p2Vec3 operator *(float f);
+	p2Vec3 operator+(const p2Vec3& v);
+	p2Vec3 operator-(const p2Vec3& v);
+	p2Vec3 operator /(const float& f);
+	p2Vec3 operator *(const float& f);
 
 	/**
 	* \brief Calculate the magnitude of the p2Vec2
@@ -126,27 +126,27 @@ struct p2Vec3
 	/**
 	* \brief Dot product of two vectors
 	*/
-	static float Dot(p2Vec3& v1, p2Vec3& v2);
+	static float Dot(p2Vec3 v1, p2Vec3 v2);
 	/**
 	* \brief Cross product of two vectors
 	*/
-	static p2Vec3 Cross(p2Vec3 & v1, p2Vec3 & v2);
+	static p2Vec3 Cross(p2Vec3 v1, p2Vec3 v2);
 	/**
 	* \brief Lerp of two vectors
 	*/
-	static p2Vec3 Lerp(p2Vec3 & v1, p2Vec3 & v2, float ratio);
+	static p2Vec3 Lerp(p2Vec3 v1, p2Vec3 v2, float ratio);
 	/**
 	* \brief Projection of two vectors
 	*/
-	static p2Vec3 Proj(p2Vec3 & v1, p2Vec3 & v2);
+	static p2Vec3 Proj(p2Vec3 v1, p2Vec3 v2);
 	/**
 	* \brief Vector's reflection on a normal
 	*/
-	static p2Vec3 Refl(p2Vec3 & inDir, p2Vec3 & normal);
+	static p2Vec3 Refl(p2Vec3 inDir, p2Vec3 normal);
 	/**
 	* \brief Angle between vectors
 	*/
-	static float AnglesBetween(p2Vec3 & v1, p2Vec3 & v2);
+	static float AnglesBetween(p2Vec3 v1, p2Vec3 v2);
 };
 
 #endif

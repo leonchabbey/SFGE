@@ -1,4 +1,4 @@
-#include "..\include\p2quadtree.h"
+#include "../include/p2quadtree.h"
 
 p2QuadTree::p2QuadTree(int nodeLevel, p2AABB bounds)
 {

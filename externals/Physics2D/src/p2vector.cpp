@@ -39,7 +39,7 @@ p2Vec2::p2Vec2(float x, float y): x(x), y(y)
 
 // Operators overloading
 
-p2Vec2& p2Vec2::operator=(p2Vec2& v)
+p2Vec2& p2Vec2::operator=(const p2Vec2& v)
 {
 	if (this == &v)
 		return *this;
@@ -49,56 +49,56 @@ p2Vec2& p2Vec2::operator=(p2Vec2& v)
 	return *this;
 }
 
-p2Vec2& p2Vec2::operator+=(p2Vec2& v)
+p2Vec2& p2Vec2::operator+=(const p2Vec2& v)
 {
 	this->x += v.x;
 	this->y += v.y;
 	return *this;
 }
 
-p2Vec2& p2Vec2::operator-=(p2Vec2& v)
+p2Vec2& p2Vec2::operator-=(const p2Vec2& v)
 {
 	this->x -= v.x;
 	this->y -= v.y;
 	return *this;
 }
 
-p2Vec2& p2Vec2::operator/=(float f)
+p2Vec2& p2Vec2::operator/=(const float & f)
 {
 	this->x /= f;
 	this->y /= f;
 	return *this;
 }
 
-p2Vec2& p2Vec2::operator*=(float f)
+p2Vec2& p2Vec2::operator*=(const float & f)
 {
 	this->x *= f;
 	this->y *= f;
 	return *this;
 }
 
-p2Vec2 p2Vec2::operator+(p2Vec2& v)
+p2Vec2 p2Vec2::operator+(const p2Vec2& v)
 {
 	p2Vec2 copy = *this;
 	copy += v;
 	return copy;
 }
 
-p2Vec2 p2Vec2::operator-(p2Vec2& v)
+p2Vec2 p2Vec2::operator-(const p2Vec2& v)
 {
 	p2Vec2 copy = *this;
 	copy -= v;
 	return copy;
 }
 
-p2Vec2 p2Vec2::operator*(float f)
+p2Vec2 p2Vec2::operator*(const float & f)
 {
 	p2Vec2 copy = *this;
 	copy *= f;
 	return copy;
 }
 
-p2Vec2 p2Vec2::operator/(float f)
+p2Vec2 p2Vec2::operator/(const float & f)
 {
 	p2Vec2 copy = *this;
 	copy /= f;
@@ -168,7 +168,7 @@ p2Vec3::p2Vec3(float x, float y, float z): x(x), y(y), z(z)
 
 // Operators overloading
 
-p2Vec3 & p2Vec3::operator=(p2Vec3 & v)
+p2Vec3 & p2Vec3::operator=(const p2Vec3 & v)
 {
 	if (this == &v)
 		return *this;
@@ -179,7 +179,7 @@ p2Vec3 & p2Vec3::operator=(p2Vec3 & v)
 	return *this;
 }
 
-p2Vec3 & p2Vec3::operator+=(p2Vec3 & v)
+p2Vec3 & p2Vec3::operator+=(const p2Vec3 & v)
 {
 	this->x += v.x;
 	this->y += v.y;
@@ -187,7 +187,7 @@ p2Vec3 & p2Vec3::operator+=(p2Vec3 & v)
 	return *this;
 }
 
-p2Vec3 & p2Vec3::operator-=(p2Vec3 & v)
+p2Vec3 & p2Vec3::operator-=(const p2Vec3 & v)
 {
 	this->x -= v.x;
 	this->y -= v.y;
@@ -195,7 +195,7 @@ p2Vec3 & p2Vec3::operator-=(p2Vec3 & v)
 	return *this;
 }
 
-p2Vec3 & p2Vec3::operator*=(float f)
+p2Vec3 & p2Vec3::operator*=(const float & f)
 {
 	this->x *= f;
 	this->y *= f;
@@ -203,7 +203,7 @@ p2Vec3 & p2Vec3::operator*=(float f)
 	return *this;
 }
 
-p2Vec3 & p2Vec3::operator/=(float f)
+p2Vec3 & p2Vec3::operator/=(const float & f)
 {
 	this->x /= f;
 	this->y /= f;
@@ -211,28 +211,28 @@ p2Vec3 & p2Vec3::operator/=(float f)
 	return *this;
 }
 
-p2Vec3 p2Vec3::operator+(p2Vec3 & v)
+p2Vec3 p2Vec3::operator+(const p2Vec3 & v)
 {
 	p2Vec3 copy = *this;
 	copy += v;
 	return copy;
 }
 
-p2Vec3 p2Vec3::operator-(p2Vec3 & v)
+p2Vec3 p2Vec3::operator-(const p2Vec3 & v)
 {
 	p2Vec3 copy = *this;
 	copy -= v;
 	return copy;
 }
 
-p2Vec3 p2Vec3::operator/(float f)
+p2Vec3 p2Vec3::operator/(const float & f)
 {
 	p2Vec3 copy = *this;
 	copy /= f;
 	return copy;
 }
 
-p2Vec3 p2Vec3::operator*(float f)
+p2Vec3 p2Vec3::operator*(const float & f)
 {
 	p2Vec3 copy = *this;
 	copy *= f;
@@ -265,12 +265,12 @@ void p2Vec3::Show()
 
 // Static functions
 
-float p2Vec3::Dot(p2Vec3& v1, p2Vec3& v2)
+float p2Vec3::Dot(p2Vec3 v1, p2Vec3 v2)
 {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
-p2Vec3 p2Vec3::Cross(p2Vec3& v1, p2Vec3& v2)
+p2Vec3 p2Vec3::Cross(p2Vec3 v1, p2Vec3 v2)
 {
 	return p2Vec3(
 		v1.y * v2.z - v1.z * v2.y,
@@ -279,25 +279,25 @@ p2Vec3 p2Vec3::Cross(p2Vec3& v1, p2Vec3& v2)
 	);
 }
 
-p2Vec3 p2Vec3::Lerp(p2Vec3 & v1, p2Vec3 & v2, float ratio)
+p2Vec3 p2Vec3::Lerp(p2Vec3 v1, p2Vec3 v2, float ratio)
 {
 	p2Vec3 dir = v1 - v2;
 	p2Vec3 step = dir * ratio;
 	return v1 + step;
 }
 
-p2Vec3 p2Vec3::Proj(p2Vec3 & v1, p2Vec3 & v2)
+p2Vec3 p2Vec3::Proj(p2Vec3 v1, p2Vec3 v2)
 {
 	float dot = p2Vec3::Dot(v1, v2);
 	return v1 * (dot / v1.GetMagnitude());
 }
 
-p2Vec3 p2Vec3::Refl(p2Vec3 & inDir, p2Vec3 & normal)
+p2Vec3 p2Vec3::Refl(p2Vec3 inDir, p2Vec3 normal)
 {
 	return inDir.Normalized() - normal.Normalized() * 2 * p2Vec3::Dot(inDir.Normalized(), normal.Normalized());
 }
 
-float p2Vec3::AnglesBetween(p2Vec3 & v1, p2Vec3 & v2)
+float p2Vec3::AnglesBetween(p2Vec3 v1, p2Vec3 v2)
 {
 	float angle = p2Vec3::Dot(v1, v2) / (v1.GetMagnitude() * v2.GetMagnitude());
 	return acos(angle);

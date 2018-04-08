@@ -22,15 +22,12 @@
  SOFTWARE.
  */
 
-//STL includes
-#include <experimental/filesystem>
 //SFGE includes
 #include <engine/game_object.h>
 #include <engine/scene.h>
 #include <engine/log.h>
 
 // for convenience
-namespace fs = std::experimental::filesystem;
 
 
 namespace sfge

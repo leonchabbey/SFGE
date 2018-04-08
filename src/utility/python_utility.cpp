@@ -47,7 +47,7 @@ py::object import(const std::string& module, const std::string& path, py::object
     return locals["new_module"];
 }
 
-std::string module2component(std::string& module_name)
+std::string module2class(std::string& module_name)
 {
 
 	std::istringstream iss(module_name);

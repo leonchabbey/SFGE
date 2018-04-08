@@ -24,9 +24,13 @@
 #ifndef SFGE_FILE_UTILITY_H
 #define SFGE_FILE_UTILITY_H
 
-#include <experimental/filesystem>
+#ifdef WIN32
+#include <filesystem>
 // for convenience
 namespace fs = std::experimental::filesystem;
+#endif
+#include <string>
+#include <fstream>
 
 namespace sfge
 {
@@ -34,6 +38,7 @@ namespace sfge
 * \brief Check if the given filename exists
 */
 	bool FileExists(std::string& filename);
+    bool IsRegularFile(std::string& filename);
 }
 
 #endif

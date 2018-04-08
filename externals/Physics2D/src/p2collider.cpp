@@ -1,4 +1,4 @@
-#include "..\include\p2collider.h"
+#include "../include/p2collider.h"
 
 bool p2Collider::IsSensor()
 {
