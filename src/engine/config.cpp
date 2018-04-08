@@ -61,7 +61,7 @@ std::unique_ptr<Configuration> Configuration::LoadConfig(std::string configFilen
 			jsonConfig["gravity"]["x"],
 			jsonConfig["gravity"]["y"]
 		);
-	}
+    }
 	newConfig->maxFramerate = jsonConfig["maxFramerate"];
 	for(const std::string& scene : jsonConfig["scenesList"])
 	{

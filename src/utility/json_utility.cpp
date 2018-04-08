@@ -67,8 +67,12 @@ sf::Vector2f GetVectorFromJson(const json & jsonObject, std::string parameterNam
 
 std::unique_ptr<json> LoadJson(std::string jsonPath)
 {
+    if(__APPLE__)
+        jsonPath = "../" + jsonPath;
+        
 	std::ifstream jsonFile(jsonPath.c_str());
 	if (jsonFile.peek() == std::ifstream::traits_type::eof())
+        
 	{
 		{
 			std::ostringstream oss;

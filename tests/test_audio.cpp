@@ -32,7 +32,7 @@ SOFTWARE.
 int main()
 {
 	sfge::KeyboardManager keyboardManager;
-
+    
 	//SOUND TEST !!!
 	sfge::Engine engine;
 	engine.Init(true);
