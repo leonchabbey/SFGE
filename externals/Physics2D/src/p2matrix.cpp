@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#include <iostream>
 #include <p2matrix.h>
 
 p2Mat22::p2Mat22()
@@ -36,82 +37,92 @@ p2Mat22::p2Mat22(p2Vec2 c1, p2Vec2 c2)
 	this->columns[1] = c2;
 }
 
-p2Mat22 & p2Mat22::operator+=(p2Mat22 & m2)
+p2Mat22 & p2Mat22::operator+=(const p2Mat22 & m2)
 {
 	this->columns[0] += m2.columns[0];
 	this->columns[1] += m2.columns[1];
 	return *this;
 }
 
-p2Mat22 & p2Mat22::operator-=(p2Mat22 & m2)
+p2Mat22 & p2Mat22::operator-=(const p2Mat22 & m2)
 {
 	this->columns[0] -= m2.columns[0];
 	this->columns[1] -= m2.columns[1];
 	return *this;
 }
 
-p2Mat22 & p2Mat22::operator*=(p2Mat22 & m2)
+p2Mat22 & p2Mat22::operator*=(const p2Mat22 & m2)
 {
-	return p2Mat22(
-		p2Vec2(
-			columns[0].x * m2.columns[0].x + columns[1].x * m2.columns[0].y,
-			columns[0].y * m2.columns[0].x + columns[1].y * m2.columns[0].y
-		),
-		p2Vec2()
-	);
+    float x1 = this->columns[0].x * m2.columns[0].x + this->columns[1].x * m2.columns[0].y;
+    float x2 = this->columns[0].x * m2.columns[1].x + this->columns[1].x * m2.columns[1].y;
+    float y1 = this->columns[0].y * m2.columns[0].x + this->columns[1].y * m2.columns[0].y;
+    float y2 = this->columns[0].y * m2.columns[1].x + this->columns[1].y * m2.columns[1].y;
+    
+    columns[0].x = x1;
+    columns[0].y = y1;
+    columns[1].x = x2;
+    columns[1].y = y2;
+    
+    return *this;
 }
 
-p2Mat22 & p2Mat22::operator/=(p2Mat22 & m2)
+p2Mat22 & p2Mat22::operator*=(const float & f)
 {
-	// TODO: insert return statement here
+    this->columns[0] *= f;
+    this->columns[1] *= f;
+    return *this;
 }
 
-p2Vec2 & p2Mat22::operator*=(p2Vec2 & m2)
+p2Mat22 p2Mat22::operator+(const p2Mat22 & m2)
 {
-	// TODO: insert return statement here
+    p2Mat22 copy = *this;
+    copy += m2;
+	return copy;
 }
 
-p2Mat22 p2Mat22::operator+(p2Mat22 & m2)
+p2Mat22 p2Mat22::operator-(const p2Mat22 & m2)
 {
-	return p2Mat22();
+    p2Mat22 copy = *this;
+    copy -= m2;
+    return copy;
 }
 
-p2Mat22 p2Mat22::operator-(p2Mat22 & m2)
+p2Mat22 p2Mat22::operator*(const p2Mat22 & m2)
 {
-	return p2Mat22();
+    p2Mat22 copy = *this;
+    copy *= m2;
+    return copy;
 }
-
-p2Mat22 p2Mat22::operator*(p2Mat22 & m2)
-{
-	return p2Mat22();
-}
-
-
 
 p2Mat22 p2Mat22::operator*(float f)
 {
-	return p2Mat22();
-}
-
-p2Mat22 p2Mat22::operator/(float f)
-{
-	return p2Mat22();
+    p2Mat22 copy = *this;
+    copy *= f;
+    return copy;
 }
 
 p2Mat22 p2Mat22::Invert()
 {
-    p2Mat22 swap(
-                 p2Vec2(rows[1].y, -rows[0].y),
-                 p2Vec2(-rows[1].x, rows[0].x)
+    p2Mat22 swaped(
+                 p2Vec2(columns[1].y, -columns[0].y),
+                 p2Vec2(-columns[1].x, columns[0].x)
                  );
-    swap *= (1.0f / GetDeterminant());
-	return p2Mat22();
+    swaped *= (1.0f / GetDeterminant());
+	return swaped;
 }
 
 float p2Mat22::GetDeterminant()
 {
-	return rows[0].x * rows[1].y - rows[1].x * rows[0].y;
+	return columns[0].x * columns[1].y - columns[1].x * columns[0].y;
 }
+
+void p2Mat22::Show() {
+    std::cout << "Matrix2x2:" << "\n";
+    std::cout << "| " << this->columns[0].x << " " << this->columns[1].x << " |\n";
+    std::cout << "| " << this->columns[0].y << " " << this->columns[1].y << " |\n";
+}
+
+/////////////////// MATRIX 3x3 ///////////////////
 
 p2Mat33::p2Mat33()
 {

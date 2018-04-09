@@ -32,21 +32,21 @@ struct p2Mat22
 	p2Mat22();
 	p2Mat22(p2Vec2 c1, p2Vec2 c2) ;
 
-	p2Mat22& operator+=(p2Mat22& m2);
-	p2Mat22& operator-=(p2Mat22& m2);
-	p2Mat22& operator*=(p2Mat22& m2);
-	p2Mat22& operator/=(p2Mat22& m2);
-	p2Vec2& operator*=(p2Vec2& m2);
-	p2Mat22 operator+(p2Mat22& m2);
-	p2Mat22 operator-(p2Mat22& m2);
-	p2Mat22 operator*(p2Mat22& m2);
+	p2Mat22& operator+=(const p2Mat22& m2);
+	p2Mat22& operator-=(const p2Mat22& m2);
+	p2Mat22& operator*=(const p2Mat22& m2);
+	p2Mat22& operator*=(const float& f);
+	p2Mat22 operator+(const p2Mat22& m2);
+	p2Mat22 operator-(const p2Mat22& m2);
+	p2Mat22 operator*(const p2Mat22& m2);
 	p2Mat22 operator*(float f);
-	p2Mat22 operator/(float f);
 	/**
 	* \brief Calculate the invert of the 2x2 matrix
 	*/
 	p2Mat22 Invert();
 	float GetDeterminant();
+    
+    void Show();
 
 	p2Vec2 columns[2] = {};
 };
