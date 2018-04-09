@@ -64,12 +64,17 @@ p2Mat22 p2Mat22::operator/(float f)
 
 p2Mat22 p2Mat22::Invert()
 {
+    p2Mat22 swap(
+                 p2Vec2(rows[1].y, -rows[0].y),
+                 p2Vec2(-rows[1].x, rows[0].x)
+                 );
+    swap *= (1.0f / GetDeterminant());
 	return p2Mat22();
 }
 
 float p2Mat22::GetDeterminant()
 {
-	return 0.0f;
+	return rows[0].x * rows[1].y - rows[1].x * rows[0].y;
 }
 
 p2Mat33::p2Mat33()

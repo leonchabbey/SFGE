@@ -9,6 +9,7 @@ include(cmake/CheckCXXStandardLibrary.cmake)
 
 message(STATUS "CXX compiler ID: '${CMAKE_CXX_COMPILER_ID}'")
 message(STATUS "CXX compiler Version: '${CMAKE_CXX_COMPILER_VERSION}'")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 enum_option(BUILD_CXX_STANDARD
   DOC "C++ Standard to compile against"
