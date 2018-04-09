@@ -26,31 +26,67 @@ SOFTWARE.
 
 p2Mat22::p2Mat22()
 {
+	this->columns[0] = p2Vec2();
+	this->columns[1] = p2Vec2();
 }
 
-p2Mat22::p2Mat22(p2Vec2 r1, p2Vec2 r2)
+p2Mat22::p2Mat22(p2Vec2 c1, p2Vec2 c2)
 {
+	this->columns[0] = c1;
+	this->columns[1] = c2;
 }
 
-p2Mat22 p2Mat22::operator+(p2Mat22 m1)
+p2Mat22 & p2Mat22::operator+=(p2Mat22 & m2)
+{
+	this->columns[0] += m2.columns[0];
+	this->columns[1] += m2.columns[1];
+	return *this;
+}
+
+p2Mat22 & p2Mat22::operator-=(p2Mat22 & m2)
+{
+	this->columns[0] -= m2.columns[0];
+	this->columns[1] -= m2.columns[1];
+	return *this;
+}
+
+p2Mat22 & p2Mat22::operator*=(p2Mat22 & m2)
+{
+	return p2Mat22(
+		p2Vec2(
+			columns[0].x * m2.columns[0].x + columns[1].x * m2.columns[0].y,
+			columns[0].y * m2.columns[0].x + columns[1].y * m2.columns[0].y
+		),
+		p2Vec2()
+	);
+}
+
+p2Mat22 & p2Mat22::operator/=(p2Mat22 & m2)
+{
+	// TODO: insert return statement here
+}
+
+p2Vec2 & p2Mat22::operator*=(p2Vec2 & m2)
+{
+	// TODO: insert return statement here
+}
+
+p2Mat22 p2Mat22::operator+(p2Mat22 & m2)
 {
 	return p2Mat22();
 }
 
-p2Mat22 p2Mat22::operator-(p2Mat22 m1)
+p2Mat22 p2Mat22::operator-(p2Mat22 & m2)
 {
 	return p2Mat22();
 }
 
-p2Mat22 p2Mat22::operator*(p2Mat22 m1)
+p2Mat22 p2Mat22::operator*(p2Mat22 & m2)
 {
 	return p2Mat22();
 }
 
-p2Vec2 p2Mat22::operator*(p2Vec2 v)
-{
-	return p2Vec2();
-}
+
 
 p2Mat22 p2Mat22::operator*(float f)
 {
@@ -80,17 +116,17 @@ p2Mat33::p2Mat33(p2Vec3 r1, p2Vec3 r2, p2Vec3 r3)
 {
 }
 
-p2Mat33 p2Mat33::operator+(p2Mat33 m1)
+p2Mat33 p2Mat33::operator+(p2Mat33 m2)
 {
 	return p2Mat33();
 }
 
-p2Mat33 p2Mat33::operator-(p2Mat33 m1)
+p2Mat33 p2Mat33::operator-(p2Mat33 m2)
 {
 	return p2Mat33();
 }
 
-p2Mat33 p2Mat33::operator*(p2Mat33 m1)
+p2Mat33 p2Mat33::operator*(p2Mat33 m2)
 {
 	return p2Mat33();
 }
