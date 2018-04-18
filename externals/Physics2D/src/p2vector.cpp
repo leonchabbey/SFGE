@@ -26,15 +26,14 @@ SOFTWARE.
 #include <iostream>
 #include <cmath>
 
-
-// Constructors
-
 p2Vec2::p2Vec2()
 {
 }
 
 p2Vec2::p2Vec2(float x, float y): x(x), y(y)
 {
+	this->x = x;
+	this->y = y;
 }
 
 // Operators overloading
@@ -96,6 +95,19 @@ p2Vec2 p2Vec2::operator*(const float & f)
 	p2Vec2 copy = *this;
 	copy *= f;
 	return copy;
+}
+
+float p2Vec2::operator[](const int & i)
+{
+	if (i > 1)
+		throw std::out_of_range("index out of vector2 range");
+
+	switch (i) {
+		case 0:
+			return this->x;
+		case 1:
+			return this->y;
+	}
 }
 
 p2Vec2 p2Vec2::operator/(const float & f)
@@ -164,6 +176,9 @@ p2Vec3::p2Vec3()
 
 p2Vec3::p2Vec3(float x, float y, float z): x(x), y(y), z(z)
 {
+	this->x = x;
+	this->y = y;
+	this->z = z;
 }
 
 // Operators overloading
@@ -237,6 +252,21 @@ p2Vec3 p2Vec3::operator*(const float & f)
 	p2Vec3 copy = *this;
 	copy *= f;
 	return copy;
+}
+
+float p2Vec3::operator[](const int & i)
+{
+	if (i > 2)
+		throw std::out_of_range("index out of vector3 range");
+
+	switch (i) {
+	case 0:
+		return this->x;
+	case 1:
+		return this->y;
+	case 2:
+		return this->z;
+	}
 }
 
 // Functions

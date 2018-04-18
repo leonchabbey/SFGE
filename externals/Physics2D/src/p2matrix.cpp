@@ -126,38 +126,77 @@ void p2Mat22::Show() {
 
 p2Mat33::p2Mat33()
 {
+	this->columns[0] = p2Vec3();
+	this->columns[1] = p2Vec3();
+	this->columns[2] = p2Vec3();
 }
 
-p2Mat33::p2Mat33(p2Vec3 r1, p2Vec3 r2, p2Vec3 r3)
+p2Mat33::p2Mat33(p2Vec3 c1, p2Vec3 c2, p2Vec3 c3)
 {
+	this->columns[0] = c1;
+	this->columns[1] = c2;
+	this->columns[2] = c3;
 }
 
-p2Mat33 p2Mat33::operator+(p2Mat33 m2)
+p2Mat33& p2Mat33::operator+=(p2Mat33 m2)
 {
-	return p2Mat33();
+	this->columns[0] += m2.columns[0];
+	this->columns[1] += m2.columns[1];
+	this->columns[2] += m2.columns[2];
+	return *this;
 }
 
-p2Mat33 p2Mat33::operator-(p2Mat33 m2)
+p2Mat33& p2Mat33::operator-=(p2Mat33 m2)
 {
-	return p2Mat33();
+	this->columns[0] -= m2.columns[0];
+	this->columns[1] -= m2.columns[1];
+	this->columns[2] -= m2.columns[2];
+	return *this;
+}
+
+p2Mat33& p2Mat33::operator*=(p2Mat33 m2)
+{
+	p2Mat33 newM;
+	for (int u = 0; u < 3; u++) {
+		for (int i = 0; i < 3; i++) {
+			float newVal = 0.0f;
+
+			for (int j = 0; j < 3; j++) {
+				std::cout << this->columns[j][i] << " * " << m2.columns[i][j] << "\n";
+				newVal += this->columns[j][i] * m2.columns[i][j];
+			}
+
+			std::cout << newVal << "\n";
+
+			switch (i) {
+			case 0:
+				newM.columns[u].x = newVal;
+				break;
+			case 1:
+				newM.columns[u].y = newVal;
+				break;
+			case 2:
+				newM.columns[u].z = newVal;
+				break;
+			}
+		}
+	}
+	
+
+	this->columns[0] = newM.columns[0];
+	this->columns[1] = newM.columns[1];
+	this->columns[2] = newM.columns[2];
+	return *this;
 }
 
 p2Mat33 p2Mat33::operator*(p2Mat33 m2)
 {
-	return p2Mat33();
-}
-
-p2Vec3 p2Mat33::operator*(p2Vec3)
-{
-	return p2Vec3();
+	p2Mat33 copy = *this;
+	copy *= m2;
+	return copy;
 }
 
 p2Mat33 p2Mat33::operator*(float f)
-{
-	return p2Mat33();
-}
-
-p2Mat33 p2Mat33::operator/(float f)
 {
 	return p2Mat33();
 }
@@ -170,4 +209,11 @@ p2Mat33 p2Mat33::Invert()
 float p2Mat33::GetDeterminant()
 {
 	return 0.0f;
+}
+
+void p2Mat33::Show() {
+	std::cout << "Matrix3x3:" << "\n";
+	std::cout << "| " << this->columns[0].x << " " << this->columns[1].x << " " << this->columns[2].x << " |\n";
+	std::cout << "| " << this->columns[0].y << " " << this->columns[1].y << " " << this->columns[2].y << " |\n";
+	std::cout << "| " << this->columns[0].z << " " << this->columns[1].z << " " << this->columns[2].z << " |\n";
 }

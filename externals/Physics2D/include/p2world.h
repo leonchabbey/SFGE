@@ -49,7 +49,7 @@ public:
 	*/
 	void SetContactListener(p2ContactListener* contactListener);
 private:
-	
+	p2Vec2 m_Gravity;
 };
 
 #endif

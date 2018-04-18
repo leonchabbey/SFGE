@@ -24,8 +24,9 @@ SOFTWARE.
 #include <p2world.h>
 
 
-p2World::p2World(p2Vec2 gravity)
+p2World::p2World(p2Vec2 gravity): m_Gravity(gravity)
 {
+
 }
 
 void p2World::Step(float dt)

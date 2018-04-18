@@ -79,6 +79,7 @@ Body2d * Body2d::LoadBody2d(Engine & engine, GameObject * gameObject, json& comp
 	p2BodyDef bodyDef;
 
 	bodyDef.type = p2BodyType::DYNAMIC;
+
 	if (CheckJsonNumber(componentJson, "body_type"))
 	{
 		bodyDef.type = componentJson["body_type"];
@@ -98,6 +99,7 @@ Body2d * Body2d::LoadBody2d(Engine & engine, GameObject * gameObject, json& comp
 
 	p2Body* body = world->CreateBody(&bodyDef);
 	Body2d* bodyComponent = new Body2d(gameObject);
+
 	bodyComponent->m_Body = body;
 	physicsManager->m_Bodies.push_back(bodyComponent);
 	return bodyComponent;

@@ -41,6 +41,7 @@ SOFTWARE.
 
 
 
+
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(800, 800), "QuadTree test");
@@ -50,6 +51,7 @@ int main()
 	srand(time(NULL));
 
 	std::list<p2Body*> bodiesList;
+
 	const int objNmb = 1000;
 	for (int i = 0; i < objNmb; i++)
 	{
@@ -84,15 +86,7 @@ int main()
 		}
 		ImGui::SFML::Update(window, dt);
 
-		ImGui::Begin("Stats");
-		{
-			std::ostringstream oss;
-			oss << "FPS: " << 1.0f / dt.asSeconds();
-
-			ImGui::Text(oss.str().c_str());
-		}
-
-		ImGui::End();
+		
 
 		world.Step(dt.asSeconds());
 		for (auto& body : bodiesList)
@@ -117,7 +111,16 @@ int main()
 				body->SetLinearVelocity(p2Vec2(v.x, -v.y));
 			}
 		}
+		auto contacts = quad.Retrieve();
+		ImGui::Begin("Stats");
+		{
+			std::ostringstream oss;
+			oss << "FPS: " << 1.0f / dt.asSeconds()<<"\n"<<"Contact numbers: "<<contacts.size();
 
+			ImGui::Text(oss.str().c_str());
+		}
+
+		ImGui::End();
 		window.clear(sf::Color::Black);
 
 		for (auto& obj : bodiesList)

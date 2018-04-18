@@ -46,7 +46,7 @@ int main()
 	gameObjectJson["components"] = json::array({ spriteJson });
 
 	sfge::GameObject* gameObject = sfge::GameObject::LoadGameObject(engine, gameObjectJson);
-
+	gameObject->GetTransform()->SetPosition(sf::Vector2f(400, 300));
 	auto sprite = gameObject->GetComponent<sfge::Sprite>();
 	if (sprite != nullptr)
 	{

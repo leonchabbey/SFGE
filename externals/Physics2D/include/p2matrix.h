@@ -56,12 +56,15 @@ struct p2Mat33
 	p2Mat33();
 	p2Mat33(p2Vec3 r1, p2Vec3 r2, p2Vec3 r3);
 
-	p2Mat33 operator+(p2Mat33 m1);
-	p2Mat33 operator-(p2Mat33 m1);
-	p2Mat33 operator*(p2Mat33 m1);
-	p2Vec3 operator*(p2Vec3);
+	p2Mat33& operator+=(p2Mat33 m2);
+	p2Mat33& operator-=(p2Mat33 m2);
+	p2Mat33& operator*=(p2Mat33 m2);
+	p2Mat33& operator*=(const float& f);
+	p2Mat33 operator+(p2Mat33 m2);
+	p2Mat33 operator-(p2Mat33 m2);
+	p2Mat33 operator*(p2Mat33 m2);
 	p2Mat33 operator*(float f);
-	p2Mat33 operator/(float f);
+
 	/**
 	* \brief Calculate the invert of the 3x3 matrix
 	*/
@@ -71,7 +74,9 @@ struct p2Mat33
 	*/
 	float GetDeterminant();
 
-	p2Vec3 rows[3] = {};
+	void Show();
+
+	p2Vec3 columns[3] = {};
 };
 
 #endif

@@ -36,7 +36,7 @@ class p2Shape
 };
 
 /**
-* \brief Representation of a circle
+* \brief Representation of a physics circle
 */
 class p2CircleShape : public p2Shape
 {

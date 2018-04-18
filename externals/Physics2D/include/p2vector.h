@@ -55,6 +55,8 @@ struct p2Vec2
 	p2Vec2 operator /(const float& f);
 	p2Vec2 operator *(const float& f);
 
+	float operator[](const int& i);
+
 	/**
 	* \brief Calculate the magnitude of the p2Vec2
 	*/
@@ -105,6 +107,8 @@ struct p2Vec3
 	p2Vec3 operator-(const p2Vec3& v);
 	p2Vec3 operator /(const float& f);
 	p2Vec3 operator *(const float& f);
+
+	float operator[](const int& i);
 
 	/**
 	* \brief Calculate the magnitude of the p2Vec2
