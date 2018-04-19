@@ -45,6 +45,12 @@ int main()
 	std::cout << "\n" << "Determinant m3: " << m3.GetDeterminant() << "\n";
 	std::cout << "\n" << "Determinant m4: " << m4.GetDeterminant() << "\n";
     
+	std::cout << "\n" << "m3 Invert:" << "\n";
+	m3.Invert().Show();
+
+	std::cout << "\n" << "m4 Invert:" << "\n";
+	m4.Invert().Show();
+
     system("pause");
     return 0;
 }

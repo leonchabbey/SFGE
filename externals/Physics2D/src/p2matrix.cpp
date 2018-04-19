@@ -229,7 +229,56 @@ p2Mat33 p2Mat33::operator*(float f)
 
 p2Mat33 p2Mat33::Invert()
 {
-	return p2Mat33();
+	p2Mat33 tmpM;
+
+	// Calculate submatrix22
+	for (int i = 0; i < MATRIX_33_SIZE; i++) {
+		for (int j = 0; j < MATRIX_33_SIZE; j++) {
+			p2Mat22 subM22;
+			int numOfUsedNum = 0;
+			for (int k = 0; k < MATRIX_33_SIZE; k++) {
+				for (int l = 0; l < MATRIX_33_SIZE; l++) {
+					if (k != i && l != j) {
+						switch (numOfUsedNum) {
+						case 0:
+							subM22.columns[0][0] = this->columns[k][l];
+						case 1:
+							subM22.columns[0][1] = this->columns[k][l];
+						case 2:
+							subM22.columns[1][0] = this->columns[k][l];
+						case 3:
+							subM22.columns[1][1] = this->columns[k][l];
+						}
+						numOfUsedNum++;
+					}
+				}
+			}
+
+			tmpM.columns[i][j] = subM22.GetDeterminant();
+		}
+	}
+
+	// Minus
+	tmpM.columns[0][1] *= -1;
+	tmpM.columns[1][0] *= -1;
+	tmpM.columns[1][2] *= -1;
+	tmpM.columns[2][1] *= -1;
+
+	// Transpose
+	for (int i = 0; i < MATRIX_33_SIZE; i++) {
+		for (int j = 0; j < MATRIX_33_SIZE; j++) {
+			if (i != j && i < j) {
+				float tmpVal = tmpM.columns[i][j];
+				tmpM.columns[i][j] = tmpM.columns[j][i];
+				tmpM.columns[j][i] = tmpVal;
+			}
+		}
+	}
+
+	std::cout << "Determinant: " << this->GetDeterminant() << "\n";
+	tmpM.Show();
+
+	return tmpM * (1.0f / this->GetDeterminant());
 }
 
 float p2Mat33::GetDeterminant()
