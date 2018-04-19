@@ -30,6 +30,9 @@ int main()
     std::cout << "\n" << "m1*2:" << "\n";
     (m1 * 2.0f).Show();
 
+	std::cout << "\n" << "m1*m2:" << "\n";
+	(m1 * m2).Show();
+
 	std::cout << "\n" << "m3:" << "\n";
 	m3.Show();
 
@@ -38,6 +41,9 @@ int main()
 
 	std::cout << "\n" << "m3*m4:" << "\n";
 	(m3 * m4).Show();
+
+	std::cout << "\n" << "Determinant m3: " << m3.GetDeterminant() << "\n";
+	std::cout << "\n" << "Determinant m4: " << m4.GetDeterminant() << "\n";
     
     system("pause");
     return 0;

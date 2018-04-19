@@ -97,7 +97,7 @@ p2Vec2 p2Vec2::operator*(const float & f)
 	return copy;
 }
 
-float p2Vec2::operator[](const int & i)
+float& p2Vec2::operator[](const int & i)
 {
 	if (i > 1)
 		throw std::out_of_range("index out of vector2 range");
@@ -254,7 +254,7 @@ p2Vec3 p2Vec3::operator*(const float & f)
 	return copy;
 }
 
-float p2Vec3::operator[](const int & i)
+float& p2Vec3::operator[](const int & i)
 {
 	if (i > 2)
 		throw std::out_of_range("index out of vector3 range");
