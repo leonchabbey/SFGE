@@ -76,24 +76,31 @@ p2Vec2& p2Vec2::operator*=(const float & f)
 	return *this;
 }
 
-p2Vec2 p2Vec2::operator+(const p2Vec2& v)
+p2Vec2 p2Vec2::operator+(const p2Vec2& v) const
 {
 	p2Vec2 copy = *this;
 	copy += v;
 	return copy;
 }
 
-p2Vec2 p2Vec2::operator-(const p2Vec2& v)
+p2Vec2 p2Vec2::operator-(const p2Vec2& v) const
 {
 	p2Vec2 copy = *this;
 	copy -= v;
 	return copy;
 }
 
-p2Vec2 p2Vec2::operator*(const float & f)
+p2Vec2 p2Vec2::operator*(const float & f) const
 {
 	p2Vec2 copy = *this;
 	copy *= f;
+	return copy;
+}
+
+p2Vec2 p2Vec2::operator/(const float & f) const
+{
+	p2Vec2 copy = *this;
+	copy /= f;
 	return copy;
 }
 
@@ -103,18 +110,11 @@ float& p2Vec2::operator[](const int & i)
 		throw std::out_of_range("index out of vector2 range");
 
 	switch (i) {
-		case 0:
-			return this->x;
-		case 1:
-			return this->y;
+	case 0:
+		return this->x;
+	case 1:
+		return this->y;
 	}
-}
-
-p2Vec2 p2Vec2::operator/(const float & f)
-{
-	p2Vec2 copy = *this;
-	copy /= f;
-	return copy;
 }
 
 // Functions

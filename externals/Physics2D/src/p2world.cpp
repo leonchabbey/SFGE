@@ -24,18 +24,30 @@ SOFTWARE.
 #include <p2world.h>
 
 
-p2World::p2World(p2Vec2 gravity): m_Gravity(gravity)
-{
-
-}
-
-void p2World::Step(float dt)
+p2World::p2World(const p2Vec2& gravity): m_Gravity(gravity)
 {
 }
 
-p2Body * p2World::CreateBody(p2BodyDef* bodyDef)
+p2World::~p2World()
 {
-	return nullptr;
+	for (p2Body* body : m_BodyList) {
+		delete(body);
+	}
+	m_BodyList.clear();
+}
+
+void p2World::Step(const float& dt)
+{
+	for (p2Body* body : m_BodyList) {
+		body->GetAngularVelocity();
+	}
+}
+
+p2Body * p2World::CreateBody(const p2BodyDef& bodyDef)
+{
+	p2Body* body = new p2Body(bodyDef);
+	m_BodyList.push_back(body);
+	return body;
 }
 
 void p2World::SetContactListener(p2ContactListener * contactListener)

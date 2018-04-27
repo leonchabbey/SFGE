@@ -50,10 +50,10 @@ struct p2Vec2
 	p2Vec2& operator*=(const float& f);
 	p2Vec2& operator/=(const float& f);
 
-	p2Vec2 operator+(const p2Vec2& v);
-	p2Vec2 operator-(const p2Vec2& v);
-	p2Vec2 operator /(const float& f);
-	p2Vec2 operator *(const float& f);
+	p2Vec2 operator+(const p2Vec2& v) const;
+	p2Vec2 operator-(const p2Vec2& v) const;
+	p2Vec2 operator /(const float& f) const;
+	p2Vec2 operator *(const float& f) const;
 
 	float& operator[](const int& i);
 

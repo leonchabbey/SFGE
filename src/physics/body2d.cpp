@@ -31,79 +31,78 @@ SOFTWARE.
 
 namespace sfge
 {
-
-void Body2d::Init()
-{
-}
-
-void Body2d::Update(float dt)
-{
-	m_GameObject->GetTransform()->SetPosition(meter2pixel(m_Body->GetPosition()));
-}
-
-p2Body * Body2d::GetBody()
-{
-	return m_Body;
-}
-
-
-void Body2d::SetVelocity(p2Vec2 v)
-{
-	if (m_Body)
+	void Body2d::Init()
 	{
-		m_Body->SetLinearVelocity(v);
 	}
 
-}
-
-p2Vec2 Body2d::GetVelocity()
-{
-	if (m_Body != nullptr)
+	void Body2d::Update(float dt)
 	{
-		return m_Body->GetLinearVelocity();
+		m_GameObject->GetTransform()->SetPosition(meter2pixel(m_Body->GetPosition()));
 	}
-	return p2Vec2();
-}
 
-
-
-Body2d * Body2d::LoadBody2d(Engine & engine, GameObject * gameObject, json& componentJson)
-{
-	auto physicsManager = engine.GetPhysicsManager();
-	if (physicsManager->GetWorld() == nullptr)
+	p2Body * Body2d::GetBody()
 	{
-		return nullptr;
+		return m_Body;
 	}
-	p2World* world = physicsManager->GetWorld();
-	
-	p2BodyDef bodyDef;
 
-	bodyDef.type = p2BodyType::DYNAMIC;
 
-	if (CheckJsonNumber(componentJson, "body_type"))
+	void Body2d::SetVelocity(p2Vec2 v)
 	{
-		bodyDef.type = componentJson["body_type"];
-	}
-	bodyDef.position = pixel2meter(gameObject->GetTransform()->GetPosition());
-	if (CheckJsonParameter(componentJson, "offset", json::value_t::array))
-	{
-		if (componentJson["offset"].size() == 2)
+		if (m_Body)
 		{
-			bodyDef.position += pixel2meter(sf::Vector2f(componentJson["offset"]["x"], componentJson["offset"]["y"]));
+			m_Body->SetLinearVelocity(v);
 		}
+
 	}
-	if (CheckJsonNumber(componentJson, "gravity_scale"))
+
+	p2Vec2 Body2d::GetVelocity()
 	{
-		bodyDef.gravityScale = componentJson["gravity_scale"];
+		if (m_Body != nullptr)
+		{
+			return m_Body->GetLinearVelocity();
+		}
+		return p2Vec2();
 	}
 
-	p2Body* body = world->CreateBody(&bodyDef);
-	Body2d* bodyComponent = new Body2d(gameObject);
 
-	bodyComponent->m_Body = body;
-	physicsManager->m_Bodies.push_back(bodyComponent);
-	return bodyComponent;
-}
+
+	Body2d * Body2d::LoadBody2d(Engine & engine, GameObject * gameObject, json& componentJson)
+	{
+		auto physicsManager = engine.GetPhysicsManager();
+		if (physicsManager->GetWorld() == nullptr)
+		{
+			return nullptr;
+		}
+		p2World* world = physicsManager->GetWorld();
+
+		p2BodyDef bodyDef;
+
+		bodyDef.type = p2BodyType::DYNAMIC;
+
+		if (CheckJsonNumber(componentJson, "body_type"))
+		{
+			bodyDef.type = componentJson["body_type"];
+		}
+		bodyDef.position = pixel2meter(gameObject->GetTransform()->GetPosition());
+		if (CheckJsonParameter(componentJson, "offset", json::value_t::array))
+		{
+			if (componentJson["offset"].size() == 2)
+			{
+				bodyDef.position += pixel2meter(sf::Vector2f(componentJson["offset"]["x"], componentJson["offset"]["y"]));
+			}
+		}
+		if (CheckJsonNumber(componentJson, "gravity_scale"))
+		{
+			bodyDef.gravityScale = componentJson["gravity_scale"];
+		}
+
+		p2Body* body = world->CreateBody(bodyDef);
+		Body2d* bodyComponent = new Body2d(gameObject);
+
+		bodyComponent->m_Body = body;
+		physicsManager->m_Bodies.push_back(bodyComponent);
+		return bodyComponent;
+	}
 
 }
 

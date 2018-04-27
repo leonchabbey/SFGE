@@ -25,6 +25,7 @@ SOFTWARE.
 #ifndef SFGE_P2WORLD_H
 #define SFGE_P2WORLD_H
 
+#include <list>
 #include <p2vector.h>
 #include <p2body.h>
 #include <p2contact.h>
@@ -35,20 +36,22 @@ SOFTWARE.
 class p2World
 {
 public:
-	p2World(p2Vec2 gravity);
+	p2World(const p2Vec2& gravity);
+	~p2World();
 	/**
 	* \brief Simulate a new step of the physical world, simplify the resolution with a QuadTree, generate the new contacts
 	*/
-	void Step(float dt);
+	void Step(const float& dt);
 	/**
 	* \brief Factory method to create a new p2Body attached to the p2World
 	*/
-	p2Body* CreateBody(p2BodyDef* bodyDef);
+	p2Body* CreateBody(const p2BodyDef& bodyDef);
 	/**
 	* \brief Set the contact listener
 	*/
 	void SetContactListener(p2ContactListener* contactListener);
 private:
+	std::list<p2Body*> m_BodyList = {};
 	p2Vec2 m_Gravity;
 };
 
