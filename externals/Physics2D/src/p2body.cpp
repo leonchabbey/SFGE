@@ -37,6 +37,16 @@ void p2Body::SetLinearVelocity(const p2Vec2 & velocity)
 	linearVelocity = velocity;
 }
 
+void p2Body::SetAngularVelocity(const float & angVelocity)
+{
+	angularVelocity = angVelocity;
+}
+
+void p2Body::SetPosition(const p2Vec2 & pos)
+{
+	
+}
+
 p2Vec2 p2Body::GetLinearVelocity()
 {
 	return linearVelocity;

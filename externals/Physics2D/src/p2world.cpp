@@ -38,6 +38,7 @@ p2World::~p2World()
 
 void p2World::Step(const float& dt)
 {
+	p2Vec2 gr = m_Gravity * dt;
 	for (p2Body* body : m_BodyList) {
 		body->GetAngularVelocity();
 	}

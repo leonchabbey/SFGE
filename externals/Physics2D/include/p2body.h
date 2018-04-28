@@ -65,6 +65,8 @@ public:
 
 	void AddForce(const p2Vec2& velocity);
 	void SetLinearVelocity(const p2Vec2& velocity);
+	void SetAngularVelocity(const float& angVelocity);
+	void SetPosition(const p2Vec2& pos);
 
 	p2Vec2 GetLinearVelocity();
 	float GetAngularVelocity();
@@ -78,7 +80,6 @@ public:
 
 	~p2Body();
 private:
-	p2AABB aabb;
 	p2Vec2 position;
 	p2Vec2 linearVelocity;
 	float angularVelocity;
