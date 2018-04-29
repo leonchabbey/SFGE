@@ -69,7 +69,7 @@ private:
 	static const int MAX_LEVELS = 5;
 	static const int CHILD_TREE_NMB = 4;
 	int m_NodeLevel = 0;
-	p2QuadTree* nodes[CHILD_TREE_NMB] = { nullptr };
+	p2QuadTree* nodes[CHILD_TREE_NMB] = {};
 	std::list<p2Body*> m_Objects;
 	p2AABB m_Bounds;
 };

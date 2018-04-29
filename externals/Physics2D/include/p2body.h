@@ -26,6 +26,7 @@ SOFTWARE.
 #define SFGE_P2BODY_H
 
 #include <list>
+#include <p2math.h>
 #include <p2aabb.h>
 #include <p2Fixture.h>
 
@@ -48,13 +49,17 @@ struct p2BodyDef
 		type = p2BodyType::DYNAMIC;
 		position = p2Vec2();
 		linearVelocity = p2Vec2();
+		angularVelocity = 0.0f;
 		gravityScale = 1;
+		mass = 1;
 	}
 
 	p2BodyType type;
 	p2Vec2 position;
 	p2Vec2 linearVelocity;
+	float angularVelocity;
 	float gravityScale;
+	float mass;
 };
 
 /**
@@ -63,26 +68,31 @@ struct p2BodyDef
 class p2Body
 {
 public:
-	p2Body(const p2BodyDef&);
+	p2Body(const p2BodyDef*);
 
 	p2Fixture* CreateFixture(const p2FixtureDef* def);
 
 	void AddForce(const p2Vec2& velocity);
 	void SetLinearVelocity(const p2Vec2& velocity);
 	void SetAngularVelocity(const float& angVelocity);
-	void SetPosition(const p2Vec2& pos);
 
-	p2Vec2 GetLinearVelocity();
-	float GetAngularVelocity();
-	p2Vec2 GetPosition();
+	float GetAngularVelocity() const;
+	const p2Vec2& GetLinearVelocity() const;
+	const p2Transform& GetTransform() const;
+
+	// Get the AABB that contains all fixtures non-sensor
+	void GetFatAABB(p2AABB* aabb) const;
 
 	~p2Body();
 private:
 	std::list<p2Fixture*> m_FixtureList = {};
-	p2Vec2 position;
-	p2Vec2 linearVelocity;
-	float angularVelocity;
-	float mass;
+
+	p2BodyType m_Type;
+	p2Transform m_Transform;
+	p2Vec2 m_LinearVelocity;
+	float m_AngularVelocity;
+	float m_Mass;
+	float m_GravityScale;
 };
 
 #endif

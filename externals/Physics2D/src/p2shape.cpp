@@ -55,4 +55,8 @@ void p2PolygonShape::SetAsBox(float hx, float hy)
 
 void p2PolygonShape::ComputeAABB(p2AABB * aabb, const p2Transform * tr) const
 {
+	// TODO: All type of polygon AABB
+
+	aabb->bottomLeft = m_Vertices[0];
+	aabb->topRight = m_Vertices[2];
 }

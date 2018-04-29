@@ -44,4 +44,4 @@ struct p2AABB
 	*/
 	p2Vec2 GetExtends();
 };
-#endif // !SFGE_P2AABB:H
+#endif // !SFGE_P2AABB_H

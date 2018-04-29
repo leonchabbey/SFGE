@@ -23,50 +23,80 @@ SOFTWARE.
 */
 #include <p2body.h>
 
-p2Body::p2Body(const p2BodyDef &)
+p2Body::p2Body(const p2BodyDef * def)
 {
+	m_Type = def->type;
+	m_Transform = p2Transform(def->position);
+	m_LinearVelocity = def->linearVelocity;
+	m_AngularVelocity = def->angularVelocity;
+	m_GravityScale = def->gravityScale;
+	m_Mass = def->mass;
 }
 
 p2Fixture * p2Body::CreateFixture(const p2FixtureDef * def)
 {
 	p2Fixture* fixture = new p2Fixture(this, def);
 	m_FixtureList.push_back(fixture);
-	return nullptr;
+	return fixture;
 }
 
 void p2Body::AddForce(const p2Vec2 & velocity)
 {
-	linearVelocity += velocity;
+	m_LinearVelocity += velocity;
 }
 
 void p2Body::SetLinearVelocity(const p2Vec2 & velocity)
 {
-	linearVelocity = velocity;
+	m_LinearVelocity = velocity;
 }
 
 void p2Body::SetAngularVelocity(const float & angVelocity)
 {
-	angularVelocity = angVelocity;
+	m_AngularVelocity = angVelocity;
 }
 
-void p2Body::SetPosition(const p2Vec2 & pos)
+float p2Body::GetAngularVelocity() const
 {
-	
+	return m_AngularVelocity;
 }
 
-p2Vec2 p2Body::GetLinearVelocity()
+const p2Vec2 & p2Body::GetLinearVelocity() const
 {
-	return linearVelocity;
+	return m_LinearVelocity;
 }
 
-float p2Body::GetAngularVelocity()
+const p2Transform & p2Body::GetTransform() const
 {
-	return angularVelocity;
+	return m_Transform;
 }
 
-p2Vec2 p2Body::GetPosition()
+void p2Body::GetFatAABB(p2AABB * aabb) const
 {
-	return position;
+	for (auto it = m_FixtureList.begin(); it != m_FixtureList.end(); it++) {
+		p2Fixture* fixture = *it;
+
+		if (fixture->IsSensor()) {
+			continue;
+		}
+		
+		p2AABB fixAabb;
+		p2Body* fixBody = fixture->GetBody();
+		p2Transform fixTransform = fixBody->GetTransform();
+		fixture->GetShape()->ComputeAABB(&fixAabb, &fixTransform);
+
+		if (fixAabb.bottomLeft.x < aabb->bottomLeft.x) {
+			aabb->bottomLeft.x = fixAabb.bottomLeft.x;
+		}
+		if (fixAabb.bottomLeft.y < aabb->bottomLeft.y) {
+			aabb->bottomLeft.y = fixAabb.bottomLeft.y;
+		}
+		if (fixAabb.topRight.x > aabb->topRight.x) {
+			aabb->topRight.x = fixAabb.topRight.x;
+		}
+		if (fixAabb.topRight.y > aabb->topRight.y) {
+			aabb->topRight.y = fixAabb.topRight.y;
+		}
+	}
 }
 
 p2Body::~p2Body()

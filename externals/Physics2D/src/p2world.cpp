@@ -23,7 +23,6 @@ SOFTWARE.
 */
 #include <p2world.h>
 
-
 p2World::p2World(const p2Vec2& gravity): m_Gravity(gravity)
 {
 }
@@ -38,15 +37,20 @@ p2World::~p2World()
 
 void p2World::Step(const float& dt)
 {
+	m_Quadtree.Clear();
+
 	p2Vec2 gr = m_Gravity * dt;
 	for (p2Body* body : m_BodyList) {
 		body->GetAngularVelocity();
+		m_Quadtree.Insert(body);
 	}
+
+	m_Quadtree.Retrieve();
 }
 
 p2Body * p2World::CreateBody(const p2BodyDef& bodyDef)
 {
-	p2Body* body = new p2Body(bodyDef);
+	p2Body* body = new p2Body(&bodyDef);
 	m_BodyList.push_back(body);
 	return body;
 }

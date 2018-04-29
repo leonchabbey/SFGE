@@ -27,7 +27,7 @@ SOFTWARE.
 
 #include <p2vector.h>
 #include <p2aabb.h>
-#include <p2Utils.h>
+#include <p2math.h>
 
 #define MAX_POLYGON_VERTICES 100
 

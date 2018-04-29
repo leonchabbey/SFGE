@@ -29,6 +29,7 @@ SOFTWARE.
 #include <p2vector.h>
 #include <p2body.h>
 #include <p2contact.h>
+#include <p2quadtree.h>
 
 /**
 * \brief Representation of the physical world in meter
@@ -53,6 +54,7 @@ public:
 private:
 	std::list<p2Body*> m_BodyList = {};
 	p2Vec2 m_Gravity;
+	p2QuadTree m_Quadtree;
 };
 
 #endif

@@ -8,10 +8,11 @@
 struct p2Transform
 {
 	p2Transform() {}
+	p2Transform(const p2Vec2& pos);
 	p2Transform(const p2Vec2& pos, const float& rot);
 
 	p2Vec2 pos;
-	float eulerAngle;
+	float eulerAngle; // in radians
 };
 
 #endif // !SFGE_P2MATH_H
