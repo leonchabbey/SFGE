@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include <iostream>
+#include <math.h>
 #include <p2matrix.h>
 
 #define MATRIX_22_SIZE 2
@@ -128,6 +129,14 @@ p2Mat22 p2Mat22::Invert()
 float p2Mat22::GetDeterminant()
 {
 	return columns[0].x * columns[1].y - columns[1].x * columns[0].y;
+}
+
+p2Vec2 p2Mat22::Rotate(const p2Vec2 & v, float angle)
+{
+	p2Mat22 rotationM(
+		p2Vec2(cos())
+	);
+	return p2Vec2();
 }
 
 void p2Mat22::Show() {

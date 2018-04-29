@@ -24,10 +24,35 @@ SOFTWARE.
 
 #include <p2shape.h>
 
+p2Shape::Type p2Shape::GetType() const
+{
+	return m_Type;
+}
+
+
 void p2CircleShape::SetRadius(float radius)
 {
 }
 
-void p2RectShape::SetSize(p2Vec2 size)
+void p2PolygonShape::Set(const p2Vec2 points, int count)
+{
+	// TO DO
+}
+
+void p2PolygonShape::SetAsBox(float hx, float hy)
+{
+	m_Count = 4;
+	m_Vertices[0] = p2Vec2(-hx, -hy);
+	m_Vertices[1] = p2Vec2(hx, -hy);
+	m_Vertices[2] = p2Vec2(hx, hy);
+	m_Vertices[3] = p2Vec2(-hx, hy);
+	m_Normals[0] = p2Vec2(0.0f, -1.0f);
+	m_Normals[1] = p2Vec2(1.0f, 0.0f);
+	m_Normals[2] = p2Vec2(0.0f, 1.0f);
+	m_Normals[3] = p2Vec2(-1.0f, 0.0f);
+	m_Center = p2Vec2(0.0f, 0.0f);
+}
+
+void p2PolygonShape::ComputeAABB(p2AABB * aabb, const p2Transform * tr) const
 {
 }

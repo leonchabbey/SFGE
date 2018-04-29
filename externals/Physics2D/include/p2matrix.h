@@ -45,6 +45,8 @@ struct p2Mat22
 	*/
 	p2Mat22 Invert();
 	float GetDeterminant();
+
+	static p2Vec2 Rotate(const p2Vec2& v, float angle);
     
     void Show();
 

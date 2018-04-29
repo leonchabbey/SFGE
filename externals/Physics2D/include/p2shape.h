@@ -26,13 +26,29 @@ SOFTWARE.
 #define SFGE_P2SHAPE_H
 
 #include <p2vector.h>
+#include <p2aabb.h>
+#include <p2Utils.h>
+
+#define MAX_POLYGON_VERTICES 100
 
 /**
 * \brief Abstract representation of a shape
 */
 class p2Shape
 {
+public:
+	enum Type {
+		CIRCLE,
+		POLYGON
+	};
 
+	Type GetType() const;
+
+	virtual void ComputeAABB(p2AABB* aabb, const p2Transform* tr) const = 0;
+
+protected:
+	Type m_Type;
+	p2Vec2 m_Center;
 };
 
 /**
@@ -41,6 +57,7 @@ class p2Shape
 class p2CircleShape : public p2Shape
 {
 public:
+	p2CircleShape() { m_Type = p2Shape::Type::CIRCLE; };
 	/**
 	* \brief Setter for the radius
 	*/
@@ -52,12 +69,24 @@ private:
 /** 
 * \brief Representation of a rectangle
 */
-class p2RectShape : public p2Shape
+class p2PolygonShape : public p2Shape
 {
 public:
-	void SetSize(p2Vec2 size);
+	p2PolygonShape() { m_Type = p2Shape::Type::POLYGON; };
+
+	// Create a polygon with multiple points
+	void Set(const p2Vec2 points, int count);
+
+	// Create a polygon as a box (rectangle / square)
+	// @param hx : half-width
+	// @param hy : half-height
+	void SetAsBox(float hx, float hy);
+
+	void ComputeAABB(p2AABB* aabb, const p2Transform* tr) const;
 private:
-	p2Vec2 m_Size;
+	p2Vec2 m_Vertices[MAX_POLYGON_VERTICES];
+	p2Vec2 m_Normals[MAX_POLYGON_VERTICES];
+	int m_Count;
 };
 
 #endif

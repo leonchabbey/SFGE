@@ -25,7 +25,9 @@ SOFTWARE.
 #ifndef SFGE_P2BODY_H
 #define SFGE_P2BODY_H
 
+#include <list>
 #include <p2aabb.h>
+#include <p2Fixture.h>
 
 class p2Collider;
 struct p2ColliderDef;
@@ -63,6 +65,8 @@ class p2Body
 public:
 	p2Body(const p2BodyDef&);
 
+	p2Fixture* CreateFixture(const p2FixtureDef* def);
+
 	void AddForce(const p2Vec2& velocity);
 	void SetLinearVelocity(const p2Vec2& velocity);
 	void SetAngularVelocity(const float& angVelocity);
@@ -71,15 +75,10 @@ public:
 	p2Vec2 GetLinearVelocity();
 	float GetAngularVelocity();
 	p2Vec2 GetPosition();
-	/**
-	* \brief Factory method creating a p2Collider
-	* \param colliderDef p2ColliderDef definition of the collider
-	* \return p2Collider collider attached to the p2Body
-	*/
-	p2Collider* CreateCollider(p2ColliderDef* colliderDef);
 
 	~p2Body();
 private:
+	std::list<p2Fixture*> m_FixtureList = {};
 	p2Vec2 position;
 	p2Vec2 linearVelocity;
 	float angularVelocity;
