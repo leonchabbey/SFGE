@@ -133,9 +133,12 @@ float p2Mat22::GetDeterminant()
 
 p2Vec2 p2Mat22::Rotate(const p2Vec2 & v, float angle)
 {
-	p2Mat22 rotationM(
-		p2Vec2(cos())
+	/*p2Mat22 rotationM(
+		p2Vec2(cos(angle), asin(angle)),
+		p2Vec2(sin(angle), cos(angle))
 	);
+
+	return rotationM * v;*/
 	return p2Vec2();
 }
 
