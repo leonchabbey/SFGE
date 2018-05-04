@@ -1,4 +1,4 @@
-#include "..\include\p2fixture.h"
+#include "p2fixture.h"
 
 p2Fixture::p2Fixture(p2Body * b, const p2FixtureDef * def): m_Body(b)
 {

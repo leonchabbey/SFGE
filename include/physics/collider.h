@@ -29,7 +29,7 @@ SOFTWARE.
 #include <engine/component.h>
 #include <utility/json_utility.h>
 
-#include <p2collider.h>
+#include <p2fixture.h>
 
 
 namespace sfge

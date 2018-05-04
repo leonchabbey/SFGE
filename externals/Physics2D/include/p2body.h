@@ -30,9 +30,6 @@ SOFTWARE.
 #include <p2aabb.h>
 #include <p2fixture.h>
 
-class p2Collider;
-struct p2ColliderDef;
-
 enum class p2BodyType
 {
 	STATIC,

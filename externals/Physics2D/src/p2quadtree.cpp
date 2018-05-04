@@ -123,9 +123,8 @@ void p2QuadTree::Retrieve(std::list<std::pair<p2Body*, p2Body*>>* aabbContacts)
 	auto objItr = m_Objects.begin();
 
 	while (objItr != m_Objects.end()) {
-		auto objItr2 = m_Objects.begin();
-		std::list<p2Body*> possibleContacts = m_Objects;
-		possibleContacts.erase(objItr);
+		std::list<p2Body*> possibleContacts;
+		possibleContacts.merge(m_Objects);
 		int objIndex = GetIndex((*objItr));
 
 		if (objIndex != -1) {

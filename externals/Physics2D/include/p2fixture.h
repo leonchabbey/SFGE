@@ -1,8 +1,9 @@
 #ifndef SFGE_P2FIXTURE_H
 #define SFGE_P2FIXTURE_H
 
-#include <p2body.h>
 #include <p2shape.h>
+
+class p2Body;
 
 struct p2FixtureDef
 {
