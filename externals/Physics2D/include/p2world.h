@@ -26,6 +26,7 @@ SOFTWARE.
 #define SFGE_P2WORLD_H
 
 #include <list>
+#include <memory>
 #include <p2vector.h>
 #include <p2body.h>
 #include <p2contact.h>
@@ -42,7 +43,7 @@ public:
 	/**
 	* \brief Simulate a new step of the physical world, simplify the resolution with a QuadTree, generate the new contacts
 	*/
-	void Step(const float& dt);
+	void Step(const float& dt, std::shared_ptr<sf::RenderWindow>);
 	/**
 	* \brief Factory method to create a new p2Body attached to the p2World
 	*/

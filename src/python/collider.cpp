@@ -83,8 +83,8 @@ Collider* Collider::LoadCollider(Engine & engine, GameObject * gameObject, json 
 					circleShape->SetRadius(pixel2meter((float)componentJson["radius"]));
 				}
 				shape = circleShape;
+				break;
 			}
-		break;
 		case ColliderType::RECTANGLE:
 			{
 				p2PolygonShape* rectShape = new p2PolygonShape();
@@ -108,10 +108,6 @@ Collider* Collider::LoadCollider(Engine & engine, GameObject * gameObject, json 
 		}
 		
 		collider->m_PhysicsFixture = body2d->GetBody()->CreateFixture(&fixtureDef);
-		if (shape != nullptr)
-		{
-			delete(shape);
-		}
 		return collider;
 	}
 	else

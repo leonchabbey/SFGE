@@ -26,10 +26,12 @@ SOFTWARE.
 #define SFGE_P2QUADTREE_H
 
 #include <list>
-
+#include <memory>
 #include <p2vector.h>
 #include <p2aabb.h>
 #include <p2body.h>
+#include <SFML/Graphics.hpp>
+#include <iostream>
 
 /**
 * \brief Representation of a tree with 4 branches containing p2Body defined by their p2AABB
@@ -66,6 +68,8 @@ public:
 	*/
 	void Retrieve(std::list<std::pair<p2Body*, p2Body*>>*);
 	
+	void Draw(std::shared_ptr<sf::RenderWindow>);
+	void Update();
 private:
 
 
@@ -73,9 +77,12 @@ private:
 	static const int MAX_LEVELS = 5;
 	static const int CHILD_TREE_NMB = 4;
 	int m_NodeLevel = 0;
-	p2QuadTree* nodes[CHILD_TREE_NMB] = {};
+	p2QuadTree* nodes[CHILD_TREE_NMB] = { nullptr };
 	std::list<p2Body*> m_Objects;
 	p2AABB m_Bounds;
+	p2Vec2 position;
+	p2Vec2 extends;
+	sf::RectangleShape rectangle;
 };
 
 #endif

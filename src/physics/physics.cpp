@@ -25,6 +25,8 @@ SOFTWARE.
 #include <physics/physics.h>
 #include <physics/collider.h>
 #include <physics/body2d.h>
+#include <SFML\Graphics.hpp>
+#include <graphics\graphics.h>
 
 namespace sfge
 {
@@ -45,7 +47,8 @@ void PhysicsManager::Update(sf::Time dt)
 {
 	if (m_World)
 	{
-		m_World->Step(dt.asSeconds());
+		std::shared_ptr<sf::RenderWindow> test = m_Engine.GetGraphicsManager()->GetWindow();
+		m_World->Step(dt.asSeconds(), test);
 	}
 }
 

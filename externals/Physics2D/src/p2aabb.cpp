@@ -29,7 +29,7 @@ p2Vec2 p2AABB::GetCenter()
 	return (bottomLeft + topRight) * 0.5f;
 }
 
-p2Vec2 p2AABB::GetExtends()
+p2Vec2 p2AABB::GetExtents()
 {
 	return (topRight - bottomLeft) * 0.5f;
 }

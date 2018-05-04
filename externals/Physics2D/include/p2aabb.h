@@ -42,7 +42,7 @@ struct p2AABB
 	/**
 	* \brief Calculate the extends and return it
 	*/
-	p2Vec2 GetExtends();
+	p2Vec2 GetExtents();
 
 	bool Contains(p2AABB& aabb) const;
 };

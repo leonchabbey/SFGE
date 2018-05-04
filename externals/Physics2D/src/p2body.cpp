@@ -50,6 +50,11 @@ void p2Body::SetLinearVelocity(const p2Vec2 & velocity)
 	m_LinearVelocity = velocity;
 }
 
+const p2Vec2 & p2Body::GetLinearVelocity() const
+{
+	return m_LinearVelocity;
+}
+
 void p2Body::SetAngularVelocity(const float & angVelocity)
 {
 	m_AngularVelocity = angVelocity;
@@ -60,9 +65,10 @@ float p2Body::GetAngularVelocity() const
 	return m_AngularVelocity;
 }
 
-const p2Vec2 & p2Body::GetLinearVelocity() const
+void p2Body::SetTransform(const p2Vec2 & pos, float angle)
 {
-	return m_LinearVelocity;
+	m_Transform.pos = pos;
+	m_Transform.eulerAngle = angle;
 }
 
 const p2Transform & p2Body::GetTransform() const

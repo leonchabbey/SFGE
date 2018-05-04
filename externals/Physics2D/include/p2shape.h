@@ -80,8 +80,6 @@ public:
 	void Set(const p2Vec2 points, int count);
 
 	// Create a polygon as a box (rectangle / square)
-	// @param hx : half-width
-	// @param hy : half-height
 	void SetAsBox(float hx, float hy);
 
 	void ComputeAABB(p2AABB* aabb, const p2Transform* tr) const;
