@@ -1,5 +1,5 @@
 #ifndef SFGE_P2MATH_H
-
+#define SFGE_P2MATH_H
 #include <p2vector.h>
 
 /*

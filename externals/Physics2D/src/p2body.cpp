@@ -73,7 +73,7 @@ const p2Transform & p2Body::GetTransform() const
 void p2Body::GetFatAABB(p2AABB * aabb) const
 {
 	for (auto it = m_FixtureList.begin(); it != m_FixtureList.end(); it++) {
-		p2Fixture* fixture = *it;
+		p2Fixture* fixture = (*it);
 
 		if (fixture->IsSensor()) {
 			continue;

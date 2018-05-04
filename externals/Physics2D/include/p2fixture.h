@@ -12,6 +12,7 @@ struct p2FixtureDef
 		restitution = 0.0f;
 		density = 0.0f;
 		isSensor = false;
+		userData = nullptr;
 	}
 
 	p2Shape* shape;
@@ -20,7 +21,7 @@ struct p2FixtureDef
 	float restitution;
 	float density;
 	bool isSensor;
-
+	void* userData;
 };
 
 class p2Fixture
@@ -31,8 +32,8 @@ public:
 	// Return type of shape
 	p2Shape::Type GetType() const;
 
-	p2Shape* GetShape();
-	p2Body* GetBody();
+	p2Shape* GetShape() const;
+	p2Body* GetBody() const;
 
 	void SetSensor(bool s);
 	bool IsSensor() const;
@@ -46,6 +47,8 @@ public:
 	void SetDensity(float d);
 	float GetDensity() const;
 
+	void SetUserData(void* p);
+	void* GetUserData() const;
 private:
 	p2Shape* m_Shape;
 	p2Body* m_Body;
@@ -54,6 +57,7 @@ private:
 	float m_Restitution;
 	float m_Density;
 	bool m_IsSensor;
+	void* m_UserData;
 };
 
 #endif // !SFGE_P2FIXTURE_H

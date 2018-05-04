@@ -43,5 +43,7 @@ struct p2AABB
 	* \brief Calculate the extends and return it
 	*/
 	p2Vec2 GetExtends();
+
+	bool Contains(p2AABB& aabb) const;
 };
 #endif // !SFGE_P2AABB_H

@@ -37,7 +37,7 @@ SOFTWARE.
 class p2World
 {
 public:
-	p2World(const p2Vec2& gravity);
+	p2World(const p2Vec2& screenSize, const p2Vec2& gravity);
 	~p2World();
 	/**
 	* \brief Simulate a new step of the physical world, simplify the resolution with a QuadTree, generate the new contacts
@@ -54,7 +54,7 @@ public:
 private:
 	std::list<p2Body*> m_BodyList = {};
 	p2Vec2 m_Gravity;
-	p2QuadTree m_Quadtree;
+	p2QuadTree* m_Quadtree;
 };
 
 #endif

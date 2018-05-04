@@ -33,3 +33,13 @@ p2Vec2 p2AABB::GetExtends()
 {
 	return (topRight - bottomLeft) * 0.5f;
 }
+
+bool p2AABB::Contains(p2AABB & aabb) const
+{
+	bool result = true;
+	result = result && bottomLeft.x <= aabb.bottomLeft.x;
+	result = result && bottomLeft.y <= aabb.bottomLeft.y;
+	result = result && topRight.y >= aabb.topRight.y;
+	result = result && topRight.y >= aabb.topRight.y;
+	return result;
+}

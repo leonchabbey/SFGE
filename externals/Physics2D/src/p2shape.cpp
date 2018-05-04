@@ -29,9 +29,14 @@ p2Shape::Type p2Shape::GetType() const
 	return m_Type;
 }
 
-
 void p2CircleShape::SetRadius(float radius)
 {
+}
+
+void p2CircleShape::ComputeAABB(p2AABB * aabb, const p2Transform * tr) const
+{
+	aabb->bottomLeft = p2Vec2(-m_Radius, -m_Radius);
+	aabb->topRight = p2Vec2(m_Radius, m_Radius);
 }
 
 void p2PolygonShape::Set(const p2Vec2 points, int count)
@@ -55,8 +60,21 @@ void p2PolygonShape::SetAsBox(float hx, float hy)
 
 void p2PolygonShape::ComputeAABB(p2AABB * aabb, const p2Transform * tr) const
 {
-	// TODO: All type of polygon AABB
+	p2Vec2 min;
+	p2Vec2 max;
 
-	aabb->bottomLeft = m_Vertices[0];
-	aabb->topRight = m_Vertices[2];
+	for (const p2Vec2& v : m_Vertices)
+	{
+		if (v.x > max.x)
+			max.x = v.x;
+		if (v.y > max.y)
+			max.y = v.y;
+		if (v.x < min.x)
+			min.x = v.x;
+		if (v.y < min.y)
+			min.y = v.y;
+	}
+
+	aabb->bottomLeft = min;
+	aabb->topRight = max;
 }

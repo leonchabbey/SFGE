@@ -37,7 +37,7 @@ namespace sfge
 
 	void Body2d::Update(float dt)
 	{
-		m_GameObject->GetTransform()->SetPosition(meter2pixel(m_Body->GetPosition()));
+		m_GameObject->GetTransform()->SetPosition(meter2pixel(m_Body->GetTransform().pos));
 	}
 
 	p2Body * Body2d::GetBody()

@@ -33,6 +33,8 @@ SOFTWARE.
 #include <p2shape.h>
 #include <p2vector.h>
 #include <p2world.h>
+#include <p2math.h>
+#include <p2fixture.h>
 
 
 #endif

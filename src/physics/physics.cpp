@@ -34,8 +34,9 @@ const float PhysicsManager::pixelPerMeter = 100.0f;
 
 void PhysicsManager::Init()
 {
+	p2Vec2 screenSize = pixel2meter(m_Engine.GetConfig()->screenResolution);
 	p2Vec2 gravity = m_Engine.GetConfig()->gravity;
-	m_World = new p2World(gravity);
+	m_World = new p2World(screenSize, gravity);
 	m_ContactListener = new ContactListener();
 	m_World->SetContactListener(m_ContactListener);
 }

@@ -36,7 +36,7 @@ void Collider::Update(float dt)
 }
 void Collider::OnColliderEnter(Collider * collider)
 {
-	if (collider->m_PhysicsCollider->IsSensor() or m_PhysicsCollider->IsSensor())
+	if (collider->m_PhysicsFixture->IsSensor() or m_PhysicsFixture->IsSensor())
 	{
 		m_GameObject->OnTriggerEnter(collider);
 	}
@@ -48,7 +48,7 @@ void Collider::OnColliderEnter(Collider * collider)
 
 void Collider::OnColliderExit(Collider * collider)
 {
-	if (collider->m_PhysicsCollider->IsSensor() or m_PhysicsCollider->IsSensor())
+	if (collider->m_PhysicsFixture->IsSensor() or m_PhysicsFixture->IsSensor())
 	{
 		m_GameObject->OnTriggerExit(collider);
 	}
@@ -64,8 +64,8 @@ Collider* Collider::LoadCollider(Engine & engine, GameObject * gameObject, json 
 	if (body2d != nullptr)
 	{
 		Collider* collider = new Collider(gameObject);
-		p2ColliderDef colliderDef;
-		colliderDef.userData = collider;
+		p2FixtureDef fixtureDef;
+		fixtureDef.userData = collider;
 		
 		ColliderType colliderType = ColliderType::NONE;
 		if (CheckJsonNumber(componentJson, "collider_type"))
@@ -87,27 +87,27 @@ Collider* Collider::LoadCollider(Engine & engine, GameObject * gameObject, json 
 		break;
 		case ColliderType::RECTANGLE:
 			{
-				p2RectShape* rectShape = new p2RectShape();
+				p2PolygonShape* rectShape = new p2PolygonShape();
 				p2Vec2 boxSize = pixel2meter(GetVectorFromJson(componentJson, "size"));
-				rectShape->SetSize(boxSize);
+				rectShape->SetAsBox(boxSize.x, boxSize.y);
 				shape = rectShape;
 				break; 
 			}
 		}
 		if (CheckJsonNumber(componentJson, "bouncing"))
 		{
-			colliderDef.restitution = componentJson["bouncing"];
+			fixtureDef.restitution = componentJson["bouncing"];
 		}
 		if (shape != nullptr)
 		{
-			colliderDef.shape = shape;
+			fixtureDef.shape = shape;
 		}
 		if (CheckJsonParameter(componentJson, "sensor", json::value_t::boolean))
 		{
-			colliderDef.isSensor = componentJson["sensor"];
+			fixtureDef.isSensor = componentJson["sensor"];
 		}
 		
-		collider->m_PhysicsCollider = body2d->GetBody()->CreateCollider(&colliderDef);
+		collider->m_PhysicsFixture = body2d->GetBody()->CreateFixture(&fixtureDef);
 		if (shape != nullptr)
 		{
 			delete(shape);

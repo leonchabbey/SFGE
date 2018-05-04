@@ -1,4 +1,4 @@
-#include "..\include\p2Fixture.h"
+#include "..\include\p2fixture.h"
 
 p2Fixture::p2Fixture(p2Body * b, const p2FixtureDef * def): m_Body(b)
 {
@@ -7,6 +7,7 @@ p2Fixture::p2Fixture(p2Body * b, const p2FixtureDef * def): m_Body(b)
 	m_Restitution = def->restitution;
 	m_Density = def->density;
 	m_IsSensor = def->isSensor;
+	m_UserData = def->userData;
 }
 
 p2Shape::Type p2Fixture::GetType() const
@@ -14,12 +15,12 @@ p2Shape::Type p2Fixture::GetType() const
 	return m_Shape->GetType();
 }
 
-p2Shape * p2Fixture::GetShape()
+p2Shape * p2Fixture::GetShape() const
 {
 	return m_Shape;
 }
 
-p2Body * p2Fixture::GetBody()
+p2Body * p2Fixture::GetBody() const
 {
 	return m_Body;
 }
@@ -62,4 +63,14 @@ void p2Fixture::SetDensity(float d)
 float p2Fixture::GetDensity() const
 {
 	return m_Density;
+}
+
+void p2Fixture::SetUserData(void * p)
+{
+	m_UserData = p;
+}
+
+void * p2Fixture::GetUserData() const
+{
+	return m_UserData;
 }

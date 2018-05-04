@@ -71,7 +71,7 @@ public:
 	*/
 	static Collider* LoadCollider(Engine& engine, GameObject* gameObject, json& componentJson);
 protected:
-	p2Collider * m_PhysicsCollider = nullptr;
+	p2Fixture * m_PhysicsFixture = nullptr;
 };
 }
 

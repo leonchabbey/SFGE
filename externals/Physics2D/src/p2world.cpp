@@ -22,9 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #include <p2world.h>
+#include <iostream>
 
-p2World::p2World(const p2Vec2& gravity): m_Gravity(gravity)
+p2World::p2World(const p2Vec2& screenSize, const p2Vec2& gravity): m_Gravity(gravity)
 {
+	p2AABB quadAabb;
+	quadAabb.bottomLeft = p2Vec2(-screenSize.x / 2, -screenSize.y / 2);
+	quadAabb.topRight = p2Vec2(screenSize.x / 2, screenSize.y / 2);
+	m_Quadtree = new p2QuadTree(quadAabb);
 }
 
 p2World::~p2World()
@@ -37,15 +42,18 @@ p2World::~p2World()
 
 void p2World::Step(const float& dt)
 {
-	m_Quadtree.Clear();
+	m_Quadtree->Clear();
 
 	p2Vec2 gr = m_Gravity * dt;
 	for (p2Body* body : m_BodyList) {
 		body->GetAngularVelocity();
-		m_Quadtree.Insert(body);
+		m_Quadtree->Insert(body);
 	}
 
-	m_Quadtree.Retrieve();
+	std::list<std::pair<p2Body*, p2Body*>> aabbContacts;
+	m_Quadtree->Retrieve(&aabbContacts);
+
+	std::cout << "AabbContacts: " << aabbContacts.size() << "\n";
 }
 
 p2Body * p2World::CreateBody(const p2BodyDef& bodyDef)
