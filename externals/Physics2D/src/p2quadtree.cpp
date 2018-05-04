@@ -96,7 +96,7 @@ void p2QuadTree::Insert(p2Body * obj)
 		auto objItr = m_Objects.begin();
 		while (objItr != m_Objects.end()) {
 			int objIndex = GetIndex(*objItr);
-			if (objIndex != 1) {
+			if (objIndex != -1) {
 				nodes[objIndex]->Insert(*objItr);
 				objItr = m_Objects.erase(objItr);
 			}
@@ -109,11 +109,11 @@ void p2QuadTree::Insert(p2Body * obj)
 
 std::list<p2Body*> p2QuadTree::GetChildObjects()
 {
-	std::list<p2Body*> allObjects = m_Objects;
+	std::list<p2Body*> allObjects(m_Objects);
 
 	for (int i = 0; i < CHILD_TREE_NMB; i++) {
 		if (nodes[i] != nullptr) {
-			allObjects.merge(nodes[i]->GetChildObjects());
+			MergeChildBodies(i, allObjects);
 		}
 	}
 
@@ -122,19 +122,19 @@ std::list<p2Body*> p2QuadTree::GetChildObjects()
 
 void p2QuadTree::Retrieve(std::list<std::pair<p2Body*, p2Body*>>* aabbContacts)
 {
-	for (auto objItr = m_Objects.begin(); objItr != m_Objects.end(); ++objItr) {
+	for (auto objItr = m_Objects.begin(); objItr != m_Objects.end();) {
 		std::list<p2Body*> possibleContacts(m_Objects);
 		int objIndex = GetIndex((*objItr));
 
 		if (objIndex != -1) {
 			if (nodes[objIndex] != nullptr) {
-				possibleContacts.merge(nodes[objIndex]->GetChildObjects());
+				MergeChildBodies(objIndex, possibleContacts);
 			}
 		}
 		else {
 			for (int i = 0; i < CHILD_TREE_NMB; i++) {
 				if (nodes[i] != nullptr) {
-					possibleContacts.merge(nodes[i]->GetChildObjects());
+					MergeChildBodies(i, possibleContacts);
 				}
 			}
 		}
@@ -153,7 +153,21 @@ void p2QuadTree::Retrieve(std::list<std::pair<p2Body*, p2Body*>>* aabbContacts)
 				aabbContacts->push_back(std::make_pair((*objItr), (*contactItr)));
 			}
 		}
+
+		objItr = m_Objects.erase(objItr);
 	}
+
+	for (int i = 0; i < CHILD_TREE_NMB; i++) {
+		if (nodes[i] != nullptr) {
+			nodes[i]->Retrieve(aabbContacts);
+		}
+	}
+}
+
+void p2QuadTree::MergeChildBodies(int index, std::list<p2Body*>& mainContacts)
+{
+	std::list<p2Body*> childPossibleContacts = nodes[index]->GetChildObjects();
+	mainContacts.insert(mainContacts.end(), childPossibleContacts.begin(), childPossibleContacts.end());
 }
 
 const float TestpixelPerMeter = 100.0f;
@@ -191,8 +205,7 @@ sf::Vector2f meter2pixel(p2Vec2 meter)
 void p2QuadTree::Update()
 {
 	position = m_Bounds.GetCenter();
-	extends = m_Bounds.GetExtents();
-	std::cout << "Test:" << m_Objects.size() << " / " << m_NodeLevel << "\n";
+	extents = m_Bounds.GetExtents();
 	for (int i = 0; i < CHILD_TREE_NMB; i++)
 	{
 		if (nodes[i] != nullptr)
@@ -202,14 +215,15 @@ void p2QuadTree::Update()
 	}
 }
 
-void p2QuadTree::Draw(std::shared_ptr<sf::RenderWindow> window)
+void p2QuadTree::Draw(sf::RenderWindow& window)
 {
-	rectangle.setPosition(meter2pixel(position) - meter2pixel(extends));
-	rectangle.setSize(meter2pixel(extends)*2.0f);
+	rectangle.setPosition(meter2pixel(position) - meter2pixel(extents));
+	rectangle.setSize(meter2pixel(extents)*2.0f);
+	rectangle.setOrigin(-meter2pixel(extents));
 	rectangle.setFillColor(sf::Color::Transparent);
 	rectangle.setOutlineThickness(1.0f);
 	rectangle.setOutlineColor(sf::Color::Blue);
-	window->draw(rectangle);
+	window.draw(rectangle);
 	for (int i = 0; i < CHILD_TREE_NMB; i++)
 	{
 		if (nodes[i] != nullptr)

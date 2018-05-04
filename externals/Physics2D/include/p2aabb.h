@@ -38,11 +38,11 @@ struct p2AABB
 	/**
 	* \brief Calculate the center and return it
 	*/
-	p2Vec2 GetCenter();
+	p2Vec2 GetCenter() const;
 	/**
 	* \brief Calculate the extends and return it
 	*/
-	p2Vec2 GetExtents();
+	p2Vec2 GetExtents() const;
 
 	bool Contains(p2AABB& aabb) const;
 };

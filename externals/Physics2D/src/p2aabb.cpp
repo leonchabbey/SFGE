@@ -24,12 +24,12 @@ SOFTWARE.
 
 #include <p2aabb.h>
 
-p2Vec2 p2AABB::GetCenter()
+p2Vec2 p2AABB::GetCenter() const
 {
 	return (bottomLeft + topRight) * 0.5f;
 }
 
-p2Vec2 p2AABB::GetExtents()
+p2Vec2 p2AABB::GetExtents() const
 {
 	return (topRight - bottomLeft) * 0.5f;
 }

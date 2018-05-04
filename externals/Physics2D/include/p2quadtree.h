@@ -51,7 +51,6 @@ public:
 	* Called when node have too much objects and split the current node into four
 	*/
 	void Split();
-
 	/**
 	* Get the index of the child trees of the p2Body
 	*/
@@ -60,28 +59,32 @@ public:
 	* Insert a new p2Body in the tree
 	*/
 	void Insert(p2Body* obj);
-
+	/*
+	* Get all the bodies from the childs
+	*/
 	std::list<p2Body*> GetChildObjects();
-
 	/**
 	* Return a list of all the p2Body that might collide
 	*/
 	void Retrieve(std::list<std::pair<p2Body*, p2Body*>>*);
 	
-	void Draw(std::shared_ptr<sf::RenderWindow>);
+	void Draw(sf::RenderWindow&);
 	void Update();
 private:
-
+	/*
+	* Merge returned bodies from childs with current bodies
+	*/
+	void MergeChildBodies(int, std::list<p2Body*>&);
 
 	static const int MAX_OBJECTS = 10;
 	static const int MAX_LEVELS = 5;
 	static const int CHILD_TREE_NMB = 4;
 	int m_NodeLevel = 0;
-	p2QuadTree* nodes[CHILD_TREE_NMB] = { nullptr };
+	p2QuadTree* nodes[CHILD_TREE_NMB] = {};
 	std::list<p2Body*> m_Objects;
 	p2AABB m_Bounds;
 	p2Vec2 position;
-	p2Vec2 extends;
+	p2Vec2 extents;
 	sf::RectangleShape rectangle;
 };
 

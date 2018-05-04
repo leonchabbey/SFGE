@@ -35,6 +35,8 @@ SOFTWARE.
 #include "imgui.h"
 
 #include <sstream>
+#include <p2world.h>
+#include <physics\physics.h>
 
 namespace sfge
 {
@@ -73,6 +75,7 @@ void GraphicsManager::Update(sf::Time dt)
 	{
 		m_Window->clear();
 
+		m_Engine.GetPhysicsManager()->GetWorld()->Debug(*m_Window);
 		m_SpriteManager->Update(dt);
 		m_SpriteManager->Draw(*m_Window);
 

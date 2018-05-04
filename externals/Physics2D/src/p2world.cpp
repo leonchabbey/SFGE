@@ -40,25 +40,26 @@ p2World::~p2World()
 	m_BodyList.clear();
 }
 
-void p2World::Step(const float& dt, std::shared_ptr<sf::RenderWindow> w)
+void p2World::Step(const float& dt)
 { 
 	m_Quadtree->Clear();
 
-	p2Vec2 gr = m_Gravity;
 	for (p2Body* body : m_BodyList) {
-		p2Vec2 l1 = body->GetLinearVelocity();
-		body->SetLinearVelocity(l1 + p2Vec2(2,-9) + gr);
+		body->AddForce(p2Vec2(1, 1));
 		p2Vec2 awd = body->GetLinearVelocity();
 		body->SetTransform(body->GetTransform().pos + awd * dt, 0);
-		std::cout << "x: " << awd.x << "/ y: " << awd.y << "\n";
 		m_Quadtree->Insert(body);
 	}
 
 	std::list<std::pair<p2Body*, p2Body*>> aabbContacts;
 	m_Quadtree->Retrieve(&aabbContacts);
 	m_Quadtree->Update();
-	m_Quadtree->Draw(w);
 	std::cout << "AabbContacts: " << aabbContacts.size() << "\n";
+}
+
+void p2World::Debug(sf::RenderWindow & window)
+{
+	m_Quadtree->Draw(window);
 }
 
 p2Body * p2World::CreateBody(const p2BodyDef& bodyDef)

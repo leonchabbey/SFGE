@@ -47,8 +47,7 @@ void PhysicsManager::Update(sf::Time dt)
 {
 	if (m_World)
 	{
-		std::shared_ptr<sf::RenderWindow> test = m_Engine.GetGraphicsManager()->GetWindow();
-		m_World->Step(dt.asSeconds(), test);
+		m_World->Step(dt.asSeconds());
 	}
 }
 
