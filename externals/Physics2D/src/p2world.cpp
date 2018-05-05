@@ -40,17 +40,35 @@ p2World::~p2World()
 	m_BodyList.clear();
 }
 
+float test = 1;
+
 void p2World::Step(const float& dt)
 { 
 	m_Quadtree->Clear();
 
 	for (p2Body* body : m_BodyList) {
-		body->AddForce(p2Vec2(1, 1));
+		/*if (test == 1) {
+			body->AddForce(p2Vec2(1, 1));
+		}*/
+		
 		p2Vec2 awd = body->GetLinearVelocity();
 		body->SetTransform(body->GetTransform().pos + awd * dt, 0);
+
+		/*p2Vec2 pos = body->GetTransform().pos;
+		p2Vec2 vel = body->GetLinearVelocity();
+		if ((pos.x < 0.0f && vel.x < 0.0f) || (pos.x > 12.8f && vel.x > 0.0f))
+		{
+			body->SetLinearVelocity({ -vel.x, vel.y});
+		}
+		if ((pos.y < 0.0f && vel.y < 0.0f) || (pos.y > 7.2f && vel.y > 0.0f))
+		{
+			body->SetLinearVelocity({ vel.x, -vel.y });
+		}*/
+
 		m_Quadtree->Insert(body);
 	}
 
+	test++;
 	std::list<std::pair<p2Body*, p2Body*>> aabbContacts;
 	m_Quadtree->Retrieve(&aabbContacts);
 	m_Quadtree->Update();

@@ -89,7 +89,7 @@ Collider* Collider::LoadCollider(Engine & engine, GameObject * gameObject, json 
 			{
 				p2PolygonShape* rectShape = new p2PolygonShape();
 				p2Vec2 boxSize = pixel2meter(GetVectorFromJson(componentJson, "size"));
-				rectShape->SetAsBox(boxSize.x, boxSize.y);
+				rectShape->SetAsBox(boxSize.x/2, boxSize.y/2);
 				shape = rectShape;
 				break; 
 			}

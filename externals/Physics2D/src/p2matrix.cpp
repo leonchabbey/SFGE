@@ -109,6 +109,13 @@ p2Mat22 p2Mat22::operator*(p2Mat22 m2)
     return copy;
 }
 
+p2Vec2 p2Mat22::operator*(p2Vec2 v)
+{
+	v.x = this->columns[0].x * v.x + this->columns[1].x * v.y;
+	v.y = this->columns[0].y * v.x + this->columns[1].y * v.y;
+	return v;
+}
+
 p2Mat22 p2Mat22::operator*(float f)
 {
     p2Mat22 copy = *this;
@@ -133,13 +140,12 @@ float p2Mat22::GetDeterminant()
 
 p2Vec2 p2Mat22::Rotate(const p2Vec2 & v, float angle)
 {
-	/*p2Mat22 rotationM(
+	p2Mat22 rotationM(
 		p2Vec2(cos(angle), asin(angle)),
 		p2Vec2(sin(angle), cos(angle))
 	);
 
-	return rotationM * v;*/
-	return p2Vec2();
+	return rotationM * v;
 }
 
 void p2Mat22::Show() {

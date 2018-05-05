@@ -39,7 +39,7 @@ bool p2AABB::Contains(p2AABB & aabb) const
 	bool result = true;
 	result = result && bottomLeft.x <= aabb.bottomLeft.x;
 	result = result && bottomLeft.y <= aabb.bottomLeft.y;
-	result = result && topRight.y >= aabb.topRight.y;
-	result = result && topRight.y >= aabb.topRight.y;
+	result = result && aabb.topRight.x >= topRight.x;
+	result = result && aabb.topRight.y >= topRight.y;
 	return result;
 }

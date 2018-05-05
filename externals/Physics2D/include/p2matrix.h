@@ -39,6 +39,7 @@ struct p2Mat22
 	p2Mat22 operator+(p2Mat22 m2);
 	p2Mat22 operator-(p2Mat22 m2);
 	p2Mat22 operator*(p2Mat22 m2);
+	p2Vec2 operator*(p2Vec2 v);
 	p2Mat22 operator*(float f);
 	/**
 	* \brief Calculate the invert of the 2x2 matrix

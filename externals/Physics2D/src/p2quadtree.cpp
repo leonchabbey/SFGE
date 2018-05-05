@@ -80,7 +80,7 @@ void p2QuadTree::Insert(p2Body * obj)
 {
 	if (nodes[0] != nullptr) {
 		int objIndex = GetIndex(obj);
-		if (objIndex != 1) {
+		if (objIndex != -1) {
 			nodes[objIndex]->Insert(obj);
 			return;
 		}
@@ -126,12 +126,14 @@ void p2QuadTree::Retrieve(std::list<std::pair<p2Body*, p2Body*>>* aabbContacts)
 		std::list<p2Body*> possibleContacts(m_Objects);
 		int objIndex = GetIndex((*objItr));
 
+		/*
 		if (objIndex != -1) {
 			if (nodes[objIndex] != nullptr) {
 				MergeChildBodies(objIndex, possibleContacts);
 			}
 		}
-		else {
+		*/
+		if (objIndex == -1) {
 			for (int i = 0; i < CHILD_TREE_NMB; i++) {
 				if (nodes[i] != nullptr) {
 					MergeChildBodies(i, possibleContacts);
@@ -148,6 +150,13 @@ void p2QuadTree::Retrieve(std::list<std::pair<p2Body*, p2Body*>>* aabbContacts)
 			p2AABB obj2;
 			(*objItr)->GetFatAABB(&obj1);
 			(*contactItr)->GetFatAABB(&obj2);
+
+			std::cout << "AABB test:" << "\n";
+			obj1.bottomLeft.Show();
+			obj1.topRight.Show();
+			obj2.bottomLeft.Show();
+			obj2.topRight.Show();
+			obj1.GetCenter().Show();
 
 			if (obj1.Contains(obj2)) {
 				aabbContacts->push_back(std::make_pair((*objItr), (*contactItr)));
@@ -219,7 +228,7 @@ void p2QuadTree::Draw(sf::RenderWindow& window)
 {
 	rectangle.setPosition(meter2pixel(position) - meter2pixel(extents));
 	rectangle.setSize(meter2pixel(extents)*2.0f);
-	rectangle.setOrigin(-meter2pixel(extents));
+	rectangle.setOrigin(meter2pixel(extents));
 	rectangle.setFillColor(sf::Color::Transparent);
 	rectangle.setOutlineThickness(1.0f);
 	rectangle.setOutlineColor(sf::Color::Blue);

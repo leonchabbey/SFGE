@@ -31,12 +31,14 @@ p2Shape::Type p2Shape::GetType() const
 
 void p2CircleShape::SetRadius(float radius)
 {
+	m_Radius = radius;
 }
 
 void p2CircleShape::ComputeAABB(p2AABB * aabb, const p2Transform * tr) const
 {
-	aabb->bottomLeft = p2Vec2(-m_Radius, -m_Radius);
-	aabb->topRight = p2Vec2(m_Radius, m_Radius);
+	p2Vec2 offset = p2Vec2(m_Radius, m_Radius);
+	aabb->bottomLeft = tr->pos - offset;
+	aabb->topRight = tr->pos + offset;
 }
 
 void p2PolygonShape::Set(const p2Vec2 points, int count)
@@ -60,19 +62,21 @@ void p2PolygonShape::SetAsBox(float hx, float hy)
 
 void p2PolygonShape::ComputeAABB(p2AABB * aabb, const p2Transform * tr) const
 {
-	p2Vec2 min;
-	p2Vec2 max;
+	
+	p2Vec2 min = p2ApplyRotation(*tr, m_Vertices[0]);
+	p2Vec2 max = min;
 
 	for (const p2Vec2& v : m_Vertices)
 	{
-		if (v.x > max.x)
-			max.x = v.x;
-		if (v.y > max.y)
-			max.y = v.y;
-		if (v.x < min.x)
-			min.x = v.x;
-		if (v.y < min.y)
-			min.y = v.y;
+		p2Vec2 new_V = p2ApplyRotation(*tr, v);
+		if (new_V.x > max.x)
+			max.x = new_V.x;
+		if (new_V.y > max.y)
+			max.y = new_V.y;
+		if (new_V.x < min.x)
+			min.x = new_V.x;
+		if (new_V.y < min.y)
+			min.y = new_V.y;
 	}
 
 	aabb->bottomLeft = min;

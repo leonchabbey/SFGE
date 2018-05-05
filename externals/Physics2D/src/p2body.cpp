@@ -86,6 +86,12 @@ void p2Body::GetFatAABB(p2AABB * aabb) const
 		p2Transform fixTransform = fixBody->GetTransform();
 		fixture->GetShape()->ComputeAABB(&fixAabb, &fixTransform);
 
+		if (it == m_FixtureList.begin()) {
+			aabb->bottomLeft = fixAabb.bottomLeft;
+			aabb->topRight = fixAabb.topRight;
+			continue;
+		}
+
 		if (fixAabb.bottomLeft.x < aabb->bottomLeft.x) {
 			aabb->bottomLeft.x = fixAabb.bottomLeft.x;
 		}
