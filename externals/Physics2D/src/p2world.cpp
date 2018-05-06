@@ -26,10 +26,7 @@ SOFTWARE.
 
 p2World::p2World(const p2Vec2& screenSize, const p2Vec2& gravity): m_Gravity(gravity)
 {
-	p2AABB quadAabb;
-	quadAabb.bottomLeft = p2Vec2(0.0f, screenSize.y);
-	quadAabb.topRight = p2Vec2(screenSize.x, 0.0f);
-	m_Quadtree = new p2QuadTree(quadAabb);
+	m_ContactManager = new p2ContactManager(screenSize);
 }
 
 p2World::~p2World()
@@ -38,14 +35,15 @@ p2World::~p2World()
 		delete(body);
 	}
 	m_BodyList.clear();
+
+	delete(m_ContactManager);
 }
 
 float test = 1;
 
 void p2World::Step(const float& dt)
 { 
-	m_Quadtree->Clear();
-
+	// Update velocities
 	for (p2Body* body : m_BodyList) {
 		/*if (test == 1) {
 			body->AddForce(p2Vec2(1, 1));
@@ -64,20 +62,17 @@ void p2World::Step(const float& dt)
 		{
 			body->SetLinearVelocity({ vel.x, -vel.y });
 		}*/
-
-		m_Quadtree->Insert(body);
 	}
 
 	test++;
-	std::list<std::pair<p2Body*, p2Body*>> aabbContacts;
-	m_Quadtree->Retrieve(&aabbContacts);
-	m_Quadtree->Update();
-	std::cout << "AabbContacts: " << aabbContacts.size() << "\n";
+
+	// Compute all contacts
+	m_ContactManager->DetectContacts(m_BodyList);
 }
 
 void p2World::Debug(sf::RenderWindow & window)
 {
-	m_Quadtree->Draw(window);
+	m_ContactManager->Draw(window);
 }
 
 p2Body * p2World::CreateBody(const p2BodyDef& bodyDef)
@@ -89,4 +84,5 @@ p2Body * p2World::CreateBody(const p2BodyDef& bodyDef)
 
 void p2World::SetContactListener(p2ContactListener * contactListener)
 {
+	m_ContactManager->m_ContactListener = contactListener;
 }

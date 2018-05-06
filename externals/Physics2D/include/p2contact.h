@@ -25,7 +25,11 @@ SOFTWARE.
 #ifndef SFGE_P2CONTACT_H
 #define SFGE_P2CONTACT_H
 
+#include <list>
 #include <p2fixture.h>
+#include <p2quadtree.h>
+
+class p2ContactListener;
 
 /**
 * \brief Representation of a contact given as argument in a p2ContactListener
@@ -33,12 +37,34 @@ SOFTWARE.
 class p2Contact
 {
 public:
-	p2Fixture* GetColliderA();
-	p2Fixture* GetColliderB();
+	p2Contact(p2Fixture* fxA, p2Fixture* fxB);
+
+	void Update(p2ContactListener* listener);
+
+	/*
+	* \brief Get Fixture A
+	*/
+	p2Fixture* GetFixtureA() const;
+	/*
+	* \brief Get Fixture B
+	*/
+	p2Fixture* GetFixtureB() const;
+	/*
+	* \brief Get if fixtures are touching
+	*/
+	bool IsTouching() const;
+private:
+	void Evaluate(p2Manifold& m, const p2Transform& tfA, const p2Transform& tfB);
+
+	p2Fixture* m_FixtureA;
+	p2Fixture* m_FixtureB;
+
+	p2Manifold m_Manifold;
+	bool m_IsTouching = false;
 };
 
 /**
-* \brief Listener of contacts happening in an attached p2World
+* \brief Listener of contacts happening in an attached p2World (to be herited)
 */
 class p2ContactListener
 {
@@ -52,6 +78,16 @@ public:
 */
 class p2ContactManager
 {
+public:
+	p2ContactManager(const p2Vec2&);
+	~p2ContactManager();
 
+	void DetectContacts(std::list<p2Body*> bodyList);
+	void Collide();
+	void Draw(sf::RenderWindow& window);
+
+	std::list<p2Contact*> m_ContactsList;
+	p2ContactListener* m_ContactListener;
+	p2QuadTree* m_QuadTree;
 };
 #endif

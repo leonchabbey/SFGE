@@ -82,6 +82,8 @@ public:
 	// Get the AABB that contains all attached fixtures
 	void GetFatAABB(p2AABB* aabb) const;
 
+	std::list<p2Fixture*> GetAttachedFixtures() const;
+
 	~p2Body();
 private:
 	std::list<p2Fixture*> m_FixtureList = {};

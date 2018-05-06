@@ -60,7 +60,7 @@ public:
 	*/
 	void Insert(p2Body* obj);
 	/*
-	* Get all the bodies from the childs
+	* Get all the bodies from the childs as well as its owns
 	*/
 	std::list<p2Body*> GetChildObjects();
 	/**

@@ -128,13 +128,6 @@ void p2QuadTree::Retrieve(std::list<std::pair<p2Body*, p2Body*>>* aabbContacts)
 		std::list<p2Body*> possibleContacts(m_Objects);
 		int objIndex = GetIndex((*objItr));
 
-		/*
-		if (objIndex != -1) {
-			if (nodes[objIndex] != nullptr) {
-				MergeChildBodies(objIndex, possibleContacts);
-			}
-		}
-		*/
 		if (objIndex == -1) {
 			for (int i = 0; i < CHILD_TREE_NMB; i++) {
 				if (nodes[i] != nullptr) {
@@ -153,12 +146,12 @@ void p2QuadTree::Retrieve(std::list<std::pair<p2Body*, p2Body*>>* aabbContacts)
 			(*objItr)->GetFatAABB(&obj1);
 			(*contactItr)->GetFatAABB(&obj2);
 
-			std::cout << "AABB test:" << "\n";
+			/*std::cout << "AABB test:" << "\n";
 			obj1.bottomLeft.Show();
 			obj1.topRight.Show();
 			obj2.bottomLeft.Show();
 			obj2.topRight.Show();
-			obj1.GetCenter().Show();
+			obj1.GetCenter().Show();*/
 
 			if (obj1.Contains(obj2)) {
 				aabbContacts->push_back(std::make_pair((*objItr), (*contactItr)));

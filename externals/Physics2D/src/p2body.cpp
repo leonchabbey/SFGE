@@ -107,6 +107,11 @@ void p2Body::GetFatAABB(p2AABB * aabb) const
 	}
 }
 
+std::list<p2Fixture*> p2Body::GetAttachedFixtures() const
+{
+	return m_FixtureList;
+}
+
 p2Body::~p2Body()
 {
 }

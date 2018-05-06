@@ -59,7 +59,7 @@ public:
 private:
 	std::list<p2Body*> m_BodyList = {};
 	p2Vec2 m_Gravity;
-	p2QuadTree* m_Quadtree;
+	p2ContactManager* m_ContactManager;
 };
 
 #endif

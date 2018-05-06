@@ -98,14 +98,13 @@ void ContactListener::BeginContact(p2Contact* contact)
 	Collider* firstCollider = nullptr;
 	Collider* secondCollider = nullptr;
 
-	void* colliderUserData = contact->GetColliderA()->GetUserData();
+	void* colliderUserData = contact->GetFixtureA()->GetUserData();
 	if (colliderUserData != nullptr) 
 	{
 		firstCollider = static_cast<Collider*>(colliderUserData);
 	}
-
 	
-	colliderUserData = contact->GetColliderB()->GetUserData();
+	colliderUserData = contact->GetFixtureB()->GetUserData();
 	if (colliderUserData != nullptr)
 	{
 		secondCollider = static_cast<Collider*>(colliderUserData);
@@ -126,14 +125,14 @@ void ContactListener::EndContact(p2Contact* contact)
 	Collider* firstCollider = nullptr;
 	Collider* secondCollider = nullptr;
 
-	void* colliderUserData = contact->GetColliderA()->GetUserData();
+	void* colliderUserData = contact->GetFixtureA()->GetUserData();
 	if (colliderUserData != nullptr)
 	{
 		firstCollider = static_cast<Collider*>(colliderUserData);
 	}
 
 
-	colliderUserData = contact->GetColliderB()->GetUserData();
+	colliderUserData = contact->GetFixtureB()->GetUserData();
 	if (colliderUserData != nullptr)
 	{
 		secondCollider = static_cast<Collider*>(colliderUserData);
