@@ -27,7 +27,7 @@ SOFTWARE.
 
 #include <list>
 #include <p2fixture.h>
-#include <p2quadtree.h>
+#include <p2contactmanager.h>
 
 class p2ContactListener;
 
@@ -54,7 +54,7 @@ public:
 	*/
 	bool IsTouching() const;
 private:
-	void Evaluate(p2Manifold& m, const p2Transform& tfA, const p2Transform& tfB);
+	void Evaluate();
 
 	p2Fixture* m_FixtureA;
 	p2Fixture* m_FixtureB;
@@ -63,31 +63,9 @@ private:
 	bool m_IsTouching = false;
 };
 
-/**
-* \brief Listener of contacts happening in an attached p2World (to be herited)
-*/
-class p2ContactListener
-{
-public:
-	virtual void BeginContact(p2Contact* contact) = 0;
-	virtual void EndContact(p2Contact* contact) = 0;
-};
+void CirclevsCircle(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB);
+void CirclevsPolygon(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB);
+void PolygonvsPolygon(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB);
+void PolygonvsCircle(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB);
 
-/**
-* \brief Managing the creation and destruction of contact between colliders
-*/
-class p2ContactManager
-{
-public:
-	p2ContactManager(const p2Vec2&);
-	~p2ContactManager();
-
-	void DetectContacts(std::list<p2Body*> bodyList);
-	void Collide();
-	void Draw(sf::RenderWindow& window);
-
-	std::list<p2Contact*> m_ContactsList;
-	p2ContactListener* m_ContactListener;
-	p2QuadTree* m_QuadTree;
-};
 #endif

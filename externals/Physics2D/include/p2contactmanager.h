@@ -22,41 +22,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#ifndef SFGE_P2CONTACTMANAGER_H
+#define SFGE_P2CONTACTMANAGER_H
 
-#ifndef SFGE_P2COLLIDER_H
-#define SFGE_P2COLLIDER_H
-
-#include <p2shape.h>
-
-/**
-* \brief Struct defining a p2Collider when creating one
-*/
-struct p2ColliderDef
-{
-	void* userData;
-	p2Shape* shape;
-	float restitution;
-	bool isSensor;
-};
+#include <list>
+#include <p2fixture.h>
+#include <p2quadtree.h>
+#include <p2contact.h>
 
 /**
-* \brief Representation of a Collider attached to a p2Body
+* \brief Listener of contacts happening in an attached p2World (to be herited)
 */
-
-class p2Collider
+class p2ContactListener
 {
 public:
-	/**
-	* \brief Check if the p2Collider is a sensor
-	*/
-	bool IsSensor();
-	/**
-	* \brief Return the userData
-	*/
-	void* GetUserData();
-private:
-	void* userData;
+	virtual void BeginContact(p2Contact* contact) = 0;
+	virtual void EndContact(p2Contact* contact) = 0;
 };
 
+/**
+* \brief Managing the creation and destruction of contact between colliders
+*/
+class p2ContactManager
+{
+public:
+	p2ContactManager(const p2Vec2&);
+	~p2ContactManager();
 
+	void DetectContacts(std::list<p2Body*> bodyList);
+	void Collide();
+	void Draw(sf::RenderWindow& window);
+
+	std::list<p2Contact*> m_ContactsList;
+	p2ContactListener* m_ContactListener;
+	p2QuadTree* m_QuadTree;
+};
 #endif

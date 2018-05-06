@@ -24,8 +24,9 @@ struct p2Manifold
 	p2Body* bodyA;
 	p2Body* bodyB;
 	float penetration;
-	p2Vec2 m_contacts[2];
-	p2Vec2 n;
+	p2Vec2 contacts[2];
+	float contact_count = 0;
+	p2Vec2 normal;
 };
 
 inline p2Vec2 p2ApplyRotation(const p2Transform& tr, const p2Vec2& v)

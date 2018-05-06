@@ -62,6 +62,10 @@ struct p2Vec2
 	*/
 	float GetMagnitude();
 	/**
+	* \brief Calculate the magnitude of the p2Vec2
+	*/
+	float GetMagnitudeSquared();
+	/**
 	* \brief Calculate a normalized version of the p2Vec2
 	*/
 	p2Vec2 Normalized();

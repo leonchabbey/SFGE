@@ -62,6 +62,7 @@ public:
 	* \brief Setter for the radius
 	*/
 	void SetRadius(float radius);
+	float GetRadius() const;
 
 	void ComputeAABB(p2AABB* aabb, const p2Transform* tr) const;
 private:

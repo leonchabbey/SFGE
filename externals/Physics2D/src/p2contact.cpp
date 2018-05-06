@@ -45,10 +45,8 @@ void p2Contact::Update(p2ContactListener* listener)
 
 	}
 	else {
-		const p2Transform& tfA = m_FixtureA->GetBody()->GetTransform();
-		const p2Transform& tfB = m_FixtureB->GetBody()->GetTransform();
+		Evaluate();
 
-		Evaluate(m_Manifold, tfA, tfB);
 	}
 
 	if (isTouching && !wasTouching && listener) {
@@ -76,74 +74,73 @@ bool p2Contact::IsTouching() const
 	return m_IsTouching;
 }
 
-void p2Contact::Evaluate(p2Manifold & m, const p2Transform & tfA, const p2Transform & tfB)
+void p2Contact::Evaluate()
 {
+	p2Shape::Type shapeTypeA = m_FixtureA->GetShape()->GetType();
+	p2Shape::Type shapeTypeB = m_FixtureB->GetShape()->GetType();
 
-}
-
-p2ContactManager::p2ContactManager(const p2Vec2 & screenSize)
-{
-	m_QuadTree = new p2QuadTree({ p2Vec2(0.0f, screenSize.y),  p2Vec2(screenSize.x, 0.0f) });
-}
-
-p2ContactManager::~p2ContactManager()
-{
-	for (auto contact : m_ContactsList) {
-		delete(contact);
+	switch (shapeTypeA) {
+	case p2Shape::Type::POLYGON: {
+		if (shapeTypeB == p2Shape::Type::CIRCLE)
+			PolygonvsCircle(m_Manifold, m_FixtureA, m_FixtureB);
+		else
+			PolygonvsPolygon(m_Manifold, m_FixtureA, m_FixtureB);
+		break;
 	}
-	m_ContactsList.clear();
-
-	delete(m_QuadTree);
-}
-
-void p2ContactManager::DetectContacts(std::list<p2Body*> bodyList)
-{
-	m_QuadTree->Clear();
-
-	for (auto b : bodyList) {
-		m_QuadTree->Insert(b);
+	case p2Shape::Type::CIRCLE: {
+		if (shapeTypeB == p2Shape::Type::POLYGON)
+			CirclevsPolygon(m_Manifold, m_FixtureA, m_FixtureB);
+		else
+			CirclevsCircle(m_Manifold, m_FixtureA, m_FixtureB);
+		break;
 	}
-
-	std::list<std::pair<p2Body*, p2Body*>> aabbContacts;
-	m_QuadTree->Retrieve(&aabbContacts);
-
-	// Add all possible contacts found with AABB
-	for (auto contact : aabbContacts) {
-		p2Body* bodyA = contact.first;
-		p2Body* bodyB = contact.second;
-		
-		for (auto fA : bodyA->GetAttachedFixtures()) {
-			for (auto fB : bodyB->GetAttachedFixtures()) {
-				p2Contact* newContact = new p2Contact(fA, fB);
-				m_ContactsList.push_back(newContact);
-			}
-		}
-	}
-	
-	m_QuadTree->Update(); // Debug
-	std::cout << "AabbContacts: " << aabbContacts.size() << "\n";
-	Collide();
-}
-
-void p2ContactManager::Collide()
-{
-	auto contactItr = m_ContactsList.begin();
-	while (contactItr != m_ContactsList.end()) {
-		p2Contact* contact = *contactItr;
-		
-		// Remove contacts that were already not touching at last step
-		if (!contact->IsTouching()) {
-			contactItr = m_ContactsList.erase(contactItr);
-			delete(contact);
-			continue;
-		}
-
-		contact->Update(m_ContactListener);
-		contactItr++;
 	}
 }
 
-void p2ContactManager::Draw(sf::RenderWindow & window)
+void CirclevsCircle(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 {
-	m_QuadTree->Draw(window);
+	const p2Body* bodyA = fxA->GetBody();
+	const p2Body* bodyB = fxB->GetBody();
+	const p2Transform& tfA = bodyA->GetTransform();
+	const p2Transform& tfB = bodyB->GetTransform();
+	p2CircleShape* shapeA = static_cast<p2CircleShape*>(fxA->GetShape());
+	p2CircleShape* shapeB = static_cast<p2CircleShape*>(fxB->GetShape());
+
+	p2Vec2 normal = tfB.pos - tfA.pos;
+
+	float distanceSquared = normal.GetMagnitudeSquared();
+	float radius = shapeA->GetRadius() - shapeB->GetRadius();
+
+	if (distanceSquared > radius * radius) {
+		m.contact_count = 0;
+		return;
+	}
+
+	float distance = sqrt(distanceSquared);
+
+	if (distance == 0.0f) {
+		m.penetration = shapeA->GetRadius();
+		m.normal = p2Vec2(1.0f, 0.0f);
+		m.contacts[0] = tfA.pos;
+	}
+	else {
+		m.penetration = radius - distance;
+		m.normal = normal / distance;
+		m.contacts[0] = m.normal * shapeA->GetRadius() + tfA.pos;
+	}
+}
+
+void CirclevsPolygon(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
+{
+
+}
+
+void PolygonvsPolygon(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
+{
+}
+
+void PolygonvsCircle(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
+{
+	CirclevsPolygon(m, fxB, fxA);
+	m.normal = m.normal * -1; // inverse normal
 }

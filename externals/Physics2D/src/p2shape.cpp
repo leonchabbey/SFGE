@@ -34,6 +34,11 @@ void p2CircleShape::SetRadius(float radius)
 	m_Radius = radius;
 }
 
+float p2CircleShape::GetRadius() const
+{
+	return m_Radius;
+}
+
 void p2CircleShape::ComputeAABB(p2AABB * aabb, const p2Transform * tr) const
 {
 	p2Vec2 offset = p2Vec2(m_Radius, m_Radius);

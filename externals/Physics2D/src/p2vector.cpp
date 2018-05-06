@@ -124,6 +124,11 @@ float p2Vec2::GetMagnitude()
 	return sqrt(x*x + y*y);
 }
 
+float p2Vec2::GetMagnitudeSquared()
+{
+	return x * x + y * y;
+}
+
 p2Vec2 p2Vec2::Normalized()
 {
 	p2Vec2 copy = *this;
