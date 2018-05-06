@@ -36,10 +36,7 @@ p2Vec2 p2AABB::GetExtents() const
 
 bool p2AABB::Contains(p2AABB & aabb) const
 {
-	bool result = true;
-	result = result && bottomLeft.x <= aabb.bottomLeft.x;
-	result = result && bottomLeft.y <= aabb.bottomLeft.y;
-	result = result && aabb.topRight.x >= topRight.x;
-	result = result && aabb.topRight.y >= topRight.y;
-	return result;
+	if (topRight.x < aabb.bottomLeft.x || bottomLeft.x > aabb.topRight.x) return false;
+	if (topRight.y < aabb.bottomLeft.y || bottomLeft.y > aabb.topRight.y) return false;
+	return true;
 }

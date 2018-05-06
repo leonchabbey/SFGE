@@ -79,7 +79,7 @@ public:
 	void SetTransform(const p2Vec2& pos, float angle);
 	const p2Transform& GetTransform() const;
 
-	// Get the AABB that contains all fixtures
+	// Get the AABB that contains all attached fixtures
 	void GetFatAABB(p2AABB* aabb) const;
 
 	~p2Body();

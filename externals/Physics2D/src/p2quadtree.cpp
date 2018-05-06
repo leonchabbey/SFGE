@@ -50,11 +50,13 @@ int p2QuadTree::GetIndex(p2Body * rect)
 	p2AABB rectAabb;
 	rect->GetFatAABB(&rectAabb);
 
-	bool isInTopNodes = rectAabb.bottomLeft.y > yMidPoint;
-	bool isInBottomNodes = rectAabb.bottomLeft.y < yMidPoint;
+	bool isInTopNodes = rectAabb.topRight.y < yMidPoint && rectAabb.bottomLeft.y < yMidPoint;
+	bool isInBottomNodes = rectAabb.topRight.y > yMidPoint && rectAabb.bottomLeft.y > yMidPoint;
+	bool isInLeftNodes = rectAabb.topRight.x < xMidPoint && rectAabb.bottomLeft.x < xMidPoint;
+	bool isInRightNodes = rectAabb.topRight.x > xMidPoint && rectAabb.bottomLeft.x > xMidPoint;
 
 	// Object totally fits in right nodes
-	if (rectAabb.topRight.x > xMidPoint) {
+	if (isInRightNodes) {
 		if (isInTopNodes) {
 			index = 0;
 		}
@@ -64,7 +66,7 @@ int p2QuadTree::GetIndex(p2Body * rect)
 	}
 
 	// Object totally fits in left nodes
-	if (rectAabb.topRight.x < xMidPoint) {
+	if (isInLeftNodes) {
 		if (isInTopNodes) {
 			index = 1;
 		}
@@ -228,7 +230,6 @@ void p2QuadTree::Draw(sf::RenderWindow& window)
 {
 	rectangle.setPosition(meter2pixel(position) - meter2pixel(extents));
 	rectangle.setSize(meter2pixel(extents)*2.0f);
-	rectangle.setOrigin(meter2pixel(extents));
 	rectangle.setFillColor(sf::Color::Transparent);
 	rectangle.setOutlineThickness(1.0f);
 	rectangle.setOutlineColor(sf::Color::Blue);

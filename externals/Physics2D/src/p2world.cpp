@@ -27,8 +27,8 @@ SOFTWARE.
 p2World::p2World(const p2Vec2& screenSize, const p2Vec2& gravity): m_Gravity(gravity)
 {
 	p2AABB quadAabb;
-	quadAabb.bottomLeft = p2Vec2(-screenSize.x / 2, -screenSize.y / 2);
-	quadAabb.topRight = p2Vec2(screenSize.x / 2, screenSize.y / 2);
+	quadAabb.bottomLeft = p2Vec2(0.0f, screenSize.y);
+	quadAabb.topRight = p2Vec2(screenSize.x, 0.0f);
 	m_Quadtree = new p2QuadTree(quadAabb);
 }
 

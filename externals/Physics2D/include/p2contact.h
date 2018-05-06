@@ -25,7 +25,7 @@ SOFTWARE.
 #ifndef SFGE_P2CONTACT_H
 #define SFGE_P2CONTACT_H
 
-#include <p2collider.h>
+#include <p2fixture.h>
 
 /**
 * \brief Representation of a contact given as argument in a p2ContactListener
@@ -33,8 +33,8 @@ SOFTWARE.
 class p2Contact
 {
 public:
-	p2Collider* GetColliderA();
-	p2Collider* GetColliderB();
+	p2Fixture* GetColliderA();
+	p2Fixture* GetColliderB();
 };
 
 /**

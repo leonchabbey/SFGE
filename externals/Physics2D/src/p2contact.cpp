@@ -24,12 +24,12 @@ SOFTWARE.
 
 #include <p2contact.h>
 
-p2Collider * p2Contact::GetColliderA()
+p2Fixture * p2Contact::GetColliderA()
 {
 	return nullptr;
 }
 
-p2Collider * p2Contact::GetColliderB()
+p2Fixture * p2Contact::GetColliderB()
 {
 	return nullptr;
 }
