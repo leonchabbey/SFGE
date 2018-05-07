@@ -145,8 +145,11 @@ void CirclevsPolygon(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 	p2PolygonShape* shapeB = static_cast<p2PolygonShape*>(fxB->GetShape());
 	m.contact_count = 0;
 
+	// Center of circle in same 
+	p2Vec2 center = bodyA->GetTransform().pos;
+	center = p2Mat22::Rotate(bodyB->GetTransform().eulerAngle).GetTranpose() * (center - bodyB->GetTransform().pos);
 
-
+	float separation = -FLT_MAX;
 }
 
 void PolygonvsPolygon(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)

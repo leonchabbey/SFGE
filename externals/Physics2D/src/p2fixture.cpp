@@ -8,6 +8,8 @@ p2Fixture::p2Fixture(p2Body * b, const p2FixtureDef * def): m_Body(b)
 	m_Density = def->density;
 	m_IsSensor = def->isSensor;
 	m_UserData = def->userData;
+
+	m_Shape->Initialize(m_Body);
 }
 
 p2Shape::Type p2Fixture::GetType() const

@@ -24,12 +24,18 @@ SOFTWARE.
 
 #include <p2shape.h>
 #include <assert.h>
+#include <p2Body.h>
 
 #define PI 3.14159265359
 
 p2Shape::Type p2Shape::GetType() const
 {
 	return m_Type;
+}
+
+void p2Shape::Initialize(p2Body * b)
+{
+	ComputeMass(b);
 }
 
 void p2CircleShape::SetRadius(float radius)
@@ -124,7 +130,7 @@ void p2PolygonShape::ComputeMass(p2Body * body) const
 	// -> This chunk of code is from the source of Box2D
 	for (int i = 0; i < m_VerticesCount; i++) {
 		p2Vec2 v1 = m_Vertices[i];
-		int i2 = i2 + 1 < m_VerticesCount ? i + 1 : 0;
+		int i2 = i + 1 < m_VerticesCount ? i + 1 : 0;
 		p2Vec2 v2 = m_Vertices[i2];
 
 		float D = p2Vec2::Cross(v1, v2);
