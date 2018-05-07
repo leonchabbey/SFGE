@@ -58,7 +58,7 @@ void p2CircleShape::ComputeMass(p2Body * body) const
 	body->SetInvInertia(inertia ? 1.0f / inertia : 0.0f);
 }
 
-void p2CircleShape::ComputeAABB(p2AABB * aabb, const p2Transform * tr) const
+void p2CircleShape::ComputeAABB(p2AABB * aabb, p2Transform * tr) const
 {
 	p2Vec2 offset = p2Vec2(m_Radius, m_Radius);
 	aabb->bottomLeft = tr->pos - offset;
@@ -157,15 +157,14 @@ void p2PolygonShape::ComputeMass(p2Body * body) const
 	body->SetInertia(inertia ? 1.0f / inertia : 0.0f);
 }
 
-void p2PolygonShape::ComputeAABB(p2AABB * aabb, const p2Transform * tr) const
+void p2PolygonShape::ComputeAABB(p2AABB * aabb, p2Transform * tr) const
 {
-	
-	p2Vec2 min = p2ApplyRotation(*tr, m_Vertices[0]);
+	p2Vec2 min = tr->matrix * m_Vertices[0] + tr->pos;
 	p2Vec2 max = min;
 
 	for (const p2Vec2& v : m_Vertices)
 	{
-		p2Vec2 new_V = p2ApplyRotation(*tr, v);
+		p2Vec2 new_V = tr->matrix * v + tr->pos;
 		if (new_V.x > max.x)
 			max.x = new_V.x;
 		if (new_V.y > max.y)

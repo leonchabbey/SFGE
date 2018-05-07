@@ -48,7 +48,7 @@ public:
 	void Initialize(p2Body* b);
 
 	virtual void ComputeMass(p2Body* body) const = 0;
-	virtual void ComputeAABB(p2AABB* aabb, const p2Transform* tr) const = 0;
+	virtual void ComputeAABB(p2AABB* aabb, p2Transform* tr) const = 0;
 
 protected:
 	Type m_Type;
@@ -69,7 +69,7 @@ public:
 	float GetRadius() const;
 
 	void ComputeMass(p2Body* body) const;
-	void ComputeAABB(p2AABB* aabb, const p2Transform* tr) const;
+	void ComputeAABB(p2AABB* aabb, p2Transform* tr) const;
 private:
 	float m_Radius;
 };
@@ -89,7 +89,7 @@ public:
 	void SetAsBox(float hx, float hy);
 
 	void ComputeMass(p2Body* body) const;
-	void ComputeAABB(p2AABB* aabb, const p2Transform* tr) const;
+	void ComputeAABB(p2AABB* aabb, p2Transform* tr) const;
 
 	/*
 	* \brief Get the farthest point along a direction within the polygon

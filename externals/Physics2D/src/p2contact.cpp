@@ -41,11 +41,12 @@ void p2Contact::Update(p2ContactListener* listener)
 	bool sensorB = m_FixtureB->IsSensor();
 	bool sensor = sensorA || sensorB;
 
-	if (sensor) {
+	Evaluate();
 
+	if (sensor) {
 	}
 	else {
-		Evaluate();
+		
 
 	}
 
@@ -110,7 +111,7 @@ void CirclevsCircle(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 	p2Vec2 normal = tfB.pos - tfA.pos;
 
 	float distanceSquared = normal.GetMagnitudeSquared();
-	float radius = shapeA->GetRadius() - shapeB->GetRadius();
+	float radius = shapeA->GetRadius() + shapeB->GetRadius();
 
 	// Distance greather than sum of radiuses then no contact
 	if (distanceSquared > radius * radius) {
@@ -143,13 +144,90 @@ void CirclevsPolygon(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 	const p2Transform& tfB = bodyB->GetTransform();
 	p2CircleShape* shapeA = static_cast<p2CircleShape*>(fxA->GetShape());
 	p2PolygonShape* shapeB = static_cast<p2PolygonShape*>(fxB->GetShape());
+	float circleRadius = shapeA->GetRadius();
 	m.contact_count = 0;
 
 	// Center of circle in same 
 	p2Vec2 center = bodyA->GetTransform().pos;
-	center = p2Mat22::Rotate(bodyB->GetTransform().eulerAngle).GetTranpose() * (center - bodyB->GetTransform().pos);
+	center = bodyB->GetTransform().matrix.GetTranspose() * (center - bodyB->GetTransform().pos);
 
+	// Find the edge with minimum penetration
+	// Edge = two vertices
 	float separation = -FLT_MAX;
+	int faceNormalIndex = 0;
+	for (int i = 0; i < shapeB->m_VerticesCount; i++) {
+		float s = p2Vec2::Dot(shapeB->m_Normals[i], center - shapeB->m_Vertices[i]);
+
+		if (s > circleRadius)
+			return;
+
+		if (s > separation) {
+			separation = s;
+			faceNormalIndex = i;
+		}
+	}
+
+	// Now take the face vertices
+	p2Vec2 v1 = shapeB->m_Vertices[faceNormalIndex];
+	int index2 = faceNormalIndex + 1 < shapeB->m_VerticesCount ? faceNormalIndex + 1 : 0;
+	p2Vec2 v2 = shapeB->m_Vertices[index2];
+
+	// If the circle center is inside the polygon
+	if (separation < FLT_EPSILON) {
+		m.contact_count = 1;
+		m.normal = (bodyB->GetTransform().matrix * shapeB->m_Normals[faceNormalIndex]) * -1;
+		m.contacts[0] = m.normal * circleRadius + bodyA->GetPosition();
+		m.penetration = circleRadius;
+		return;
+	}
+
+	float dot1 = p2Vec2::Dot(center - v1, v2 - v1);
+	float dot2 = p2Vec2::Dot(center - v2, v1 - v2);
+
+	m.penetration = circleRadius - separation;
+
+	if (dot1 <= 0.0f) {
+		p2Vec2 distV = center - v1;
+		float distanceSquared = p2Vec2::Dot(distV, distV);
+
+		if (distanceSquared > circleRadius * circleRadius)
+			return;
+
+		m.contact_count = 1;
+		p2Vec2 normal = v1 - center;
+		normal = bodyB->GetTransform().matrix * normal;
+		normal.Normalize();
+		m.normal = normal;
+		v1 = bodyB->GetTransform().matrix * v1 + bodyB->GetTransform().pos;
+		m.contacts[0] = v1;
+	}
+	else if (dot2 <= 0.0f) {
+		p2Vec2 distV = center - v2;
+		float distanceSquared = p2Vec2::Dot(distV, distV);
+
+		if (distanceSquared > circleRadius * circleRadius)
+			return;
+
+		m.contact_count = 1;
+		p2Vec2 normal = v2 - center;
+		normal = bodyB->GetTransform().matrix * normal;
+		normal.Normalize();
+		m.normal = normal;
+		v2 = bodyB->GetTransform().matrix * v2 + bodyB->GetTransform().pos;
+		m.contacts[0] = v2;
+	}
+	else {
+		p2Vec2 n = shapeB->m_Normals[faceNormalIndex];
+
+		if (p2Vec2::Dot(center - v1, n) > circleRadius)
+			return;
+
+		n = bodyB->GetTransform().matrix * n;
+		n.Normalize();
+		m.normal = n;
+		m.contacts[0] = m.normal * circleRadius + bodyA->GetTransform().pos;
+		m.contact_count = 1;
+	}
 }
 
 void PolygonvsPolygon(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)

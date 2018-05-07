@@ -138,7 +138,7 @@ float p2Mat22::GetDeterminant()
 	return columns[0].x * columns[1].y - columns[1].x * columns[0].y;
 }
 
-p2Mat22 p2Mat22::GetTranpose()
+p2Mat22 p2Mat22::GetTranspose()
 {
 	return p2Mat22(
 		p2Vec2(columns[0][0], columns[1][0]),

@@ -22,42 +22,43 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef SFGE_P2CONTACTMANAGER_H
-#define SFGE_P2CONTACTMANAGER_H
+#include <p2sat.h>
 
-#include <list>
-#include <p2fixture.h>
-#include <p2quadtree.h>
-#include <p2contact.h>
-
-class p2Contact;
-
-/**
-* \brief Listener of contacts happening in an attached p2World (to be herited)
-*/
-class p2ContactListener
+void p2SAT::EvaluateSAT()
 {
-public:
-	virtual void BeginContact(p2Contact* contact) = 0;
-	virtual void EndContact(p2Contact* contact) = 0;
-};
+	p2Shape::Type shapeTypeA = fixtureA->GetShape()->GetType();
+	p2Shape::Type shapeTypeB = fixtureB->GetShape()->GetType();
 
-/**
-* \brief Managing the creation and destruction of contact between colliders
-*/
-class p2ContactManager
+	switch (shapeTypeA) {
+	case p2Shape::Type::POLYGON: {
+		if (shapeTypeB == p2Shape::Type::CIRCLE)
+			PolygonvsCircle();
+		else
+			PolygonvsPolygon();
+		break;
+	}
+	case p2Shape::Type::CIRCLE: {
+		if (shapeTypeB == p2Shape::Type::POLYGON)
+			CirclevsPolygon();
+		else
+			CirclevsCircle();
+		break;
+	}
+	}
+}
+
+void p2SAT::CirclevsCircle()
 {
-public:
-	p2ContactManager(const p2Vec2&);
-	~p2ContactManager();
+}
 
-	bool IsContactExisting(p2Fixture* fA, p2Fixture* fB);
-	void DetectContacts(std::list<p2Body*> bodyList);
-	void Collide();
-	void Draw(sf::RenderWindow& window);
+void p2SAT::CirclevsPolygon()
+{
+}
 
-	std::list<p2Contact*> m_ContactsList;
-	p2ContactListener* m_ContactListener;
-	p2QuadTree* m_QuadTree;
-};
-#endif
+void p2SAT::PolygonvsPolygon()
+{
+}
+
+void p2SAT::PolygonvsCircle()
+{
+}

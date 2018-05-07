@@ -22,42 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef SFGE_P2CONTACTMANAGER_H
-#define SFGE_P2CONTACTMANAGER_H
+#ifndef SFGE_P2SAT_H
+#define SFGE_P2SAT_H
 
 #include <list>
+#include <p2body.h>
 #include <p2fixture.h>
-#include <p2quadtree.h>
-#include <p2contact.h>
 
-class p2Contact;
+struct p2SAT {
+	void EvaluateSAT();
 
-/**
-* \brief Listener of contacts happening in an attached p2World (to be herited)
-*/
-class p2ContactListener
-{
-public:
-	virtual void BeginContact(p2Contact* contact) = 0;
-	virtual void EndContact(p2Contact* contact) = 0;
+	void CirclevsCircle();
+	void CirclevsPolygon();
+	void PolygonvsPolygon();
+	void PolygonvsCircle();
+
+	bool areOverlapping = false;
+
+	p2Fixture * fixtureA;
+	p2Fixture * fixtureB;
 };
 
-/**
-* \brief Managing the creation and destruction of contact between colliders
-*/
-class p2ContactManager
-{
-public:
-	p2ContactManager(const p2Vec2&);
-	~p2ContactManager();
-
-	bool IsContactExisting(p2Fixture* fA, p2Fixture* fB);
-	void DetectContacts(std::list<p2Body*> bodyList);
-	void Collide();
-	void Draw(sf::RenderWindow& window);
-
-	std::list<p2Contact*> m_ContactsList;
-	p2ContactListener* m_ContactListener;
-	p2QuadTree* m_QuadTree;
-};
 #endif

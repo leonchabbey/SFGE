@@ -15,8 +15,11 @@ struct p2Transform
 	p2Transform(const p2Vec2& pos);
 	p2Transform(const p2Vec2& pos, const float& rot);
 
+	void SetRotation(float rot);
+
 	p2Vec2 pos;
 	float eulerAngle; // in radians
+	p2Mat22 matrix;
 };
 
 struct p2Manifold
@@ -28,10 +31,5 @@ struct p2Manifold
 	float contact_count = 0;
 	p2Vec2 normal;
 };
-
-inline p2Vec2 p2ApplyRotation(const p2Transform& tr, const p2Vec2& v)
-{
-	return p2Mat22::Rotate(tr.eulerAngle) * v + tr.pos;
-}
 
 #endif // !SFGE_P2MATH_H

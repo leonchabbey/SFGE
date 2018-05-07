@@ -77,7 +77,13 @@ public:
 	float GetAngularVelocity() const;
 
 	void SetTransform(const p2Vec2& pos, float angle);
-	const p2Transform& GetTransform() const;
+	p2Transform& GetTransform() const;
+
+	void SetPosition(const p2Vec2& pos);
+	p2Vec2 GetPosition() const;
+
+	void SetRotation(const float& f);
+	float GetRotation() const;
 
 	void SetDensity(const float& d);
 	float GetDensity();

@@ -71,9 +71,29 @@ void p2Body::SetTransform(const p2Vec2 & pos, float angle)
 	m_Transform.eulerAngle = angle;
 }
 
-const p2Transform & p2Body::GetTransform() const
+p2Transform & p2Body::GetTransform() const
 {
 	return m_Transform;
+}
+
+void p2Body::SetPosition(const p2Vec2 & pos)
+{
+	m_Transform.pos = pos;
+}
+
+p2Vec2 p2Body::GetPosition() const
+{
+	return m_Transform.pos;
+}
+
+void p2Body::SetRotation(const float & f)
+{
+	m_Transform.SetRotation(f);
+}
+
+float p2Body::GetRotation() const
+{
+	return m_Transform.eulerAngle;
 }
 
 void p2Body::SetDensity(const float & d)

@@ -39,6 +39,20 @@ p2ContactManager::~p2ContactManager()
 	delete(m_QuadTree);
 }
 
+bool p2ContactManager::IsContactExisting(p2Fixture* fA, p2Fixture* fB)
+{
+	for (auto contactItr = m_ContactsList.begin(); contactItr != m_ContactsList.end(); contactItr++) {
+		p2Contact* c = *contactItr;
+
+		if ((fA == c->GetFixtureA() || fA == c->GetFixtureB())
+			&& (fB == c->GetFixtureA() || fB == c->GetFixtureB()))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void p2ContactManager::DetectContacts(std::list<p2Body*> bodyList)
 {
 	m_QuadTree->Clear();
@@ -57,8 +71,10 @@ void p2ContactManager::DetectContacts(std::list<p2Body*> bodyList)
 
 		for (auto fA : bodyA->GetAttachedFixtures()) {
 			for (auto fB : bodyB->GetAttachedFixtures()) {
-				p2Contact* newContact = new p2Contact(fA, fB);
-				m_ContactsList.push_back(newContact);
+				if (!IsContactExisting(fA, fB)) {
+					p2Contact* newContact = new p2Contact(fA, fB);
+					m_ContactsList.push_back(newContact);
+				}
 			}
 		}
 	}
