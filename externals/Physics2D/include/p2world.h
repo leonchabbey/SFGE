@@ -29,7 +29,7 @@ SOFTWARE.
 #include <memory>
 #include <p2vector.h>
 #include <p2body.h>
-#include <p2contact.h>
+#include <p2contactmanager.h>
 #include <p2quadtree.h>
 
 /**

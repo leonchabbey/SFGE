@@ -25,9 +25,12 @@ SOFTWARE.
 #ifndef SFGE_P2SHAPE_H
 #define SFGE_P2SHAPE_H
 
+#include <vector>
 #include <p2vector.h>
 #include <p2aabb.h>
 #include <p2math.h>
+#include <p2body.h>
+#include <p2fixture.h>
 
 #define MAX_POLYGON_VERTICES 100
 
@@ -42,13 +45,17 @@ public:
 		POLYGON
 	};
 
+	p2Shape(p2Fixture* f): m_Fixture(f) { ComputeMass(m_Fixture->GetBody()) };
+
 	Type GetType() const;
 
+	virtual void ComputeMass(p2Body* body) const = 0;
 	virtual void ComputeAABB(p2AABB* aabb, const p2Transform* tr) const = 0;
 
 protected:
+	p2Fixture * m_Fixture;
 	Type m_Type;
-	p2Vec2 m_Center;
+	p2Vec2 m_Center; // Default 0,0
 };
 
 /**
@@ -57,13 +64,14 @@ protected:
 class p2CircleShape : public p2Shape
 {
 public:
-	p2CircleShape() { m_Type = p2Shape::Type::CIRCLE; };
+	p2CircleShape() : p2Shape() { m_Type = p2Shape::Type::CIRCLE; };
 	/**
 	* \brief Setter for the radius
 	*/
 	void SetRadius(float radius);
 	float GetRadius() const;
 
+	void ComputeMass(p2Body* body) const;
 	void ComputeAABB(p2AABB* aabb, const p2Transform* tr) const;
 private:
 	float m_Radius;
@@ -75,19 +83,26 @@ private:
 class p2PolygonShape : public p2Shape
 {
 public:
-	p2PolygonShape() { m_Type = p2Shape::Type::POLYGON; };
+	p2PolygonShape() : p2Shape() { m_Type = p2Shape::Type::POLYGON; };
 
 	// Create a polygon with multiple points
-	void Set(const p2Vec2 points, int count);
+	void Set(const std::vector<p2Vec2>& vertices);
 
 	// Create a polygon as a box (rectangle / square)
 	void SetAsBox(float hx, float hy);
 
+	void ComputeMass(p2Body* body) const;
 	void ComputeAABB(p2AABB* aabb, const p2Transform* tr) const;
+
+	/*
+	* \brief Get the farthest point along a direction within the polygon
+	*/
+	p2Vec2 GetSupport(const p2Vec2& dir);
+
 private:
 	p2Vec2 m_Vertices[MAX_POLYGON_VERTICES];
 	p2Vec2 m_Normals[MAX_POLYGON_VERTICES];
-	int m_Count;
+	int m_VerticesCount;
 };
 
 #endif

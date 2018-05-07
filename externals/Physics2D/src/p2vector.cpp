@@ -158,13 +158,18 @@ float p2Vec2::Dot(p2Vec2 v1, p2Vec2 v2)
 	return v1.x * v2.x + v1.y * v2.y;
 }
 
-p2Vec3 p2Vec2::Cross(p2Vec2 v1, p2Vec2 v2)
+p2Vec3 p2Vec2::CrossTo3(p2Vec2 v1, p2Vec2 v2)
 {
 	return p2Vec3(
 		v1.y * 0.0f - 0.0f * v2.y,
 		0.0f * v2.x - v1.x * 0.0f,
 		v1.x * v2.y - v1.y * v2.x
 	);
+}
+
+float p2Vec2::Cross(p2Vec2 v1, p2Vec2 v2)
+{
+	return v1.x * v2.y - v1.y * v2.x;
 }
 
 

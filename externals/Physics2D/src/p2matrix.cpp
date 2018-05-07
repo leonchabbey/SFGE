@@ -138,14 +138,20 @@ float p2Mat22::GetDeterminant()
 	return columns[0].x * columns[1].y - columns[1].x * columns[0].y;
 }
 
-p2Vec2 p2Mat22::Rotate(const p2Vec2 & v, float angle)
+p2Mat22 p2Mat22::GetTranpose()
 {
-	p2Mat22 rotationM(
-		p2Vec2(cos(angle), asin(angle)),
-		p2Vec2(sin(angle), cos(angle))
+	return p2Mat22(
+		p2Vec2(columns[0][0], columns[1][0]),
+		p2Vec2(columns[0][1], columns[1][1])
 	);
+}
 
-	return rotationM * v;
+p2Mat22 p2Mat22::Rotate(float angle)
+{
+	return p2Mat22(
+		p2Vec2(cos(angle), -sin(angle)),
+		p2Vec2(sin(angle), cos(angle))
+	);;
 }
 
 void p2Mat22::Show() {

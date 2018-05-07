@@ -30,6 +30,8 @@ SOFTWARE.
 #include <p2quadtree.h>
 #include <p2contact.h>
 
+class p2Contact;
+
 /**
 * \brief Listener of contacts happening in an attached p2World (to be herited)
 */

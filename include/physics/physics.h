@@ -52,9 +52,9 @@ sf::Vector2f meter2pixel(p2Vec2 meter);
 class ContactListener : public p2ContactListener
 {
 
-	void BeginContact(p2Contact* contact) override;
+	void BeginContact(p2Contact* contact);
 
-	void EndContact(p2Contact* contact) override;
+	void EndContact(p2Contact* contact);
 };
 
 /**

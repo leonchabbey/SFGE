@@ -65,7 +65,7 @@ void p2ContactManager::DetectContacts(std::list<p2Body*> bodyList)
 
 	m_QuadTree->Update(); // Debug
 	std::cout << "AabbContacts: " << aabbContacts.size() << "\n";
-	Collide();
+	//Collide();
 }
 
 void p2ContactManager::Collide()

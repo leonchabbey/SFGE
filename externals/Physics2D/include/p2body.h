@@ -48,7 +48,7 @@ struct p2BodyDef
 		linearVelocity = p2Vec2();
 		angularVelocity = 0.0f;
 		gravityScale = 1;
-		mass = 1;
+		density = 1;
 	}
 
 	p2BodyType type;
@@ -56,7 +56,7 @@ struct p2BodyDef
 	p2Vec2 linearVelocity;
 	float angularVelocity;
 	float gravityScale;
-	float mass;
+	float density;
 };
 
 /**
@@ -79,6 +79,24 @@ public:
 	void SetTransform(const p2Vec2& pos, float angle);
 	const p2Transform& GetTransform() const;
 
+	void SetDensity(const float& d);
+	float GetDensity();
+
+	void SetMass(const float& m);
+	float GetMass();
+
+	void SetInvMass(const float& invM);
+	float GetInvMass();
+
+	void SetInertia(const float& i);
+	float GetInertia();
+
+	void SetInvInertia(const float& invI);
+	float GetInvInertia();
+
+	void ApplyForce(const p2Vec2& f);
+	void ApplyImpulse(const p2Vec2& impulse, const p2Vec2& contactVector);
+
 	// Get the AABB that contains all attached fixtures
 	void GetFatAABB(p2AABB* aabb) const;
 
@@ -90,10 +108,15 @@ private:
 
 	p2BodyType m_Type;
 	p2Transform m_Transform;
+	p2Vec2 m_Force;
 	p2Vec2 m_LinearVelocity;
 	float m_AngularVelocity;
-	float m_Mass;
 	float m_GravityScale;
+	float m_Density;
+	float m_Mass;
+	float m_InvMass; // inverse
+	float m_Inertia; // Moment of inertia
+	float m_InvInertia; // inverse
 };
 
 #endif

@@ -105,12 +105,14 @@ void CirclevsCircle(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 	const p2Transform& tfB = bodyB->GetTransform();
 	p2CircleShape* shapeA = static_cast<p2CircleShape*>(fxA->GetShape());
 	p2CircleShape* shapeB = static_cast<p2CircleShape*>(fxB->GetShape());
+	m.contact_count = 0;
 
 	p2Vec2 normal = tfB.pos - tfA.pos;
 
 	float distanceSquared = normal.GetMagnitudeSquared();
 	float radius = shapeA->GetRadius() - shapeB->GetRadius();
 
+	// Distance greather than sum of radiuses then no contact
 	if (distanceSquared > radius * radius) {
 		m.contact_count = 0;
 		return;
@@ -118,6 +120,9 @@ void CirclevsCircle(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 
 	float distance = sqrt(distanceSquared);
 
+	m.contact_count = 1;
+
+	// Circles are pefectly overlapped
 	if (distance == 0.0f) {
 		m.penetration = shapeA->GetRadius();
 		m.normal = p2Vec2(1.0f, 0.0f);
@@ -132,6 +137,15 @@ void CirclevsCircle(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 
 void CirclevsPolygon(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 {
+	const p2Body* bodyA = fxA->GetBody();
+	const p2Body* bodyB = fxB->GetBody();
+	const p2Transform& tfA = bodyA->GetTransform();
+	const p2Transform& tfB = bodyB->GetTransform();
+	p2CircleShape* shapeA = static_cast<p2CircleShape*>(fxA->GetShape());
+	p2PolygonShape* shapeB = static_cast<p2PolygonShape*>(fxB->GetShape());
+	m.contact_count = 0;
+
+
 
 }
 

@@ -30,7 +30,7 @@ p2Body::p2Body(const p2BodyDef * def)
 	m_LinearVelocity = def->linearVelocity;
 	m_AngularVelocity = def->angularVelocity;
 	m_GravityScale = def->gravityScale;
-	m_Mass = def->mass;
+	m_Density = def->density;
 }
 
 p2Fixture * p2Body::CreateFixture(const p2FixtureDef * def)
@@ -74,6 +74,67 @@ void p2Body::SetTransform(const p2Vec2 & pos, float angle)
 const p2Transform & p2Body::GetTransform() const
 {
 	return m_Transform;
+}
+
+void p2Body::SetDensity(const float & d)
+{
+	m_Density = d;
+}
+
+float p2Body::GetDensity()
+{
+	return m_Density;
+}
+
+void p2Body::SetMass(const float & m)
+{
+	m_Mass = m;
+}
+
+float p2Body::GetMass()
+{
+	return m_Mass;
+}
+
+void p2Body::SetInvMass(const float & invM)
+{
+	m_InvMass = invM;
+}
+
+float p2Body::GetInvMass()
+{
+	return m_InvMass;
+}
+
+void p2Body::SetInertia(const float & i)
+{
+	m_Inertia = i;
+}
+
+float p2Body::GetInertia()
+{
+	return m_Inertia;
+}
+
+void p2Body::SetInvInertia(const float & invI)
+{
+	m_InvInertia = invI;
+}
+
+float p2Body::GetInvInertia()
+{
+	return m_InvInertia;
+}
+
+void p2Body::ApplyForce(const p2Vec2 & f)
+{
+	m_Force += f;
+}
+
+void p2Body::ApplyImpulse(const p2Vec2 & impulse, const p2Vec2 & contactVector)
+{
+	m_LinearVelocity += impulse * m_InvMass;
+	m_AngularVelocity += p2Vec2::Cross(contactVector, impulse) * m_InvInertia;
 }
 
 void p2Body::GetFatAABB(p2AABB * aabb) const

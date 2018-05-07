@@ -87,9 +87,14 @@ struct p2Vec2
 	*/
 	static float Dot(p2Vec2 v1, p2Vec2 v2);
 	/**
-	* \brief Cross product of two vectors
+	* \brief Cross product of two vectors and return a p2Vec3
 	*/
-	static p2Vec3 Cross(p2Vec2 v1, p2Vec2 v2);
+	static p2Vec3 CrossTo3(p2Vec2 v1, p2Vec2 v2);
+	/**
+	* \brief Cross product of two vectors and return float
+	*/
+	static float Cross(p2Vec2 v1, p2Vec2 v2);
+
 };
 
 struct p2Vec3
