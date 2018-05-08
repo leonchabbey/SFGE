@@ -50,18 +50,17 @@ void p2Contact::Update(p2ContactListener* listener)
 	sat.EvaluateSAT();
 	isTouching = sat.areOverlapping;
 
-	/*if (isTouching && wasTouching) {
-		return; // Still has not stopped being in contact
-	}*/
-
-	if (sensor) {
-		m_Manifold.contact_count = 0;
+	if (isTouching) {
+		if (sensor) {
+			m_Manifold.contact_count = 0;
+		}
+		else {
+			/* Should use that function for real impulse based collision resolution but not working yet */
+			//Evaluate()
+			m_Manifold.contact_count = 1;
+		}
 	}
-	else {
-		/* Should use that function for real impulse based collision resolution but not working yet */
-		//Evaluate()
-		m_Manifold.contact_count = 1;
-	}
+	
 
 	std::cout << "isTouching: " << isTouching << "\n";
 

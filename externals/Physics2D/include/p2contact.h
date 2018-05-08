@@ -26,10 +26,11 @@ SOFTWARE.
 #define SFGE_P2CONTACT_H
 
 #include <list>
-#include <p2body.h>
 #include <p2fixture.h>
 #include <p2contactmanager.h>
+#include <p2manifold.h>
 
+class p2Body;
 class p2ContactListener;
 
 /**

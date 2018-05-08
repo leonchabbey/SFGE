@@ -28,6 +28,7 @@ SOFTWARE.
 #include <list>
 #include <p2aabb.h>
 #include <p2fixture.h>
+#include <p2math.h>
 
 enum class p2BodyType
 {

@@ -45,14 +45,15 @@ void p2World::Step(const float& dt)
 { 
 	// Update velocities
 	for (p2Body* body : m_BodyList) {
-		/*if (test == 1) {
+		if (test == 1) {
 			body->AddForce(p2Vec2(1, 1));
-		}*/
+		}
 		
 		p2Vec2 awd = body->GetLinearVelocity();
 		body->SetPosition(body->GetTransform().pos + awd * dt);
 
-		/*p2Vec2 pos = body->GetTransform().pos;
+		// Avoid body from going out of the screen
+		p2Vec2 pos = body->GetTransform().pos;
 		p2Vec2 vel = body->GetLinearVelocity();
 		if ((pos.x < 0.0f && vel.x < 0.0f) || (pos.x > 12.8f && vel.x > 0.0f))
 		{
@@ -61,7 +62,7 @@ void p2World::Step(const float& dt)
 		if ((pos.y < 0.0f && vel.y < 0.0f) || (pos.y > 7.2f && vel.y > 0.0f))
 		{
 			body->SetLinearVelocity({ vel.x, -vel.y });
-		}*/
+		}
 	}
 
 	test++;

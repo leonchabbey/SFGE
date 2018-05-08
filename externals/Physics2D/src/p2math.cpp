@@ -45,22 +45,3 @@ float RadToDeg(float r)
 {
 	return r * 180.0f / M_PI;
 }
-
-void p2Manifold::ResolveCollision()
-{
-	if (contact_count <= 0) {
-		return;
-	}
-
-	float massA = bodyA->GetMass();
-	float massB = bodyB->GetMass();
-	p2Vec2 velocityA = bodyA->GetLinearVelocity();
-	p2Vec2 velocityB = bodyB->GetLinearVelocity();
-
-	p2Vec2 newVelocityA = velocityA * ((massA - massB) / (massA + massB)) + velocityB * ((2.0f * massB) / (massA + massB));
-	p2Vec2 newVelocityB = velocityA * ((2.0f * massA) / (massA + massB)) + velocityB * ((massA - massB) / (massA + massB));
-
-
-	bodyA->SetLinearVelocity(newVelocityA);
-	bodyB->SetLinearVelocity(newVelocityB);
-}

@@ -2,8 +2,6 @@
 #define SFGE_P2MATH_H
 
 #include <p2matrix.h>
-#include <p2body.h>
-class p2Body;
 
 /*
 * \brief Transform class for physics2d
@@ -26,17 +24,5 @@ struct p2Transform
 
 float DegToRad(float d);
 float RadToDeg(float r);
-
-struct p2Manifold
-{
-	p2Body* bodyA;
-	p2Body* bodyB;
-	float penetration;
-	p2Vec2 contacts[2]; // Max two contact points
-	float contact_count = 0;
-	p2Vec2 normal;
-
-	void ResolveCollision();
-};
 
 #endif // !SFGE_P2MATH_H

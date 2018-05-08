@@ -24,7 +24,7 @@ SOFTWARE.
 
 #include <p2shape.h>
 #include <assert.h>
-#include <p2Body.h>
+#include <p2body.h>
 
 #define PI 3.14159265359
 

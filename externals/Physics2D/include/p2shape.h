@@ -32,6 +32,8 @@ SOFTWARE.
 
 #define MAX_POLYGON_VERTICES 20
 
+class p2Body;
+
 /**
 * \brief Abstract representation of a shape
 */
