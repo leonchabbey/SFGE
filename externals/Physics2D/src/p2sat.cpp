@@ -92,9 +92,9 @@ void p2SAT::PolygonvsPolygon()
 		p2Vec2 axis = axisA[i];
 
 		p2Projection projA;
-		ProjectOnAxis(axis, shapeA, projA);
+		ProjectOnAxis(axis, shapeA, projA, verticesA);
 		p2Projection projB;
-		ProjectOnAxis(axis, shapeB, projB);
+		ProjectOnAxis(axis, shapeB, projB, verticesB);
 
 		if (!projA.Overlap(projB)) {
 			areOverlapping = false;
@@ -106,9 +106,9 @@ void p2SAT::PolygonvsPolygon()
 		p2Vec2 axis = axisB[i];
 
 		p2Projection projA;
-		ProjectOnAxis(axis, shapeA, projA);
+		ProjectOnAxis(axis, shapeA, projA, verticesA);
 		p2Projection projB;
-		ProjectOnAxis(axis, shapeB, projB);
+		ProjectOnAxis(axis, shapeB, projB, verticesB);
 
 		if (!projA.Overlap(projB)) {
 			areOverlapping = false;
@@ -147,19 +147,19 @@ void GetAxis(p2PolygonShape * s, p2Vec2(&vertices)[MAX_POLYGON_VERTICES], p2Vec2
 		p2Vec2 v2 = s->m_Vertices[i2];
 
 		p2Vec2 edge = v2 - v1;
-		p2Vec2 normal = counterclock ? p2Vec2(-edge.y, edge.x) : p2Vec2(edge.y, -edge.x);
+		p2Vec2 normal = counterclock ? p2Vec2(edge.y, -edge.x) : p2Vec2(-edge.y, edge.x);
 		normal.Normalize();
 		axis[i] = normal;
 	}
 }
 
-void ProjectOnAxis(const p2Vec2 & axis, p2PolygonShape* s, p2Projection & proj)
+void ProjectOnAxis(const p2Vec2 & axis, p2PolygonShape* s, p2Projection & proj, p2Vec2 (&vertices)[MAX_POLYGON_VERTICES])
 {
-	float min = p2Vec2::Dot(axis, s->m_Vertices[0]);
+	float min = p2Vec2::Dot(axis, vertices[0]);
 	float max = min;
 
 	for (int i = 0; i < s->m_VerticesCount; i++) {
-		float dot = p2Vec2::Dot(axis, s->m_Vertices[i]);
+		float dot = p2Vec2::Dot(axis, vertices[i]);
 		if (dot < min) {
 			min = dot;
 		}
