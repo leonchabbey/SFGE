@@ -149,8 +149,8 @@ p2Mat22 p2Mat22::GetTranspose()
 p2Mat22 p2Mat22::Rotate(float angle)
 {
 	return p2Mat22(
-		p2Vec2(cos(angle), -sin(angle)),
-		p2Vec2(sin(angle), cos(angle))
+		p2Vec2(cos(angle), sin(angle)),
+		p2Vec2(-sin(angle), cos(angle))
 	);;
 }
 

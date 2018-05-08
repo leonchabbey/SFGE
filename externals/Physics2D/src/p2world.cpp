@@ -50,7 +50,7 @@ void p2World::Step(const float& dt)
 		}*/
 		
 		p2Vec2 awd = body->GetLinearVelocity();
-		body->SetTransform(body->GetTransform().pos + awd * dt, 0);
+		body->SetPosition(body->GetTransform().pos + awd * dt);
 
 		/*p2Vec2 pos = body->GetTransform().pos;
 		p2Vec2 vel = body->GetLinearVelocity();

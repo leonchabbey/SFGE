@@ -26,7 +26,6 @@ SOFTWARE.
 #define SFGE_P2BODY_H
 
 #include <list>
-#include <p2math.h>
 #include <p2aabb.h>
 #include <p2fixture.h>
 
@@ -49,6 +48,7 @@ struct p2BodyDef
 		angularVelocity = 0.0f;
 		gravityScale = 1;
 		density = 1;
+		angle = 0.0f;
 	}
 
 	p2BodyType type;
@@ -57,6 +57,7 @@ struct p2BodyDef
 	float angularVelocity;
 	float gravityScale;
 	float density;
+	float angle;
 };
 
 /**

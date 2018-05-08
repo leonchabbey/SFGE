@@ -10,6 +10,7 @@
 #include <utility/file_utility.h>
 #include <utility/json_utility.h>
 #include <engine/log.h>
+#include <physics/body2d.h>
 //STL
 #include <memory>
 //Externals
@@ -85,7 +86,11 @@ void Transform::Init()
 
 void Transform::Update(float dt)
 {
-
+	Body2d* body = m_GameObject->GetComponent<Body2d>();
+	if (body != nullptr) {
+		float rotation = body->GetBody()->GetTransform().GetRotationInDegrees();
+		m_EulerAngle = rotation;
+	}
 }
 
 const float Transform::GetEulerAngle()

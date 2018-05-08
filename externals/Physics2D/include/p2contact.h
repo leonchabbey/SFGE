@@ -42,6 +42,8 @@ public:
 
 	void Update(p2ContactListener* listener);
 
+	void ResolveCollision();
+
 	/*
 	* \brief Get Fixture A
 	*/

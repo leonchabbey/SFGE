@@ -26,7 +26,7 @@ SOFTWARE.
 p2Body::p2Body(const p2BodyDef * def)
 {
 	m_Type = def->type;
-	m_Transform = p2Transform(def->position);
+	m_Transform = p2Transform(def->position, def->angle);
 	m_LinearVelocity = def->linearVelocity;
 	m_AngularVelocity = def->angularVelocity;
 	m_GravityScale = def->gravityScale;

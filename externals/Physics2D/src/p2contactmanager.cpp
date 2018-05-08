@@ -89,6 +89,11 @@ void p2ContactManager::DetectContacts(std::list<p2Body*> bodyList)
 	for (auto contact : m_ContactsList) {
 		contact->Update(m_ContactListener);
 	}
+
+	// Resolve collision for all contacts
+	for (auto contact : m_ContactsList) {
+		contact->ResolveCollision();
+	}
 }
 
 void p2ContactManager::FilterIrrelevantContacts()

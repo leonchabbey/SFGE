@@ -96,6 +96,9 @@ namespace sfge
 			bodyDef.gravityScale = componentJson["gravity_scale"];
 		}
 
+		float angle = gameObject->GetTransform()->GetEulerAngle();
+		bodyDef.angle = angle;
+
 		p2Body* body = world->CreateBody(bodyDef);
 		Body2d* bodyComponent = new Body2d(gameObject);
 

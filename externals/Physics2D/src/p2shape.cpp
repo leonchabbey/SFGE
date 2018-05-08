@@ -150,6 +150,7 @@ void p2PolygonShape::ComputeMass(p2Body * body) const
 
 	float density = body->GetDensity();
 	float mass = density * area; // Total mass
+	mass = abs(mass);
 	float inertia = I * density;
 	body->SetMass(mass);
 	body->SetInvMass(mass ? 1.0f / mass : 0.0f);

@@ -34,6 +34,7 @@ p2Contact::p2Contact(p2Fixture* fxA, p2Fixture* fxB) : m_FixtureA(fxA), m_Fixtur
 void p2Contact::Update(p2ContactListener* listener)
 {
 	p2Manifold prev_Manifold = m_Manifold;
+	m_Manifold.contact_count = 0;
 
 	bool isTouching = false;
 	bool wasTouching = m_IsTouching;
@@ -48,6 +49,10 @@ void p2Contact::Update(p2ContactListener* listener)
 
 	sat.EvaluateSAT();
 	isTouching = sat.areOverlapping;
+
+	/*if (isTouching && wasTouching) {
+		return; // Still has not stopped being in contact
+	}*/
 
 	if (sensor) {
 		m_Manifold.contact_count = 0;
@@ -70,6 +75,11 @@ void p2Contact::Update(p2ContactListener* listener)
 	m_IsTouching = isTouching;
 }
 
+void p2Contact::ResolveCollision()
+{
+	m_Manifold.ResolveCollision();
+}
+
 p2Fixture * p2Contact::GetFixtureA() const
 {
 	return m_FixtureA;
@@ -84,6 +94,11 @@ bool p2Contact::IsTouching() const
 {
 	return m_IsTouching;
 }
+
+/*
+* From here are my attempts to make work impulse based collision and resolution
+* It didn't go well...
+*/
 
 void p2Contact::Evaluate()
 {
