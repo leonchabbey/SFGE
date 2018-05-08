@@ -69,6 +69,135 @@ void p2SAT::CirclevsCircle()
 
 void p2SAT::CirclevsPolygon()
 {
+	p2CircleShape* shapeA = static_cast<p2CircleShape*>(fixtureA->GetShape());
+	p2PolygonShape* shapeB = static_cast<p2PolygonShape*>(fixtureB->GetShape());
+
+	/*float radius = shapeA->GetRadius();
+	float radiusSqr = radius * radius;
+
+	p2Vec2 circleCenter = fixtureA->GetBody()->GetPosition();
+
+	float closestDist = FLT_MAX;
+	int closestVertex = -1;
+	bool closestIsInside = false;
+	bool lastIsInside = false;
+
+	for (int i = 0; i < shapeB->m_VerticesCount; i++) {
+		p2Vec2 v1 = shapeB->m_Vertices[i];
+		int i2 = i + 1 < shapeB->m_VerticesCount ? i + 1 : 0;
+		p2Vec2 v2 = shapeB->m_Vertices[i2];
+
+		p2Vec2 axis = circleCenter - v1;
+		float distance = axis.GetMagnitudeSquared() - radiusSqr;
+
+		if (distance <= 0) {
+			areOverlapping = true;
+			return;
+		}
+
+		bool isInside = false;
+
+		p2Vec2 edge = v2 - v1;
+		float edgeLengthSqr = edge.GetMagnitudeSquared();
+
+		if (edgeLengthSqr != 0) {
+			float dot = p2Vec2::Dot(edge, axis);
+
+			if (dot >= 0 && dot <= edgeLengthSqr) {
+				p2Vec2 proj = v1 + edge * (dot / edgeLengthSqr);
+				axis = proj - circleCenter;
+				
+				if (axis.GetMagnitudeSquared() <= radiusSqr) {
+					areOverlapping = true;
+					return;
+				}
+				else if(
+					(edge.x > 0 && axis.y > 0)
+					|| (edge.x < 0 && axis.y < 0)
+					|| (edge.y > 0 && axis.x < 0)
+					|| (axis.x > 0)
+				) {
+					areOverlapping = false;
+					return;
+				}
+
+				isInside = true;
+			}
+		}
+
+		if (distance < closestDist) {
+			closestDist = distance;
+			closestIsInside = isInside || lastIsInside;
+			closestVertex = i;
+		}
+
+		lastIsInside = isInside;
+	}
+
+	if (closestVertex == 0) {
+		if (closestIsInside || lastIsInside) {
+			areOverlapping = true;
+			return;
+		}
+	}
+	else {
+		if (closestIsInside) {
+			areOverlapping = true;
+			return;
+		}
+	}*/
+
+	// Vertices in world space
+	p2Vec2 verticesB[MAX_POLYGON_VERTICES];
+	RotateAndWorldSpaceVertices(shapeB, fixtureB->GetBody(), verticesB);
+
+	float radius = shapeA->GetRadius();
+	float radiusSqr = radius * radius;
+
+	p2Vec2 circleCenter = fixtureA->GetBody()->GetPosition();
+
+	p2Vec2 closestDistanceVector;
+
+	// Get all polygon's axis
+	int numOfAxis = shapeB->m_VerticesCount;
+	p2Vec2 axes[MAX_POLYGON_VERTICES];
+	GetAxis(shapeB, verticesB, axes);
+
+	for (int i = 0; i < shapeB->m_VerticesCount; i++) {
+		p2Vec2 v1 = verticesB[i];
+		int i2 = i + 1 < shapeB->m_VerticesCount ? i + 1 : 0;
+		p2Vec2 v2 = shapeB->m_Vertices[i2];
+
+		p2Vec2 normal = circleCenter - v1;
+
+		bool distance = normal.GetMagnitudeSquared() - radiusSqr;
+
+		if (normal.GetMagnitudeSquared() < closestDistanceVector.GetMagnitudeSquared()) {
+			closestDistanceVector = normal;
+		}
+		else if (i == 0) {
+			closestDistanceVector = normal;
+		}
+	}
+
+	axes[numOfAxis] = closestDistanceVector;
+	numOfAxis++;
+
+	for (int i = 0; i < numOfAxis; i++) {
+		p2Vec2 axis = axes[i];
+
+		p2Projection circleProj;
+		ProjectOnAxisCircle(circleProj, axis, circleCenter, radius);
+		p2Projection polyproj;
+		ProjectOnAxis(polyproj, axis, shapeB->m_VerticesCount, verticesB);
+
+		if (!circleProj.Overlap(polyproj)) {
+			areOverlapping = false;
+			return;
+		}
+	}
+
+	areOverlapping = true;
 }
 
 void p2SAT::PolygonvsPolygon()
@@ -92,9 +221,9 @@ void p2SAT::PolygonvsPolygon()
 		p2Vec2 axis = axisA[i];
 
 		p2Projection projA;
-		ProjectOnAxis(axis, shapeA, projA, verticesA);
+		ProjectOnAxis(projA, axis, shapeA->m_VerticesCount, verticesA);
 		p2Projection projB;
-		ProjectOnAxis(axis, shapeB, projB, verticesB);
+		ProjectOnAxis(projB, axis, shapeB->m_VerticesCount, verticesB);
 
 		if (!projA.Overlap(projB)) {
 			areOverlapping = false;
@@ -106,9 +235,9 @@ void p2SAT::PolygonvsPolygon()
 		p2Vec2 axis = axisB[i];
 
 		p2Projection projA;
-		ProjectOnAxis(axis, shapeA, projA, verticesA);
+		ProjectOnAxis(projA, axis, shapeA->m_VerticesCount, verticesA);
 		p2Projection projB;
-		ProjectOnAxis(axis, shapeB, projB, verticesB);
+		ProjectOnAxis(projB, axis, shapeB->m_VerticesCount, verticesB);
 
 		if (!projA.Overlap(projB)) {
 			areOverlapping = false;
@@ -121,6 +250,11 @@ void p2SAT::PolygonvsPolygon()
 
 void p2SAT::PolygonvsCircle()
 {
+	// Switch fixtures
+	p2Fixture* tempFixture = fixtureA;
+	fixtureA = fixtureB;
+	fixtureB = tempFixture;
+	CirclevsPolygon();
 }
 
 bool IsPolygonCounterClockwise(p2PolygonShape * s)
@@ -153,12 +287,12 @@ void GetAxis(p2PolygonShape * s, p2Vec2(&vertices)[MAX_POLYGON_VERTICES], p2Vec2
 	}
 }
 
-void ProjectOnAxis(const p2Vec2 & axis, p2PolygonShape* s, p2Projection & proj, p2Vec2 (&vertices)[MAX_POLYGON_VERTICES])
+void ProjectOnAxis(p2Projection & proj, const p2Vec2 & axis, int verticesCount, p2Vec2 (&vertices)[MAX_POLYGON_VERTICES])
 {
 	float min = p2Vec2::Dot(axis, vertices[0]);
 	float max = min;
 
-	for (int i = 0; i < s->m_VerticesCount; i++) {
+	for (int i = 0; i < verticesCount; i++) {
 		float dot = p2Vec2::Dot(axis, vertices[i]);
 		if (dot < min) {
 			min = dot;
@@ -170,6 +304,13 @@ void ProjectOnAxis(const p2Vec2 & axis, p2PolygonShape* s, p2Projection & proj, 
 
 	proj.max = max;
 	proj.min = min;
+}
+
+void ProjectOnAxisCircle(p2Projection & proj, const p2Vec2 & axis, const p2Vec2& center, float radius)
+{
+	float dot = p2Vec2::Dot(axis, center);
+	proj.max = dot + radius;
+	proj.min = dot - radius;
 }
 
 void RotateAndWorldSpaceVertices(p2PolygonShape * s, p2Body * b, p2Vec2(&v)[MAX_POLYGON_VERTICES])

@@ -52,7 +52,8 @@ struct p2SAT {
 
 bool IsPolygonCounterClockwise(p2PolygonShape* s);
 void GetAxis(p2PolygonShape* s, p2Vec2(&vertices)[MAX_POLYGON_VERTICES], p2Vec2(&axis)[MAX_POLYGON_VERTICES]);
-void ProjectOnAxis(const p2Vec2& axis, p2PolygonShape* s, p2Projection&, p2Vec2(&vertices)[MAX_POLYGON_VERTICES]);
+void ProjectOnAxis(p2Projection & proj, const p2Vec2& axis, int verticesCount, p2Vec2(&vertices)[MAX_POLYGON_VERTICES]);
+void ProjectOnAxisCircle(p2Projection & proj, const p2Vec2 & axis, const p2Vec2& center, float radius);
 void RotateAndWorldSpaceVertices(p2PolygonShape* s, p2Body* b, p2Vec2(&v)[MAX_POLYGON_VERTICES]);
 
 #endif
