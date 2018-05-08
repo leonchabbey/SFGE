@@ -53,7 +53,7 @@ public:
 
 	bool IsContactExisting(p2Fixture* fA, p2Fixture* fB);
 	void DetectContacts(std::list<p2Body*> bodyList);
-	void Collide();
+	void FilterIrrelevantContacts();
 	void Draw(sf::RenderWindow& window);
 
 	std::list<p2Contact*> m_ContactsList;

@@ -77,7 +77,7 @@ public:
 	float GetAngularVelocity() const;
 
 	void SetTransform(const p2Vec2& pos, float angle);
-	p2Transform& GetTransform() const;
+	p2Transform& GetTransform();
 
 	void SetPosition(const p2Vec2& pos);
 	p2Vec2 GetPosition() const;

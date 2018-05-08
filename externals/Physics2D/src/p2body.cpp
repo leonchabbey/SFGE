@@ -71,7 +71,7 @@ void p2Body::SetTransform(const p2Vec2 & pos, float angle)
 	m_Transform.eulerAngle = angle;
 }
 
-p2Transform & p2Body::GetTransform() const
+p2Transform & p2Body::GetTransform()
 {
 	return m_Transform;
 }

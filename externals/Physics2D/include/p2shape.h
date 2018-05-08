@@ -30,7 +30,7 @@ SOFTWARE.
 #include <p2aabb.h>
 #include <p2math.h>
 
-#define MAX_POLYGON_VERTICES 100
+#define MAX_POLYGON_VERTICES 20
 
 /**
 * \brief Abstract representation of a shape

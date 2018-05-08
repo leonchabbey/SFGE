@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include <p2contact.h>
+#include <p2sat.h>
 
 p2Contact::p2Contact(p2Fixture* fxA, p2Fixture* fxB) : m_FixtureA(fxA), m_FixtureB(fxB)
 {
@@ -41,14 +42,23 @@ void p2Contact::Update(p2ContactListener* listener)
 	bool sensorB = m_FixtureB->IsSensor();
 	bool sensor = sensorA || sensorB;
 
-	Evaluate();
+	p2SAT sat;
+	sat.fixtureA = m_FixtureA;
+	sat.fixtureB = m_FixtureB;
+
+	sat.EvaluateSAT();
+	isTouching = sat.areOverlapping;
 
 	if (sensor) {
+		m_Manifold.contact_count = 0;
 	}
 	else {
-		
-
+		/* Should use that function for real impulse based collision resolution but not working yet */
+		//Evaluate()
+		m_Manifold.contact_count = 1;
 	}
+
+	std::cout << "isTouching: " << isTouching << "\n";
 
 	if (isTouching && !wasTouching && listener) {
 		listener->BeginContact(this);
@@ -100,10 +110,10 @@ void p2Contact::Evaluate()
 
 void CirclevsCircle(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 {
-	const p2Body* bodyA = fxA->GetBody();
-	const p2Body* bodyB = fxB->GetBody();
-	const p2Transform& tfA = bodyA->GetTransform();
-	const p2Transform& tfB = bodyB->GetTransform();
+	p2Body* bodyA = fxA->GetBody();
+	p2Body* bodyB = fxB->GetBody();
+	p2Transform& tfA = bodyA->GetTransform();
+	p2Transform& tfB = bodyB->GetTransform();
 	p2CircleShape* shapeA = static_cast<p2CircleShape*>(fxA->GetShape());
 	p2CircleShape* shapeB = static_cast<p2CircleShape*>(fxB->GetShape());
 	m.contact_count = 0;
@@ -138,10 +148,10 @@ void CirclevsCircle(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 
 void CirclevsPolygon(p2Manifold& m, const p2Fixture* fxA, const p2Fixture* fxB)
 {
-	const p2Body* bodyA = fxA->GetBody();
-	const p2Body* bodyB = fxB->GetBody();
-	const p2Transform& tfA = bodyA->GetTransform();
-	const p2Transform& tfB = bodyB->GetTransform();
+	p2Body* bodyA = fxA->GetBody();
+	p2Body* bodyB = fxB->GetBody();
+	p2Transform& tfA = bodyA->GetTransform();
+	p2Transform& tfB = bodyB->GetTransform();
 	p2CircleShape* shapeA = static_cast<p2CircleShape*>(fxA->GetShape());
 	p2PolygonShape* shapeB = static_cast<p2PolygonShape*>(fxB->GetShape());
 	float circleRadius = shapeA->GetRadius();

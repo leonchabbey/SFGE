@@ -64,6 +64,9 @@ void p2ContactManager::DetectContacts(std::list<p2Body*> bodyList)
 	std::list<std::pair<p2Body*, p2Body*>> aabbContacts;
 	m_QuadTree->Retrieve(&aabbContacts);
 
+	// Remove contacts that were not touching at last step
+	FilterIrrelevantContacts();
+
 	// Add all possible contacts found with AABB
 	for (auto contact : aabbContacts) {
 		p2Body* bodyA = contact.first;
@@ -81,10 +84,14 @@ void p2ContactManager::DetectContacts(std::list<p2Body*> bodyList)
 
 	m_QuadTree->Update(); // Debug
 	std::cout << "AabbContacts: " << aabbContacts.size() << "\n";
-	//Collide();
+	
+	// Update all (still relevant) contacts
+	for (auto contact : m_ContactsList) {
+		contact->Update(m_ContactListener);
+	}
 }
 
-void p2ContactManager::Collide()
+void p2ContactManager::FilterIrrelevantContacts()
 {
 	auto contactItr = m_ContactsList.begin();
 	while (contactItr != m_ContactsList.end()) {
@@ -97,7 +104,6 @@ void p2ContactManager::Collide()
 			continue;
 		}
 
-		contact->Update(m_ContactListener);
 		contactItr++;
 	}
 }

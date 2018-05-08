@@ -29,6 +29,13 @@ SOFTWARE.
 #include <p2body.h>
 #include <p2fixture.h>
 
+struct p2Projection {
+	float min;
+	float max;
+
+	bool Overlap(p2Projection&);
+};
+
 struct p2SAT {
 	void EvaluateSAT();
 
@@ -42,5 +49,10 @@ struct p2SAT {
 	p2Fixture * fixtureA;
 	p2Fixture * fixtureB;
 };
+
+bool IsPolygonCounterClockwise(p2PolygonShape* s);
+void GetAxis(p2PolygonShape* s, p2Vec2(&vertices)[MAX_POLYGON_VERTICES], p2Vec2(&axis)[MAX_POLYGON_VERTICES]);
+void ProjectOnAxis(const p2Vec2& axis, p2PolygonShape* s, p2Projection&);
+void RotateAndWorldSpaceVertices(p2PolygonShape* s, p2Body* b, p2Vec2(&v)[MAX_POLYGON_VERTICES]);
 
 #endif
