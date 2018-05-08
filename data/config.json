@@ -5,7 +5,7 @@
 	},
 	"gravity": {
 		"x": 0,
-		"y": -9.81
+		"y": 9.81
 	},
 	"maxFramerate": 60,
 	"scenesList": [

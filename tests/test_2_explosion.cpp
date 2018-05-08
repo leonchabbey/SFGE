@@ -22,47 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef SFGE_P2WORLD_H
-#define SFGE_P2WORLD_H
+#include <engine/engine.h>
+#include <engine/scene.h>
 
-#include <list>
-#include <memory>
-#include <p2vector.h>
-#include <p2body.h>
-#include <p2contactmanager.h>
-#include <p2quadtree.h>
-
-/**
-* \brief Representation of the physical world in meter
-*/
-class p2World
+int main()
 {
-public:
-	p2World(const p2Vec2& screenSize, const p2Vec2& gravity);
-	~p2World();
-	/**
-	* \brief Simulate a new step of the physical world, simplify the resolution with a QuadTree, generate the new contacts
-	*/
-	void Step(const float& dt);
-	void UpdateBodies(const float& dt);
-	/**
-	* \brief Debug for quadtree (draw on screen quadrants)
-	*/
-	void Debug(sf::RenderWindow&);
-	/**
-	* \brief Factory method to create a new p2Body attached to the p2World
-	*/
-	p2Body* CreateBody(const p2BodyDef& bodyDef);
-	/**
-	* \brief Set the contact listener
-	*/
-	void SetContactListener(p2ContactListener* contactListener);
+	sfge::Engine engine;
+	engine.Init(false, true);
 
-	std::vector<p2Body*> RaycastCircle(const p2Vec2& startPoint, float distance);
-private:
-	std::list<p2Body*> m_BodyList = {};
-	p2Vec2 m_Gravity;
-	p2ContactManager* m_ContactManager;
-};
+	engine.GetSceneManager()->SetCurrentScene("data/scenes/test_2_explosion.scene");
 
+	engine.Start();
+#if WIN32
+	system("pause");
 #endif
+	return EXIT_SUCCESS;
+}

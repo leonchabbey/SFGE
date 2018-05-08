@@ -40,6 +40,16 @@ p2Fixture * p2Body::CreateFixture(const p2FixtureDef * def)
 	return fixture;
 }
 
+p2BodyType p2Body::GetType() const
+{
+	return m_Type;
+}
+
+float p2Body::GetGravityScale() const
+{
+	return m_GravityScale;
+}
+
 void p2Body::AddForce(const p2Vec2 & velocity)
 {
 	m_LinearVelocity += velocity;

@@ -47,8 +47,8 @@ struct p2BodyDef
 		position = p2Vec2();
 		linearVelocity = p2Vec2();
 		angularVelocity = 0.0f;
-		gravityScale = 1;
-		density = 1;
+		gravityScale = 1.0f;
+		density = 1.0f;
 		angle = 0.0f;
 	}
 
@@ -70,6 +70,9 @@ public:
 	p2Body(const p2BodyDef*);
 
 	p2Fixture* CreateFixture(const p2FixtureDef* def);
+
+	p2BodyType GetType() const;
+	float GetGravityScale() const;
 
 	void AddForce(const p2Vec2& velocity);
 	void SetLinearVelocity(const p2Vec2& velocity);

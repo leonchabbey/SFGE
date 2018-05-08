@@ -39,36 +39,39 @@ p2World::~p2World()
 	delete(m_ContactManager);
 }
 
-float test = 1;
-
 void p2World::Step(const float& dt)
 { 
+	// Update velocities and positions
+	UpdateBodies(dt);
+
+	// Compute all contacts
+	m_ContactManager->DetectContacts(m_BodyList);
+}
+
+void p2World::UpdateBodies(const float & dt)
+{
 	// Update velocities
 	for (p2Body* body : m_BodyList) {
-		if (test == 1) {
-			body->AddForce(p2Vec2(1, 1));
-		}
-		
-		p2Vec2 awd = body->GetLinearVelocity();
-		body->SetPosition(body->GetTransform().pos + awd * dt);
-
-		// Avoid body from going out of the screen
 		p2Vec2 pos = body->GetTransform().pos;
 		p2Vec2 vel = body->GetLinearVelocity();
+
+		if (body->GetType() == p2BodyType::STATIC) {
+			continue; // Nothing to do for static body
+		}
+
+		p2Vec2 gr = m_Gravity * body->GetGravityScale();
+		body->SetPosition(pos + (vel + gr) * dt);
+
+		// Avoid body from going out of the screen
 		if ((pos.x < 0.0f && vel.x < 0.0f) || (pos.x > 12.8f && vel.x > 0.0f))
 		{
-			body->SetLinearVelocity({ -vel.x, vel.y});
+			body->SetLinearVelocity({ -vel.x, vel.y });
 		}
 		if ((pos.y < 0.0f && vel.y < 0.0f) || (pos.y > 7.2f && vel.y > 0.0f))
 		{
 			body->SetLinearVelocity({ vel.x, -vel.y });
 		}
 	}
-
-	test++;
-
-	// Compute all contacts
-	m_ContactManager->DetectContacts(m_BodyList);
 }
 
 void p2World::Debug(sf::RenderWindow & window)
@@ -86,4 +89,17 @@ p2Body * p2World::CreateBody(const p2BodyDef& bodyDef)
 void p2World::SetContactListener(p2ContactListener * contactListener)
 {
 	m_ContactManager->m_ContactListener = contactListener;
+}
+
+std::vector<p2Body*> p2World::RaycastCircle(const p2Vec2 & startPoint, float distance)
+{
+	std::vector<p2Body*> bodies;
+	for (auto b : m_BodyList) {
+		p2Vec2 bPos = b->GetTransform().pos;
+		float bDistance = (bPos - startPoint).GetMagnitudeSquared();
+		if (bDistance < distance * distance) {
+			bodies.push_back(b);
+		}
+	}
+	return bodies;
 }

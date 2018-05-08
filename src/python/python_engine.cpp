@@ -182,9 +182,11 @@ PYBIND11_EMBEDDED_MODULE(SFGE, m)
 		.def(py::self /= float())
 		.def_readwrite("x", &p2Vec2::x)
 		.def_readwrite("y", &p2Vec2::y);
+
+	py::class_<p2World> world(m, "World");
+	world
+		.def("raycast_circle", &p2World::RaycastCircle);
 }
-
-
 
 
 

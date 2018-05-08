@@ -3,7 +3,7 @@
   "name": "ContactTestScene",
   "game_objects": [
   {
-      "name": "Circle7",
+      "name": "Explosion",
       "components": [
           {
               "type": 1,
@@ -28,51 +28,6 @@
               "type": 6,
               "collider_type": 1,
               "radius": 150.0,
-              "bouncing": 0.5,
-              "sensor": true
-          },
-          {
-              "type": 4,
-              "script_path": "scripts/contact_color_sensor.py"
-          }
-      ]
-  },
-  {
-      "name": "PolygonSensor",
-      "components": [
-          {
-              "type": 1,
-              "position": [900, 400],
-              "scale" : [1.0,1.0],
-              "angle": 0.0
-          },
-          {
-              "name": "Circle Shape Component",
-              "type": 3,
-              "shape_type": 3,
-              "vertices": [
-              [-150.0, 90.0],
-              [60.0, 200.0],
-              [120.0, -300.0],
-              [-200.0, -140.0]
-              ]
-          },
-          {
-              "name": "Rigidbody",
-              "type": 5,
-              "body_type": 2,
-              "gravity_scale": 0
-          },
-          {
-              "name": "PolygonCollider",
-              "type": 6,
-              "collider_type": 3,
-              "vertices": [
-              [-150.0, 90.0],
-              [60.0, 200.0],
-              [120.0, -300.0],
-              [-200.0, -140.0]
-              ],
               "bouncing": 0.5,
               "sensor": true
           },
@@ -321,6 +276,40 @@
       ]
   },
   {
+      "name": "Circle7",
+      "components": [
+          {
+              "type": 1,
+              "position": [500, 200],
+              "scale" : [1.0,1.0],
+              "angle": 0.0
+          },
+          {
+              "name": "Circle Shape Component",
+              "type": 3,
+              "shape_type": 1,
+              "radius": 100.0
+          },
+          {
+              "name": "Rigidbody",
+              "type": 5,
+              "body_type": 2,
+              "gravity_scale": 0
+          },
+          {
+              "name": "CircleCollider",
+              "type": 6,
+              "collider_type": 1,
+              "radius": 100.0,
+              "bouncing": 0.5
+          },
+          {
+              "type": 4,
+              "script_path": "scripts/contact_color.py"
+          }
+      ]
+  },
+  {
       "name": "Rec1",
       "components": [
           {
@@ -346,171 +335,6 @@
               "type": 6,
               "collider_type": 2,
               "size": [200,100]
-          },
-          {
-              "type": 4,
-              "script_path": "scripts/contact_color.py"
-          }
-      ]
-  },
-  {
-      "name": "Rec2",
-      "components": [
-          {
-              "type": 1,
-              "position": [100,250],
-              "scale" : [1.0,1.0],
-              "angle": 0.0
-          },
-          {
-              "name": "Rectangle Shape Component",
-              "type": 3,
-              "shape_type": 2,
-              "size": [100, 100]
-          },
-          {
-              "name": "Rigidbody",
-              "type": 5,
-              "body_type": 2,
-              "gravity_scale": 0
-          },
-          {
-              "name": "BoxCollider",
-              "type": 6,
-              "collider_type": 2,
-              "size": [100,100]
-          },
-          {
-              "type": 4,
-              "script_path": "scripts/contact_color.py"
-          }
-      ]
-  },
-  {
-      "name": "RecWithPolygonCollider",
-      "components": [
-          {
-              "type": 1,
-              "position": [100, 350],
-              "scale" : [1.0,1.0],
-              "angle": 0.0
-          },
-          {
-              "name": "Circle Shape Component",
-              "type": 3,
-              "shape_type": 3,
-              "vertices": [
-              [-20.0, 10.0],
-              [30.0, 20.0],
-              [20.0, -10.0],
-              [-40.0, -20.0]
-              ]
-          },
-          {
-              "name": "Rigidbody",
-              "type": 5,
-              "body_type": 2,
-              "gravity_scale": 0
-          },
-          {
-              "name": "PolygonCollider",
-              "type": 6,
-              "collider_type": 3,
-              "vertices": [
-              [-20.0, 10.0],
-              [30.0, 20.0],
-              [20.0, -10.0],
-              [-40.0, -20.0]
-              ],
-              "bouncing": 0.5
-          },
-          {
-              "type": 4,
-              "script_path": "scripts/contact_color.py"
-          }
-      ]
-  },
-  {
-      "name": "RecWithPolygonCollider2",
-      "components": [
-          {
-              "type": 1,
-              "position": [120, 400],
-              "scale" : [1.0,1.0],
-              "angle": 0.0
-          },
-          {
-              "name": "Circle Shape Component",
-              "type": 3,
-              "shape_type": 3,
-              "vertices": [
-              [-40.0, 30.0],
-              [5.0, 10.0],
-              [40.0, -15.0],
-              [-60.0, -10.0]
-              ]
-          },
-          {
-              "name": "Rigidbody",
-              "type": 5,
-              "body_type": 2,
-              "gravity_scale": 0
-          },
-          {
-              "name": "PolygonCollider",
-              "type": 6,
-              "collider_type": 3,
-              "vertices": [
-              [-40.0, 30.0],
-              [5.0, 10.0],
-              [40.0, -15.0],
-              [-60.0, -10.0]
-              ],
-              "bouncing": 0.5
-          },
-          {
-              "type": 4,
-              "script_path": "scripts/contact_color.py"
-          }
-      ]
-  },
-  {
-      "name": "Polygon3",
-      "components": [
-          {
-              "type": 1,
-              "position": [800, 200],
-              "scale" : [1.0,1.0],
-              "angle": 0.0
-          },
-          {
-              "name": "Circle Shape Component",
-              "type": 3,
-              "shape_type": 3,
-              "vertices": [
-              [-100.0, 60.0],
-              [25.0, 50.0],
-              [60.0, -40.0],
-              [-5.0, -10.0]
-              ]
-          },
-          {
-              "name": "Rigidbody",
-              "type": 5,
-              "body_type": 2,
-              "gravity_scale": 0
-          },
-          {
-              "name": "PolygonCollider",
-              "type": 6,
-              "collider_type": 3,
-              "vertices": [
-              [-100.0, 60.0],
-              [25.0, 50.0],
-              [60.0, -40.0],
-              [-5.0, -10.0]
-              ],
-              "bouncing": 0.5
           },
           {
               "type": 4,
