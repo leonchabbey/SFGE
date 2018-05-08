@@ -68,7 +68,7 @@ void p2CircleShape::ComputeAABB(p2AABB * aabb, p2Transform * tr) const
 void p2PolygonShape::Set(const std::vector<p2Vec2>& vertices)
 {
 	float test = 0.0f;
-	assert(vertices.size() > 3 && "Polygons need to have more than 2 vertices");
+	assert(vertices.size() > 2 && "Polygons need to have more than 2 vertices");
 
 	/*// Index of the farthest vertex on axis X
 	int indexMostRightPoint = 0;

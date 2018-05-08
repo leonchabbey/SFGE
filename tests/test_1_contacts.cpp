@@ -30,7 +30,7 @@ int main()
 	sfge::Engine engine;
 	engine.Init(false, true);
 
-	engine.GetSceneManager()->SetCurrentScene("data/scenes/test_1_contact_color.scene");
+	engine.GetSceneManager()->SetCurrentScene("data/scenes/test_1_contacts.scene");
 
 	engine.Start();
 #if WIN32
