@@ -93,6 +93,17 @@ Collider* Collider::LoadCollider(Engine & engine, GameObject * gameObject, json 
 				shape = rectShape;
 				break; 
 			}
+		case ColliderType::POLYGON:
+		{
+			p2PolygonShape* polyShape = new p2PolygonShape();
+			std::vector<p2Vec2> vertices;
+			for (sf::Vector2f v : GetArrayOfVerticesJson(componentJson, "vertices")) {
+				vertices.push_back(pixel2meter(v));
+			}
+			polyShape->Set(vertices);
+			shape = polyShape;
+			break;
+		}
 		}
 		if (CheckJsonNumber(componentJson, "bouncing"))
 		{

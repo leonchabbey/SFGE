@@ -9,8 +9,12 @@ void p2Manifold::ResolveCollision()
 		return;
 	}
 
-	float massA =1.0f;
+	// Messes up everything because of too much difference of mass
+	//float massA = bodyA->GetMass();
+	//float massB = bodyB->GetMass();
+	float massA = 1.0f;
 	float massB = 1.0f;
+
 	p2Vec2 velocityA = bodyA->GetLinearVelocity();
 	p2Vec2 velocityB = bodyB->GetLinearVelocity();
 

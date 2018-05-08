@@ -89,7 +89,7 @@ void Transform::Update(float dt)
 	Body2d* body = m_GameObject->GetComponent<Body2d>();
 	if (body != nullptr) {
 		float rotation = body->GetBody()->GetTransform().GetRotationInDegrees();
-		m_EulerAngle = rotation;
+		m_EulerAngle = -rotation;
 	}
 }
 

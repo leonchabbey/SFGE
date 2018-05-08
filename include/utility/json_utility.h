@@ -53,6 +53,10 @@ bool CheckJsonNumber(const json& jsonObject, std::string parameterName);
 */
 sf::Vector2f GetVectorFromJson(const json& jsonObject, std::string parameterName);
 /**
+* \brief Function that gets a list of vectors from an array or an object in the json
+*/
+std::vector<sf::Vector2f> GetArrayOfVerticesJson(const json & jsonObject, std::string parameterName);
+/**
 * \brief Function that loads a json file and returns a json object
 */
 std::unique_ptr<json> LoadJson(std::string jsonPath);

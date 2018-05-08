@@ -108,9 +108,23 @@ public:
 	static Rectangle* LoadRectangle(json& componentJson, GameObject* gameObject);
 protected:
 	sf::Vector2f m_Size;
-
 };
 
+class Polygon : public Shape
+{
+public:
+	Polygon(GameObject* gameObject, std::vector<sf::Vector2f> vertices);
+	/**
+	* \brief Update the position of the SFML rectangle shape to the position  of the GameObject Transform
+	*/
+	void Update(float time) override;
+	/**
+	* \brief Factory method of a Circle Component
+	*/
+	static Polygon* LoadPolygon(json& componentJson, GameObject* gameObject);
+protected:
+	std::vector<sf::Vector2f> m_Vertices;
+};
 /**
 * \brief Graphic Manager part loading and managing the Shapes components
 */

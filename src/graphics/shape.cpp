@@ -82,7 +82,8 @@ Shape* Shape::LoadShape(Engine& engine, json& componentJson, GameObject* gameObj
 		case ShapeType::RECTANGLE:
 			shape = Rectangle::LoadRectangle(componentJson, gameObject);
 			break;
-
+		case ShapeType::POLYGON:
+			shape = Polygon::LoadPolygon(componentJson, gameObject);
 		}
 	}
 	offset = GetVectorFromJson(componentJson, "offset");
@@ -162,6 +163,43 @@ Rectangle* Rectangle::LoadRectangle(json& componentJson, GameObject* gameObject)
 	return new Rectangle(gameObject, size);
 }
 
+Polygon::Polygon(GameObject * gameObject, std::vector<sf::Vector2f> vertices) : Shape(gameObject)
+{
+	m_Vertices = vertices;
+	std::shared_ptr<sf::ConvexShape> cs = std::make_shared<sf::ConvexShape>(vertices.size());
+	cs->setPointCount(vertices.size());
+
+	int i = 0;
+	for (auto v : vertices) {
+		cs->setPoint(i, v);
+		i++;
+	}
+
+	m_Shape = cs;
+	m_Shape->setFillColor(sf::Color::Blue);
+}
+
+void Polygon::Update(float time)
+{
+	if (m_Shape != nullptr)
+	{
+		m_Shape->setPosition(m_GameObject->GetTransform()->GetPosition() + m_Offset);
+		m_Shape->setRotation(m_GameObject->GetTransform()->GetEulerAngle());
+	}
+}
+
+Polygon * Polygon::LoadPolygon(json & componentJson, GameObject * gameObject)
+{
+	std::vector<sf::Vector2f> vectors;
+	vectors = GetArrayOfVerticesJson(componentJson, "vertices");
+	{
+		std::ostringstream oss;
+		oss << "Loading Polygon with num of points of: " << vectors.size();
+		Log::GetInstance()->Msg(oss.str());
+	}
+	return new Polygon(gameObject, vectors);
+}
+
 
 ShapeManager::ShapeManager(GraphicsManager& graphicsManager):
 		m_GraphicsManager(graphicsManager)
@@ -195,6 +233,5 @@ void ShapeManager::AddShape(Shape* shape)
 {
 	m_Shapes.push_back(shape);
 }
-
 
 }

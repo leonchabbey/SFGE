@@ -65,6 +65,31 @@ sf::Vector2f GetVectorFromJson(const json & jsonObject, std::string parameterNam
 	return vector;
 }
 
+std::vector<sf::Vector2f> GetArrayOfVerticesJson(const json & jsonObject, std::string parameterName)
+{
+	std::vector<sf::Vector2f> vertices;
+	if (CheckJsonParameter(jsonObject, parameterName, json::value_t::array))
+	{
+		if (jsonObject[parameterName].size() > 2)
+		{
+			auto vectorJson = jsonObject[parameterName];
+			int i = 0;
+			for (auto vertex : vectorJson) {
+				if (IsJsonValueNumeric(vertex[0]) && IsJsonValueNumeric(vertex[1]))
+				{
+					sf::Vector2f v;
+					v.x = vertex[0];
+					v.y = vertex[1];
+					vertices.push_back(v);
+					i++;
+				}
+			}
+			
+		}
+	}
+	return vertices;
+}
+
 std::unique_ptr<json> LoadJson(std::string jsonPath)
 {
     /*if(__APPLE__)
